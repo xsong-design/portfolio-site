@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>About — xiao song.</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=JetBrains+Mono:wght@400;500;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --color-bg: #F5F5F5;
+      --color-surface: #FFFFFF;
+      --color-surface-muted: #EBEBEB;
+      --color-text: #1A1A1A;
+      --color-text-secondary: #555555;
+      --color-text-muted: #757575;
+      --color-accent: #6B7F6B;
+      --color-accent-hover: #4A5D4A;
+      --color-accent-text: #4A5D4A;
+      --color-accent-muted: rgba(107, 127, 107, 0.12);
+      --color-border: #E0E0E0;
+      --color-shape-accent: #6B7F6B;
+      --font-display: 'Playfair Display', Georgia, serif;
+      --font-sans: 'DM Sans', system-ui, sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+      --content-max-width: 1060px;
+      --page-padding: clamp(1.25rem, 5vw, 4rem);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    ::selection { background-color: var(--color-accent-muted); color: var(--color-text); }
+
+    body {
+      background: var(--color-bg); color: var(--color-text);
+      font-family: var(--font-sans); -webkit-font-smoothing: antialiased;
+      overflow-x: hidden; cursor: none;
+    }
+
+    .scroll-progress { position: fixed; top: 0; left: 0; height: 2px; z-index: 100; background: var(--color-accent); width: 0%; }
+
+    .cursor-dot {
+      position: fixed; top: 0; left: 0; z-index: 9999; width: 8px; height: 8px;
+      background: var(--color-accent); border-radius: 50%; pointer-events: none;
+      transform: translate(-50%, -50%);
+      transition: width 0.3s cubic-bezier(0.16,1,0.3,1), height 0.3s cubic-bezier(0.16,1,0.3,1), background 0.3s;
+    }
+    .cursor-ring {
+      position: fixed; top: 0; left: 0; z-index: 9998; width: 40px; height: 40px;
+      border: 1.5px solid var(--color-accent); border-radius: 50%; pointer-events: none;
+      transform: translate(-50%, -50%); opacity: 0.4;
+      transition: width 0.3s cubic-bezier(0.16,1,0.3,1), height 0.3s cubic-bezier(0.16,1,0.3,1), opacity 0.3s;
+    }
+    .cursor-dot.hovering { width: 48px; height: 48px; background: rgba(107, 127, 107, 0.08); }
+    .cursor-ring.hovering { width: 48px; height: 48px; opacity: 0.8; border-color: var(--color-accent); }
+    a, button { cursor: none; }
+    @media (max-width: 1023px) {
+      body { cursor: auto; } a, button { cursor: pointer; }
+      .cursor-dot, .cursor-ring { display: none; }
+    }
+
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 40;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 20px var(--page-padding);
+      background: rgba(245, 245, 245, 0.8);
+      backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+    }
+    .nav-logo { font-family: var(--font-display); font-size: 1.25rem; font-weight: 700; letter-spacing: -0.02em; color: var(--color-text); text-decoration: none; }
+    .nav-links { display: flex; align-items: center; gap: 2rem; }
+    .nav-link {
+      font-family: var(--font-mono); font-size: 0.6875rem; font-weight: 500;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--color-text-muted); text-decoration: none; position: relative; transition: color 0.15s;
+    }
+    .nav-link:hover { color: var(--color-text); }
+    .nav-link::after {
+      content: ''; position: absolute; bottom: -4px; left: 0;
+      width: 100%; height: 1.5px; background: var(--color-accent);
+      transform: scaleX(0); transform-origin: left; transition: transform 0.3s cubic-bezier(0.16,1,0.3,1);
+    }
+    .nav-link:hover::after { transform: scaleX(1); }
+    .nav-link--active { color: var(--color-text); }
+    .nav-link--active::after { transform: scaleX(1); }
+    .nav-link--accent { color: var(--color-accent-text); }
+    .nav-link--accent:hover { color: var(--color-accent-hover); }
+
+    .reveal {
+      opacity: 0; transform: translateY(32px);
+      transition: opacity 0.8s cubic-bezier(0.16,1,0.3,1), transform 0.8s cubic-bezier(0.16,1,0.3,1);
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
+    .reveal-delay-4 { transition-delay: 0.4s; }
+
+    /* ---------- PAGE LAYOUT ---------- */
+    .about-hero {
+      padding: 8rem var(--page-padding) clamp(3rem, 6vw, 4rem);
+      max-width: var(--content-max-width); margin: 0 auto;
+    }
+    .about-hero-title {
+      font-family: var(--font-display);
+      font-size: clamp(3rem, 8vw, 6rem);
+      font-weight: 700; line-height: 0.95; letter-spacing: -0.03em;
+      color: var(--color-text);
+    }
+
+    .about-content {
+      max-width: var(--content-max-width); margin: 0 auto;
+      padding: 0 var(--page-padding);
+    }
+
+    /* ---------- INTRO SECTION ---------- */
+    .about-intro {
+      display: grid; grid-template-columns: 1fr;
+      gap: clamp(2rem, 5vw, 4rem); align-items: start;
+      padding: clamp(3rem, 6vw, 5rem) 0;
+    }
+    @media (min-width: 768px) {
+      .about-intro { grid-template-columns: 5fr 7fr; }
+    }
+
+    .about-photo {
+      background: linear-gradient(135deg, #1a1a1a, #2a2a2a);
+      aspect-ratio: 3 / 4; display: flex; align-items: center; justify-content: center;
+      position: relative;
+    }
+    .about-photo-text {
+      font-family: var(--font-mono); font-size: 0.6875rem;
+      color: rgba(255,255,255,0.25); text-transform: uppercase; letter-spacing: 0.1em;
+    }
+    .about-photo-accent {
+      position: absolute; bottom: -16px; right: -16px;
+      width: 120px; height: 160px; background: var(--color-shape-accent);
+      z-index: -1;
+    }
+
+    .about-bio p {
+      font-size: 1.0625rem; line-height: 1.8; color: var(--color-text-secondary);
+      margin-bottom: 1.5rem;
+    }
+    .about-bio p:last-child { margin-bottom: 0; }
+    .about-bio strong { color: var(--color-text); font-weight: 600; }
+
+    /* ---------- PHILOSOPHY SECTION ---------- */
+    .about-section {
+      padding: clamp(4rem, 8vw, 6rem) 0;
+    }
+    .about-section-label {
+      font-family: var(--font-mono); font-size: 0.6875rem; font-weight: 500;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--color-text-muted); margin-bottom: 2rem;
+    }
+
+    .philosophy-grid {
+      display: grid; grid-template-columns: 1fr;
+      gap: 2.5rem;
+    }
+    @media (min-width: 768px) {
+      .philosophy-grid { grid-template-columns: 1fr 1fr; }
+    }
+    .philosophy-item {}
+    .philosophy-number {
+      font-family: var(--font-mono); font-size: 0.625rem; font-weight: 500;
+      letter-spacing: 0.1em; color: var(--color-accent); opacity: 0.6;
+      margin-bottom: 0.5rem;
+    }
+    .philosophy-title {
+      font-family: var(--font-display); font-size: 1.25rem; font-weight: 600;
+      letter-spacing: -0.01em; color: var(--color-text); margin-bottom: 0.75rem;
+      line-height: 1.3;
+    }
+    .philosophy-desc {
+      font-size: 0.9375rem; line-height: 1.7; color: var(--color-text-secondary);
+    }
+
+    /* ---------- EXPERIENCE SECTION ---------- */
+    .experience-list { list-style: none; }
+    .experience-item {
+      display: grid; grid-template-columns: 1fr;
+      gap: 0.5rem 2rem; padding: 2rem 0;
+      border-bottom: 1px solid var(--color-border);
+    }
+    .experience-item:first-child { border-top: 1px solid var(--color-border); }
+    @media (min-width: 768px) {
+      .experience-item { grid-template-columns: 200px 1fr; gap: 0.25rem 3rem; }
+    }
+    .experience-period {
+      font-family: var(--font-mono); font-size: 0.6875rem; font-weight: 500;
+      letter-spacing: 0.05em; color: var(--color-text-muted);
+      padding-top: 0.25rem;
+    }
+    .experience-details {}
+    .experience-company {
+      font-family: var(--font-display); font-size: 1.25rem; font-weight: 600;
+      letter-spacing: -0.01em; color: var(--color-text); line-height: 1.3;
+    }
+    .experience-role {
+      font-size: 0.9375rem; color: var(--color-text-secondary); margin-top: 0.25rem;
+    }
+    .experience-desc {
+      font-size: 0.9375rem; line-height: 1.7; color: var(--color-text-muted);
+      margin-top: 0.5rem;
+    }
+
+    /* ---------- SKILLS SECTION ---------- */
+    .skills-grid {
+      display: grid; grid-template-columns: 1fr;
+      gap: 2.5rem;
+    }
+    @media (min-width: 768px) {
+      .skills-grid { grid-template-columns: 1fr 1fr 1fr; }
+    }
+    .skills-category-label {
+      font-family: var(--font-mono); font-size: 0.625rem; font-weight: 500;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--color-accent); opacity: 0.6; margin-bottom: 1rem;
+    }
+    .skills-list { list-style: none; display: flex; flex-wrap: wrap; gap: 0.5rem; }
+    .skills-list li {
+      font-size: 0.8125rem; color: var(--color-text-secondary);
+      background: var(--color-surface); border: 1px solid var(--color-border);
+      padding: 0.375rem 0.75rem;
+    }
+
+    /* ---------- PERSONAL SECTION ---------- */
+    .about-personal {
+      font-size: 1.0625rem; line-height: 1.8; color: var(--color-text-secondary);
+      max-width: 680px;
+    }
+    .about-personal em {
+      font-family: var(--font-display); font-style: italic; color: var(--color-text);
+    }
+
+    /* ---------- CTA ---------- */
+    .about-cta {
+      padding: clamp(4rem, 8vw, 6rem) 0;
+      text-align: center;
+    }
+    .about-cta-title {
+      font-family: var(--font-display);
+      font-size: clamp(1.75rem, 4vw, 3rem);
+      font-weight: 600; letter-spacing: -0.02em; color: var(--color-text);
+      margin-bottom: 1.5rem;
+    }
+    .about-cta-link {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      font-family: var(--font-mono); font-size: 0.75rem; font-weight: 500;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--color-accent-text); text-decoration: none;
+      padding: 1rem 2rem; border: 1.5px solid var(--color-accent);
+      transition: background 0.2s, color 0.2s, gap 0.3s cubic-bezier(0.16,1,0.3,1);
+    }
+    .about-cta-link:hover {
+      background: var(--color-accent); color: #fff; gap: 0.75rem;
+    }
+
+    /* ---------- FOOTER ---------- */
+    footer { padding: clamp(3rem, 5vw, 4rem) var(--page-padding); border-top: 1px solid var(--color-border); }
+    .footer-inner { display: flex; flex-direction: column; gap: 1.5rem; }
+    @media (min-width: 768px) { .footer-inner { flex-direction: row; justify-content: space-between; align-items: center; } }
+    .footer-logo { font-family: var(--font-display); font-size: 1.125rem; font-weight: 700; letter-spacing: -0.02em; color: var(--color-text); text-decoration: none; }
+    .footer-role { margin-top: 0.25rem; font-size: 0.875rem; color: var(--color-text-muted); }
+    .footer-links { display: flex; align-items: center; gap: 1.5rem; }
+    .footer-link {
+      font-family: var(--font-mono); font-size: 0.6875rem; font-weight: 500;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--color-text-muted); text-decoration: none; position: relative; transition: color 0.15s;
+    }
+    .footer-link:hover { color: var(--color-text); }
+    .footer-link::after {
+      content: ''; position: absolute; bottom: -2px; left: 0;
+      width: 100%; height: 1px; background: var(--color-accent);
+      transform: scaleX(0); transform-origin: left; transition: transform 0.3s cubic-bezier(0.16,1,0.3,1);
+    }
+    .footer-link:hover::after { transform: scaleX(1); }
+    .footer-divider { color: var(--color-border); }
+    .footer-copy { margin-top: 2rem; font-size: 0.75rem; color: var(--color-text-muted); }
+
+    @media (max-width: 639px) { .nav-links { display: none; } }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
+      .reveal { opacity: 1; transform: none; }
+      .scroll-progress { display: none; }
+      .cursor-dot, .cursor-ring { display: none; }
+      body { cursor: auto; } a, button { cursor: pointer; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="scroll-progress" id="scrollProgress"></div>
+  <div class="cursor-dot" id="cursorDot"></div>
+  <div class="cursor-ring" id="cursorRing"></div>
+
+  <nav>
+    <a href="preview-animated.html" class="nav-logo">xiao song.</a>
+    <div class="nav-links">
+      <a href="preview-animated.html" class="nav-link">work</a>
+      <a href="preview-about.html" class="nav-link nav-link--active">about</a>
+      <a href="preview-contact.html" class="nav-link">contact</a>
+      <a href="preview-resume.html" class="nav-link nav-link--accent">resume &darr;</a>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <div class="about-hero">
+    <h1 class="about-hero-title reveal">About.</h1>
+  </div>
+
+  <div class="about-content">
+
+    <!-- Intro: Photo + Bio -->
+    <div class="about-intro">
+      <div class="reveal" style="position: relative;">
+        <div class="about-photo">
+          <span class="about-photo-text">Portrait photo</span>
+        </div>
+        <div class="about-photo-accent"></div>
+      </div>
+
+      <div class="about-bio reveal reveal-delay-1">
+        <p>I'm Xiao &mdash; a product designer with an industrial design foundation from <strong>RISD</strong>, currently building digital experiences across the tech industry. Most recently at <strong>DoorDash</strong> designing their 0&rarr;1 Parcels platform, and before that at <strong>Meta</strong> working on enterprise messaging tools for WhatsApp and Ads Manager.</p>
+        <p>My work sits at the intersection of complex systems and human clarity. I've designed workflows for performance marketers at Meta, tipping experiences for delivery drivers at <strong>Walmart</strong>, and helped <strong>LiveControl</strong> achieve product-market fit and a $30M Series A. I'm drawn to hard problems &mdash; the ones where business incentives compete, user mental models don't match the product model, and the right answer isn't obvious.</p>
+        <p>I believe the best design work happens when you understand what every stakeholder needs, not just the user in front of you. Whether it's aligning three organizations at Meta or navigating the competing needs of customers, drivers, and the business at Walmart &mdash; the craft is in the clarity.</p>
+      </div>
+    </div>
+
+    <!-- Design Philosophy -->
+    <div class="about-section reveal">
+      <div class="about-section-label">Design Philosophy</div>
+      <div class="philosophy-grid">
+        <div class="philosophy-item reveal reveal-delay-1">
+          <div class="philosophy-number">01</div>
+          <div class="philosophy-title">Complexity is the material, not the enemy</div>
+          <div class="philosophy-desc">Enterprise products are inherently complex. I don't simplify by hiding &mdash; I simplify by creating clear structure. The goal is comprehension, not reduction.</div>
+        </div>
+        <div class="philosophy-item reveal reveal-delay-2">
+          <div class="philosophy-number">02</div>
+          <div class="philosophy-title">Alignment before artifacts</div>
+          <div class="philosophy-desc">The hardest design problems aren't about pixels. They're about getting three organizations to agree on what "good" looks like. I invest in framing before I invest in fidelity.</div>
+        </div>
+        <div class="philosophy-item reveal reveal-delay-3">
+          <div class="philosophy-number">03</div>
+          <div class="philosophy-title">Transparency builds trust</div>
+          <div class="philosophy-desc">When users understand how a system works, they trust it. I design for transparency &mdash; showing the "why" behind algorithmic decisions, budget allocations, and automated actions.</div>
+        </div>
+        <div class="philosophy-item reveal reveal-delay-4">
+          <div class="philosophy-number">04</div>
+          <div class="philosophy-title">Craft at every layer</div>
+          <div class="philosophy-desc">Interaction choreography, typographic hierarchy, motion design &mdash; craft isn't a phase, it's a standard. Every surface should feel intentional, from the information architecture to the hover state.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Experience -->
+    <div class="about-section reveal">
+      <div class="about-section-label">Experience</div>
+      <ul class="experience-list">
+        <li class="experience-item reveal">
+          <span class="experience-period">2025</span>
+          <div class="experience-details">
+            <div class="experience-company">DoorDash</div>
+            <div class="experience-role">Sr. Product Designer</div>
+            <div class="experience-desc">Designed the 0&rarr;1 Parcels platform, consolidating manual logistics workflows into a unified web and mobile tool for frontline operations.</div>
+          </div>
+        </li>
+        <li class="experience-item reveal">
+          <span class="experience-period">2022 &ndash; 2024</span>
+          <div class="experience-details">
+            <div class="experience-company">Meta</div>
+            <div class="experience-role">Sr. Product Designer &middot; Business Messaging</div>
+            <div class="experience-desc">Led cross-org design for Marketing Message Liquidity &mdash; integrating WhatsApp messages into Ads Manager campaigns. Designed "Click to Subscribe" ads for Meta Business Suite.</div>
+          </div>
+        </li>
+        <li class="experience-item reveal">
+          <span class="experience-period">2021 &ndash; 2022</span>
+          <div class="experience-details">
+            <div class="experience-company">LiveControl</div>
+            <div class="experience-role">Lead Product Designer</div>
+            <div class="experience-desc">Led end-to-end design of the SaaS Studio platform. Built and led the design team, established the foundational design system. Company secured a $30M Series A.</div>
+          </div>
+        </li>
+        <li class="experience-item reveal">
+          <span class="experience-period">2019 &ndash; 2021</span>
+          <div class="experience-details">
+            <div class="experience-company">Walmart</div>
+            <div class="experience-role">Sr. Product Designer &middot; Last Mile &amp; E-commerce</div>
+            <div class="experience-desc">Led tipping experience redesign (20%+ lift in tip rates), unified fulfillment UX, digital receipts for 37M+ customers, and intelligent search modules that cut clicks-to-cart from ~20 to ~14.</div>
+          </div>
+        </li>
+        <li class="experience-item reveal">
+          <span class="experience-period">2017 &ndash; 2019</span>
+          <div class="experience-details">
+            <div class="experience-company">Awake</div>
+            <div class="experience-role">Product Designer</div>
+            <div class="experience-desc">Designed features for Kering's retail sales app (20K+ associates globally). Built front-end for Plume's customer site, contributing to a successful Series B.</div>
+          </div>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Skills -->
+    <div class="about-section reveal">
+      <div class="about-section-label">Skills &amp; Tools</div>
+      <div class="skills-grid">
+        <div>
+          <div class="skills-category-label">Design</div>
+          <ul class="skills-list">
+            <li>Figma</li>
+            <li>Prototyping</li>
+            <li>Design Systems</li>
+            <li>Interaction Design</li>
+            <li>User Research</li>
+            <li>Information Architecture</li>
+            <li>Visual Design</li>
+          </ul>
+        </div>
+        <div>
+          <div class="skills-category-label">Technical</div>
+          <ul class="skills-list">
+            <li>HTML / CSS</li>
+            <li>React (basic)</li>
+            <li>Framer</li>
+            <li>Principle</li>
+            <li>After Effects</li>
+            <li>Front-end Prototyping</li>
+          </ul>
+        </div>
+        <div>
+          <div class="skills-category-label">Methods</div>
+          <ul class="skills-list">
+            <li>Design Sprints</li>
+            <li>A/B Testing</li>
+            <li>Competitive Analysis</li>
+            <li>Stakeholder Alignment</li>
+            <li>Cross-Org Collaboration</li>
+            <li>Usability Testing</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Personal -->
+    <div class="about-section reveal">
+      <div class="about-section-label">Beyond Work</div>
+      <p class="about-personal">When I'm not designing enterprise tools, you'll find me <em>[Xiao to add personal interests &mdash; hobbies, side projects, what recharges you]</em>. I believe the best designers bring diverse perspectives to their work, and the things I care about outside of work directly shape how I approach problems inside it.</p>
+    </div>
+
+    <!-- CTA -->
+    <div class="about-cta reveal">
+      <div class="about-cta-title">Want to work together?</div>
+      <a href="preview-contact.html" class="about-cta-link">Get in touch <span>&rarr;</span></a>
+    </div>
+
+  </div>
+
+  <!-- Footer -->
+  <footer class="reveal">
+    <div class="footer-inner">
+      <div>
+        <a href="preview-animated.html" class="footer-logo">xiao song.</a>
+        <p class="footer-role">Product Designer at Meta</p>
+      </div>
+      <div class="footer-links">
+        <a href="mailto:songxiao16@gmail.com" class="footer-link">Email</a>
+        <span class="footer-divider">/</span>
+        <span class="footer-link" style="opacity: 0.5;">LinkedIn</span>
+        <span class="footer-divider">/</span>
+        <span class="footer-link" style="opacity: 0.5;">GitHub</span>
+      </div>
+    </div>
+    <p class="footer-copy">&copy; 2026 Xiao Song. All rights reserved.</p>
+  </footer>
+
+  <script>
+    const dot = document.getElementById('cursorDot');
+    const ring = document.getElementById('cursorRing');
+    let mouseX = 0, mouseY = 0, dotX = 0, dotY = 0, ringX = 0, ringY = 0;
+    document.addEventListener('mousemove', e => { mouseX = e.clientX; mouseY = e.clientY; });
+    function animateCursor() {
+      dotX += (mouseX - dotX) * 0.2; dotY += (mouseY - dotY) * 0.2;
+      dot.style.left = dotX + 'px'; dot.style.top = dotY + 'px';
+      ringX += (mouseX - ringX) * 0.08; ringY += (mouseY - ringY) * 0.08;
+      ring.style.left = ringX + 'px'; ring.style.top = ringY + 'px';
+      requestAnimationFrame(animateCursor);
+    }
+    animateCursor();
+    document.querySelectorAll('a, button').forEach(el => {
+      el.addEventListener('mouseenter', () => { dot.classList.add('hovering'); ring.classList.add('hovering'); });
+      el.addEventListener('mouseleave', () => { dot.classList.remove('hovering'); ring.classList.remove('hovering'); });
+    });
+
+    const progressBar = document.getElementById('scrollProgress');
+    window.addEventListener('scroll', () => {
+      const progress = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
+      progressBar.style.width = progress + '%';
+    }, { passive: true });
+
+    const reveals = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) { entry.target.classList.add('visible'); observer.unobserve(entry.target); }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+    reveals.forEach(el => observer.observe(el));
+  </script>
+</body>
+</html>

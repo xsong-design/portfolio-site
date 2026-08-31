@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Case Study Preview — Walmart Driver Tipping</title>
+  <style>
+    :root {
+      --text: #1a1a1a;
+      --text-secondary: #555;
+      --bg: #fff;
+      --accent: #0071dc;
+      --border: #e0e0e0;
+      --surface: #f7f7f7;
+      --tag-bg: #e8f1fb;
+      --tag-text: #004f9a;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      color: var(--text);
+      background: var(--bg);
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .hero {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 80px 24px 48px;
+    }
+
+    .hero h1 {
+      font-size: 2.25rem;
+      font-weight: 700;
+      line-height: 1.2;
+      letter-spacing: -0.02em;
+      margin-bottom: 20px;
+    }
+
+    .hero .subtitle {
+      font-size: 1.125rem;
+      color: var(--text-secondary);
+      font-style: italic;
+      margin-bottom: 28px;
+      line-height: 1.6;
+    }
+
+    .tldr {
+      background: var(--surface);
+      border-left: 3px solid var(--accent);
+      padding: 20px 24px;
+      margin-bottom: 32px;
+      border-radius: 0 8px 8px 0;
+      font-size: 0.95rem;
+    }
+
+    .meta-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 12px;
+      margin-bottom: 32px;
+    }
+
+    .meta-item {
+      padding: 12px 16px;
+      background: var(--surface);
+      border-radius: 8px;
+    }
+
+    .meta-item .label {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-secondary);
+      margin-bottom: 4px;
+      font-weight: 600;
+    }
+
+    .meta-item .value {
+      font-size: 0.9rem;
+      font-weight: 500;
+    }
+
+    .visual-placeholder {
+      background: var(--surface);
+      border: 2px dashed var(--border);
+      border-radius: 12px;
+      padding: 40px 24px;
+      text-align: center;
+      color: var(--text-secondary);
+      font-size: 0.85rem;
+      margin: 32px 0;
+    }
+
+    article {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 0 24px 80px;
+    }
+
+    article h2 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-top: 56px;
+      margin-bottom: 8px;
+      letter-spacing: -0.01em;
+      padding-top: 32px;
+      border-top: 1px solid var(--border);
+    }
+
+    article h3 {
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-top: 32px;
+      margin-bottom: 12px;
+    }
+
+    article p {
+      margin-bottom: 16px;
+      font-size: 1rem;
+    }
+
+    article ul, article ol {
+      margin-bottom: 16px;
+      padding-left: 24px;
+    }
+
+    article li {
+      margin-bottom: 8px;
+      font-size: 1rem;
+    }
+
+    blockquote {
+      border-left: 3px solid var(--accent);
+      padding: 12px 20px;
+      margin: 20px 0;
+      background: var(--surface);
+      border-radius: 0 8px 8px 0;
+      font-style: italic;
+      color: var(--text-secondary);
+    }
+
+    .competitor-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 16px;
+      margin: 24px 0;
+    }
+
+    .competitor-card {
+      background: var(--surface);
+      border-radius: 12px;
+      padding: 20px;
+    }
+
+    .competitor-card .name {
+      font-weight: 700;
+      font-size: 0.95rem;
+      margin-bottom: 8px;
+    }
+
+    .competitor-card p {
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      margin-bottom: 0;
+      line-height: 1.5;
+    }
+
+    .exploration-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin: 24px 0;
+    }
+
+    .exploration-card {
+      background: var(--surface);
+      border-radius: 10px;
+      padding: 16px 20px;
+    }
+
+    .exploration-card .num {
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 4px;
+    }
+
+    .exploration-card .title {
+      font-weight: 600;
+      font-size: 0.9rem;
+      margin-bottom: 6px;
+    }
+
+    .exploration-card .desc {
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+      line-height: 1.5;
+    }
+
+    .decision-list {
+      list-style: none;
+      padding: 0;
+      margin: 24px 0;
+    }
+
+    .decision-list li {
+      background: var(--surface);
+      border-radius: 10px;
+      padding: 16px 20px;
+      margin-bottom: 12px;
+      font-size: 0.95rem;
+    }
+
+    .decision-list li strong {
+      color: var(--text);
+    }
+
+    .impact-card {
+      background: var(--surface);
+      border-radius: 12px;
+      padding: 32px;
+      text-align: center;
+      margin: 24px 0;
+    }
+
+    .impact-card .number {
+      font-size: 2.5rem;
+      font-weight: 800;
+      color: var(--accent);
+      margin-bottom: 8px;
+    }
+
+    .impact-card .desc {
+      font-size: 1rem;
+      color: var(--text-secondary);
+    }
+
+    .impact-card .sub {
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      margin-top: 12px;
+      font-style: italic;
+    }
+
+    .tag {
+      display: inline-block;
+      background: var(--tag-bg);
+      color: var(--tag-text);
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 3px 10px;
+      border-radius: 100px;
+    }
+
+    .nav-bar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      background: rgba(255,255,255,0.9);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      padding: 12px 24px;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .nav-bar .badge {
+      font-size: 0.75rem;
+      background: var(--tag-bg);
+      color: var(--tag-text);
+      padding: 4px 12px;
+      border-radius: 100px;
+      font-weight: 600;
+    }
+
+    .nav-bar .back {
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      text-decoration: none;
+    }
+
+    .verify-banner {
+      max-width: 800px;
+      margin: 0 auto 40px;
+      padding: 20px 24px;
+      background: #fff8e6;
+      border: 1px solid #f0d060;
+      border-radius: 10px;
+      font-size: 0.85rem;
+      color: #7a6200;
+    }
+
+    .verify-banner strong { color: #5a4800; }
+    .verify-banner ul { margin-top: 8px; padding-left: 20px; }
+    .verify-banner li { margin-bottom: 4px; }
+
+    @media (max-width: 640px) {
+      .hero h1 { font-size: 1.75rem; }
+      .hero { padding: 72px 20px 40px; }
+      article { padding: 0 20px 60px; }
+      .meta-grid { grid-template-columns: 1fr 1fr; }
+      .competitor-grid { grid-template-columns: 1fr; }
+      .exploration-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="nav-bar">
+    <span class="back">&larr; Back to projects</span>
+    <span class="badge">CASE STUDY PREVIEW</span>
+  </div>
+
+  <div class="hero">
+    <h1>Increasing Delivery Driver Tip Rates by Redesigning the Post-Order Tipping Experience at Walmart</h1>
+    <p class="subtitle">I led the design of Walmart's delivery driver tipping experience — navigating the competing needs of the business, delivery drivers, and customers to ship a feature that lifted tipping rates by 1.5 percentage points across mobile app and mobile web.</p>
+
+    <div class="tldr">
+      <strong>TL;DR:</strong> As Walmart scaled its delivery business during Covid, driver tipping was underperforming — hurting driver earnings, retention, and delivery capacity. I redesigned the tipping experience from the ground up, studying competitor patterns across the gig economy, exploring multiple UI approaches, and validating through A/B experimentation. The result shipped to 100% of users and meaningfully increased tip rates.
+    </div>
+
+    <div class="meta-grid">
+      <div class="meta-item">
+        <div class="label">My Role</div>
+        <div class="value">Lead Product Designer, Fulfillment</div>
+      </div>
+      <div class="meta-item">
+        <div class="label">Team</div>
+        <div class="value">PM, Eng, Content, Business, Checkout</div>
+      </div>
+      <div class="meta-item">
+        <div class="label">Timeline</div>
+        <div class="value">Mar 2020 – May 2021</div>
+      </div>
+      <div class="meta-item">
+        <div class="label">Platform</div>
+        <div class="value">Walmart Mobile App + Mobile Web</div>
+      </div>
+    </div>
+
+    <div class="visual-placeholder">Hero shot — the final tipping experience on mobile showing the standalone tip prompt with preset amounts</div>
+  </div>
+
+  <article>
+    <h2>The Context &amp; Challenge</h2>
+
+    <h3>The Business Problem</h3>
+    <p>Covid accelerated Walmart's delivery business almost overnight. With health regulations tightening and consumers shifting to contactless delivery, order volume surged — but the driver supply side wasn't keeping up. Tipping was a direct lever: drivers who earned more stayed on the platform longer and accepted more deliveries. But the existing tipping experience was underperforming, with tip rates well below industry benchmarks.</p>
+    <p>The business goal was clear: increase tip frequency and average tip amount to improve driver earnings, expand delivery capacity, and sustain the delivery network as demand scaled.</p>
+
+    <h3>The User Problem</h3>
+    <p>This project sat at the intersection of three user groups, each with different needs:</p>
+    <p><strong>Customers</strong> wanted a fast, frictionless checkout. Many were willing to tip but didn't when the UI didn't prompt them effectively or made it feel like an afterthought. Tipping norms for delivery were still forming — unlike restaurant dining, there was no established social contract.</p>
+    <p><strong>Delivery drivers</strong> chose between Walmart, DoorDash, Instacart, and Uber Eats based on total compensation. Low or inconsistent tipping made Walmart deliveries less competitive, pushing the best drivers toward platforms with better earning potential.</p>
+    <p><strong>The business</strong> needed to increase delivery capacity without raising base driver pay — tipping was the most scalable lever to close the compensation gap and retain supply.</p>
+
+    <h3>What Made This Hard</h3>
+    <p>Unlike restaurant tipping where there's a face-to-face moment of connection, delivery tipping happens around a faceless transaction. The customer never sees the driver juggle three deliveries in a rainstorm. Designing for generosity without that emotional trigger — and without adding friction to checkout — was the core design challenge. I also had to coordinate across the checkout team (who guarded conversion rates), business stakeholders (who wanted aggressive tip prompts), and the delivery operations team (who understood driver economics).</p>
+
+    <div class="visual-placeholder">The existing tipping experience showing where it fell short — buried in checkout, easy to skip</div>
+
+    <h2>Discovery &amp; Strategy</h2>
+
+    <h3>How I Built Understanding</h3>
+    <p>I ran a competitive analysis across the major delivery platforms to map tipping patterns in the gig economy:</p>
+
+    <div class="competitor-grid">
+      <div class="competitor-card">
+        <div class="name">DoorDash</div>
+        <p>Pre-delivery tipping at checkout with suggested amounts based on order total. Default pre-selected — tipping is the path of least resistance. Post-delivery adjustment available but rarely used.</p>
+      </div>
+      <div class="competitor-card">
+        <div class="name">Instacart</div>
+        <p>Pre-delivery with a 5% default. Two-touch approach: also sent post-delivery push notification prompting customers to increase their tip. Captured both checkout intent and post-delivery gratitude.</p>
+      </div>
+      <div class="competitor-card">
+        <div class="name">Uber Eats</div>
+        <p>Post-delivery only, bundled with rating. Captured the emotional moment but meant zero tip commitment at checkout — unpredictable earnings for drivers.</p>
+      </div>
+    </div>
+
+    <p>The pattern was clear: <strong>pre-delivery tipping with smart defaults drove the highest tip rates</strong>, but post-delivery prompts captured a different emotional moment. No platform was doing both well. Walmart's existing experience was closest to Uber Eats — tipping came too late and was too easy to dismiss.</p>
+
+    <h3>How I Built Alignment</h3>
+    <p>I shared the competitive landscape with PM and business stakeholders to frame the design direction: Walmart's tipping experience wasn't just underperforming against our goals — it was underperforming against every major competitor. This created urgency and buy-in for a more prominent tipping surface. The checkout team was initially resistant to adding friction, but the competitive data shifted the conversation from "should we make tipping more visible?" to "how do we make it visible without hurting conversion?"</p>
+
+    <div class="visual-placeholder">Competitive analysis summary — tipping patterns across DoorDash, Instacart, Uber Eats, and Walmart's existing experience</div>
+
+    <h2>Ideation &amp; Decision Making</h2>
+
+    <h3>Design Explorations</h3>
+
+    <div class="exploration-grid">
+      <div class="exploration-card">
+        <div class="num">Option 1</div>
+        <div class="title">List scrolled + order confirmation</div>
+        <div class="desc">Tip selection inline within scrollable order confirmation. Low friction but easily missed below the fold.</div>
+      </div>
+      <div class="exploration-card">
+        <div class="num">Option 2</div>
+        <div class="title">Inline selection</div>
+        <div class="desc">Tip amounts integrated as a checkout step. High visibility but added a decision point that could slow conversion.</div>
+      </div>
+      <div class="exploration-card">
+        <div class="num">Option 3</div>
+        <div class="title">Bottom sheet</div>
+        <div class="desc">Modal-style bottom sheet post-order. Focused interaction but interruptive — risked feeling like a guilt prompt.</div>
+      </div>
+      <div class="exploration-card">
+        <div class="num">Option 4</div>
+        <div class="title">Standalone above receipt</div>
+        <div class="desc">Own dedicated section at top of post-order screen. Visible without being interruptive. <strong>Chosen direction.</strong></div>
+      </div>
+    </div>
+
+    <p>I also explored whether tipping should be bundled with delivery rating or separated. Bundling reduced post-delivery interactions but muddied the intent — customers might skip the entire screen if they didn't want to rate, missing the tip prompt entirely.</p>
+
+    <h3>The Trade-off I Navigated</h3>
+    <p>The checkout team's top priority was conversion — anything that added steps or cognitive load before "Place Order" was a risk. The business team wanted tipping front and center, ideally pre-delivery with an aggressive default. Drivers needed predictable earnings, which favored pre-delivery commitment.</p>
+    <p>I advocated for a <strong>post-order, pre-delivery approach</strong>: tipping surfaced immediately after order placement but before delivery, as a standalone section above the digital receipt. This preserved checkout conversion (no new steps before "Place Order") while capturing tipping intent at a moment when customers were still engaged and hadn't closed the app.</p>
+    <p>For tip defaults, I designed <strong>three tiers of preset amounts scaled to basket size</strong> — smaller orders saw lower suggested amounts, while larger orders surfaced higher presets. This tiered approach felt proportional to customers and aligned driver compensation with delivery complexity. Flat dollar amounts over percentages was a deliberate choice — customers found them more concrete and faster to act on than doing mental math on variable order totals.</p>
+
+    <div class="visual-placeholder">Side-by-side comparison of the 4 tipping UI explorations with annotations on trade-offs</div>
+
+    <h2>The Solution &amp; Craft</h2>
+
+    <h3>The Core Solution</h3>
+    <p>The final design featured a <strong>standalone tipping section positioned above the digital receipt</strong> on the post-order confirmation screen. The prompt was clear and simple: "Share delivery tip (optional)" with preset amount buttons and a custom entry option.</p>
+
+    <ul class="decision-list">
+      <li><strong>Placement above the receipt</strong> ensured the tip prompt was the first thing customers saw after placing their order — no scrolling required. This was the single highest-impact layout decision.</li>
+      <li><strong>"Optional" label</strong> reduced guilt pressure while maintaining visibility. Platforms that made tipping feel mandatory saw higher skip rates — customers who feel coerced tip less, not more.</li>
+      <li><strong>Three tiers of preset amounts scaled to basket size</strong> anchored expectations proportionally. The middle preset was highlighted as a recommended default — nudging toward a moderate, contextually appropriate amount.</li>
+      <li><strong>Separation from rating</strong> meant customers could tip immediately after ordering and rate after delivery — each interaction optimized for its best moment.</li>
+    </ul>
+
+    <p>The experience was built for <strong>both mobile app and mobile web</strong>, maintaining consistent behavior and visual treatment across platforms.</p>
+
+    <h3>Systems Thinking</h3>
+    <p>The standalone tipping pattern I designed was built to extend beyond the initial delivery use case. The component architecture — prompt, preset amounts, custom entry, optional label — was designed to be reusable for other Walmart services where tipping might apply, such as curbside pickup or in-home delivery.</p>
+
+    <div class="visual-placeholder">The final tipping flow — 2-3 screens showing the tip prompt above receipt, amount selection, and confirmation state</div>
+
+    <h2>Impact &amp; Outcomes</h2>
+
+    <div class="impact-card">
+      <div class="number">+1.5pp</div>
+      <div class="desc">increase in tipping rate across mobile app and mobile web</div>
+      <div class="sub">Validated through A/B experiment, rolled out to 100% of users</div>
+    </div>
+
+    <p>A 1.5 percentage point lift might sound small — but on a metric where even fractional improvements translate to millions in annual driver earnings across Walmart's delivery volume, this was a meaningful win.</p>
+    <p>Higher tip rates directly supported Walmart's delivery capacity goals. Better-compensated drivers accepted more deliveries and stayed on the platform longer, improving supply-side sustainability during a period of explosive demand growth. The tipping data also gave the business team a new input for forecasting driver economics and competitive positioning against DoorDash and Instacart.</p>
+
+    <div class="visual-placeholder">Experiment results — tipping rate lift chart or before/after comparison</div>
+
+    <h2>Reflections &amp; Learnings</h2>
+
+    <h3>What Went Well</h3>
+    <p>The competitive analysis investment paid off early — it gave the team a shared frame of reference for what "good" looked like and prevented debates from becoming opinion-based. Having DoorDash and Instacart's approaches mapped out made it easier to advocate for specific design decisions with data rather than intuition.</p>
+
+    <h3>What I'd Do Differently</h3>
+    <p>I would have pushed harder for a more inline tipping integration so that customers could clearly understand the tip applied only to their grocery delivery cart — not their broader online ecommerce order. Walmart's platform handles both grocery delivery and general ecommerce, and the distinction wasn't always obvious. Some customers may have hesitated to tip because they weren't sure what the tip was for. Making that context more explicit and inline with the grocery cart could have improved both comprehension and tip rates.</p>
+
+    <h3>What I Learned</h3>
+    <p>The biggest takeaway was the complexity of designing at the intersection of three core users with fundamentally different needs. The business needed higher tip rates. Drivers needed predictable, competitive earnings. Customers needed a fast, guilt-free experience. Every design decision was a three-way trade-off — and learning to evaluate those trade-offs at Walmart's scale taught me more about product thinking than any single-user-group project could. The collaboration across business, checkout, content, and delivery teams was intense, and it permanently changed how I approach stakeholder alignment on complex, multi-sided problems.</p>
+  </article>
+
+  <div class="verify-banner">
+    <strong>Items to verify before publishing:</strong>
+    <ul>
+      <li>Tipping rate lift (1.5pp) — placeholder, replace with actual number</li>
+      <li>Specific preset tier amounts — 3 tiers confirmed, exact amounts TBD</li>
+      <li>Competitive analysis details — based on public knowledge circa 2020-2021</li>
+      <li>Timeline (Mar 2020 – May 2021) — confirm dates</li>
+    </ul>
+  </div>
+</body>
+</html>

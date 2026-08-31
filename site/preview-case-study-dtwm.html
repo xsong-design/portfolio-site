@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Driver Tipping at Walmart — xiao song.</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=JetBrains+Mono:wght@400;500;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --color-bg: #F5F5F5;
+      --color-surface: #FFFFFF;
+      --color-surface-muted: #EBEBEB;
+      --color-text: #1A1A1A;
+      --color-text-secondary: #555555;
+      --color-text-muted: #757575;
+      --color-accent: #6B7F6B;
+      --color-accent-hover: #4A5D4A;
+      --color-accent-text: #4A5D4A;
+      --color-accent-muted: rgba(107, 127, 107, 0.12);
+      --color-border: #E0E0E0;
+      --color-shape-accent: #6B7F6B;
+      --font-display: 'Playfair Display', Georgia, serif;
+      --font-sans: 'DM Sans', system-ui, sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+      --content-max-width: 1060px;
+      --content-wide: 1200px;
+      --page-padding: clamp(1.25rem, 5vw, 4rem);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    ::selection { background-color: var(--color-accent-muted); color: var(--color-text); }
+
+    body {
+      background: var(--color-bg); color: var(--color-text);
+      font-family: var(--font-sans); -webkit-font-smoothing: antialiased;
+      overflow-x: hidden; cursor: none;
+    }
+
+    .scroll-progress { position: fixed; top: 0; left: 0; height: 2px; z-index: 100; background: var(--color-accent); width: 0%; }
+
+    .cursor-dot {
+      position: fixed; top: 0; left: 0; z-index: 9999; width: 8px; height: 8px;
+      background: var(--color-accent); border-radius: 50%; pointer-events: none;
+      transform: translate(-50%, -50%);
+      transition: width 0.3s cubic-bezier(0.16,1,0.3,1), height 0.3s cubic-bezier(0.16,1,0.3,1), background 0.3s;
+    }
+    .cursor-ring {
+      position: fixed; top: 0; left: 0; z-index: 9998; width: 40px; height: 40px;
+      border: 1.5px solid var(--color-accent); border-radius: 50%; pointer-events: none;
+      transform: translate(-50%, -50%); opacity: 0.4;
+      transition: width 0.3s cubic-bezier(0.16,1,0.3,1), height 0.3s cubic-bezier(0.16,1,0.3,1), opacity 0.3s;
+    }
+    .cursor-dot.hovering { width: 48px; height: 48px; background: rgba(107, 127, 107, 0.08); }
+    .cursor-ring.hovering { width: 48px; height: 48px; opacity: 0.8; border-color: var(--color-accent); }
+    a, button { cursor: none; }
+    @media (max-width: 1023px) {
+      body { cursor: auto; } a, button { cursor: pointer; }
+      .cursor-dot, .cursor-ring { display: none; }
+    }
+
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 40;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 20px var(--page-padding);
+      background: rgba(245, 245, 245, 0.8);
+      backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+    }
+    .nav-logo { font-family: var(--font-display); font-size: 1.25rem; font-weight: 700; letter-spacing: -0.02em; color: var(--color-text); text-decoration: none; }
+    .nav-links { display: flex; align-items: center; gap: 2rem; }
+    .nav-link {
+      font-family: var(--font-mono); font-size: 0.6875rem; font-weight: 500;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--color-text-muted); text-decoration: none; position: relative; transition: color 0.15s;
+    }
+    .nav-link:hover { color: var(--color-text); }
+    .nav-link::after {
+      content: ''; position: absolute; bottom: -4px; left: 0;
+      width: 100%; height: 1.5px; background: var(--color-accent);
+      transform: scaleX(0); transform-origin: left; transition: transform 0.3s cubic-bezier(0.16,1,0.3,1);
+    }
+    .nav-link:hover::after { transform: scaleX(1); }
+    .nav-link--accent { color: var(--color-accent-text); }
+    .nav-link--accent:hover { color: var(--color-accent-hover); }
+
+    .reveal {
+      opacity: 0; transform: translateY(32px);
+      transition: opacity 0.8s cubic-bezier(0.16,1,0.3,1), transform 0.8s cubic-bezier(0.16,1,0.3,1);
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
+
+    .cs-hero {
+      padding: 8rem var(--page-padding) clamp(3rem, 6vw, 5rem);
+      max-width: 1200px; margin: 0 auto;
+    }
+    .cs-back {
+      font-family: var(--font-mono); font-size: 0.6875rem; font-weight: 500;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--color-text-muted); text-decoration: none;
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      margin-bottom: 3rem; transition: color 0.15s, gap 0.3s cubic-bezier(0.16,1,0.3,1);
+    }
+    .cs-back:hover { color: var(--color-text); gap: 0.75rem; }
+    .cs-title {
+      font-family: var(--font-display);
+      font-size: clamp(2.5rem, 6vw, 4.5rem);
+      font-weight: 700; line-height: 0.95; letter-spacing: -0.02em;
+      color: var(--color-text);
+    }
+    .cs-tagline {
+      margin-top: 1.5rem; font-size: 1.125rem; line-height: 1.6;
+      color: var(--color-text-secondary); max-width: 800px; font-style: italic;
+    }
+    .cs-meta { margin-top: 2.5rem; display: flex; flex-wrap: wrap; gap: 2rem 3rem; }
+    .cs-meta-item { display: flex; flex-direction: column; gap: 0.25rem; }
+    .cs-meta-label {
+      font-family: var(--font-mono); font-size: 0.6875rem; font-weight: 500;
+      letter-spacing: 0.12em; text-transform: uppercase; color: var(--color-text-muted);
+    }
+    .cs-meta-value { font-size: 0.875rem; font-weight: 500; color: var(--color-text); }
+
+    .cs-hero-image {
+      margin: 0 var(--page-padding);
+      background: linear-gradient(135deg, #1a1a1a, #2a2a2a);
+      aspect-ratio: 16 / 7; display: flex; align-items: center; justify-content: center;
+      overflow: hidden; position: relative;
+    }
+    .cs-hero-image-text {
+      font-family: var(--font-display); font-size: clamp(1rem, 2vw, 1.5rem);
+      color: rgba(255,255,255,0.12); text-align: center; padding: 2rem;
+      line-height: 1.6; max-width: 600px;
+    }
+    .cs-hero-image-label {
+      position: absolute; bottom: 1rem; right: 1.5rem;
+      font-family: var(--font-mono); font-size: 0.625rem; font-weight: 500;
+      letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.25);
+    }
+
+    .cs-content { max-width: var(--content-max-width); margin: 0 auto; padding: 0 var(--page-padding); }
+    .cs-section { padding: clamp(4rem, 8vw, 6rem) 0; }
+    .cs-section + .cs-section { border-top: none; }
+
+    .cs-section-header { display: flex; align-items: baseline; gap: 1.25rem; margin-bottom: clamp(2rem, 4vw, 3rem); }
+    .cs-section-index {
+      font-family: var(--font-mono); font-size: clamp(0.75rem, 1.5vw, 0.875rem);
+      font-weight: 500; letter-spacing: 0.05em; line-height: 1;
+      color: var(--color-accent); opacity: 0.6;
+    }
+    .cs-section-title {
+      font-family: var(--font-display); font-size: clamp(1.75rem, 3.5vw, 2.5rem);
+      font-weight: 600; line-height: 1.1; letter-spacing: -0.02em; color: var(--color-text);
+    }
+
+    .cs-h3 {
+      font-family: var(--font-mono); font-size: 0.6875rem; font-weight: 500;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--color-text-muted); margin-top: 3rem; margin-bottom: 1rem;
+    }
+    .cs-h3:first-child { margin-top: 0; }
+    .cs-p { font-size: 1.0625rem; line-height: 1.8; color: var(--color-text-secondary); margin-bottom: 1.5rem; }
+    .cs-p:last-child { margin-bottom: 0; }
+    .cs-p strong { color: var(--color-text); font-weight: 600; }
+
+    .cs-list { list-style: none; padding: 0; margin-bottom: 1.5rem; }
+    .cs-list li { font-size: 1.0625rem; line-height: 1.8; color: var(--color-text-secondary); padding-left: 1.5rem; position: relative; margin-bottom: 0.75rem; }
+    .cs-list li::before { content: ''; position: absolute; left: 0; top: 0.65em; width: 5px; height: 5px; border-radius: 50%; background: var(--color-accent); opacity: 0.5; }
+    .cs-list li strong { color: var(--color-text); font-weight: 600; }
+
+    .cs-pullquote { border-left: 3px solid var(--color-accent); padding: 2rem 0 2rem 2.5rem; margin: 3rem 0; }
+    .cs-pullquote p { font-family: var(--font-display); font-style: italic; font-size: clamp(1.25rem, 2vw, 1.5rem); line-height: 1.55; color: var(--color-text); font-weight: 400; }
+    .cs-pullquote-source {
+      margin-top: 0.75rem; font-family: var(--font-mono); font-size: 0.6875rem;
+      letter-spacing: 0.08em; text-transform: uppercase; color: var(--color-text-muted);
+    }
+
+    .cs-image {
+      background: linear-gradient(135deg, #1a1a1a, #2a2a2a);
+      padding: clamp(2rem, 4vw, 3rem); margin: 2.5rem 0;
+      display: flex; align-items: center; justify-content: center; min-height: 240px;
+      position: relative;
+    }
+    .cs-image--tall { min-height: 360px; }
+    .cs-image--short { min-height: 180px; }
+    .cs-image--wide {
+      max-width: var(--content-wide);
+      margin-left: auto; margin-right: auto;
+      width: calc(100% + 6rem); transform: translateX(calc(-3rem));
+    }
+    @media (max-width: 1023px) { .cs-image--wide { width: 100%; transform: none; } }
+    .cs-image--bleed {
+      margin-left: calc(-50vw + 50%); margin-right: calc(-50vw + 50%); width: 100vw;
+    }
+    .cs-image-text {
+      font-family: var(--font-mono); font-size: 0.6875rem; font-weight: 400;
+      color: rgba(255,255,255,0.3); text-align: center; line-height: 1.6; max-width: 420px;
+    }
+    .cs-image-tag {
+      position: absolute; top: 1rem; left: 1.5rem;
+      font-family: var(--font-mono); font-size: 0.5625rem; font-weight: 500;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: rgba(255,255,255,0.2); background: rgba(255,255,255,0.06);
+      padding: 0.25rem 0.5rem;
+    }
+    .cs-image-caption {
+      margin-top: 0.75rem; font-family: var(--font-mono); font-size: 0.6875rem;
+      color: var(--color-text-muted); line-height: 1.5; text-align: center;
+    }
+    .cs-image-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 2.5rem 0;
+    }
+    @media (max-width: 639px) { .cs-image-grid { grid-template-columns: 1fr; } }
+    .cs-image-grid .cs-image { margin: 0; min-height: 200px; }
+
+    .cs-metrics {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1px; margin: 3rem 0; background: var(--color-border);
+    }
+    .cs-metric { padding: 2rem; background: var(--color-surface); }
+    .cs-metric-value {
+      font-family: var(--font-mono); font-size: clamp(2rem, 3.5vw, 3rem);
+      font-weight: 700; letter-spacing: -0.03em; color: var(--color-accent); line-height: 1;
+    }
+    .cs-metric-label { margin-top: 0.75rem; font-size: 0.875rem; line-height: 1.4; color: var(--color-text-secondary); }
+    .cs-metric-note {
+      margin-top: 0.25rem; font-family: var(--font-mono);
+      font-size: 0.625rem; letter-spacing: 0.05em; color: var(--color-text-muted); text-transform: uppercase;
+    }
+
+    .cs-numbered-list { list-style: none; padding: 0; margin-bottom: 1.5rem; counter-reset: numbered; }
+    .cs-numbered-list li {
+      font-size: 1.0625rem; line-height: 1.8; color: var(--color-text-secondary);
+      padding-left: 2rem; position: relative; margin-bottom: 1.25rem; counter-increment: numbered;
+    }
+    .cs-numbered-list li::before {
+      content: counter(numbered) '.'; position: absolute; left: 0; top: 0;
+      font-family: var(--font-mono); font-size: 0.75rem; font-weight: 700;
+      color: var(--color-accent); opacity: 0.6;
+    }
+    .cs-numbered-list li strong { color: var(--color-text); font-weight: 600; }
+
+    .cs-nav {
+      max-width: var(--content-max-width); margin: 0 auto;
+      padding: clamp(4rem, 8vw, 6rem) var(--page-padding);
+      border-top: 1px solid var(--color-border);
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .cs-nav-link {
+      font-family: var(--font-mono); font-size: 0.6875rem; font-weight: 500;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--color-accent-text); text-decoration: none;
+      display: flex; flex-direction: column; gap: 0.25rem; transition: color 0.15s;
+    }
+    .cs-nav-link:hover { color: var(--color-accent-hover); }
+    .cs-nav-link-label { color: var(--color-text-muted); font-size: 0.625rem; }
+
+    footer { padding: clamp(3rem, 5vw, 4rem) var(--page-padding); border-top: 1px solid var(--color-border); }
+    .footer-inner { display: flex; flex-direction: column; gap: 1.5rem; }
+    @media (min-width: 768px) { .footer-inner { flex-direction: row; justify-content: space-between; align-items: center; } }
+    .footer-logo { font-family: var(--font-display); font-size: 1.125rem; font-weight: 700; letter-spacing: -0.02em; color: var(--color-text); text-decoration: none; }
+    .footer-role { margin-top: 0.25rem; font-size: 0.875rem; color: var(--color-text-muted); }
+    .footer-links { display: flex; align-items: center; gap: 1.5rem; }
+    .footer-link {
+      font-family: var(--font-mono); font-size: 0.6875rem; font-weight: 500;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--color-text-muted); text-decoration: none; position: relative; transition: color 0.15s;
+    }
+    .footer-link:hover { color: var(--color-text); }
+    .footer-link::after {
+      content: ''; position: absolute; bottom: -2px; left: 0;
+      width: 100%; height: 1px; background: var(--color-accent);
+      transform: scaleX(0); transform-origin: left; transition: transform 0.3s cubic-bezier(0.16,1,0.3,1);
+    }
+    .footer-link:hover::after { transform: scaleX(1); }
+    .footer-divider { color: var(--color-border); }
+    .footer-copy { margin-top: 2rem; font-size: 0.75rem; color: var(--color-text-muted); }
+
+    @media (max-width: 639px) { .nav-links { display: none; } }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
+      .reveal { opacity: 1; transform: none; }
+      .scroll-progress { display: none; }
+      .cursor-dot, .cursor-ring { display: none; }
+      body { cursor: auto; } a, button { cursor: pointer; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="scroll-progress" id="scrollProgress"></div>
+  <div class="cursor-dot" id="cursorDot"></div>
+  <div class="cursor-ring" id="cursorRing"></div>
+
+  <nav>
+    <a href="preview-animated.html" class="nav-logo">xiao song.</a>
+    <div class="nav-links">
+      <a href="preview-animated.html" class="nav-link">work</a>
+      <a href="#" class="nav-link">about</a>
+      <a href="#" class="nav-link">contact</a>
+      <a href="#" class="nav-link nav-link--accent">resume &darr;</a>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <div class="cs-hero">
+    <a href="preview-animated.html" class="cs-back reveal"><span>&larr;</span> Back to work</a>
+
+    <h1 class="cs-title reveal reveal-delay-1">Driver Tipping at Walmart</h1>
+    <p class="cs-tagline reveal reveal-delay-2">I led the design of Walmart's delivery driver tipping experience &mdash; navigating the competing needs of the business, delivery drivers, and customers to ship a feature that lifted tipping rates by 1.5 percentage points across mobile app and mobile web.</p>
+
+    <div class="cs-meta reveal reveal-delay-3">
+      <div class="cs-meta-item">
+        <span class="cs-meta-label">Role</span>
+        <span class="cs-meta-value">Lead Product Designer</span>
+      </div>
+      <div class="cs-meta-item">
+        <span class="cs-meta-label">Team</span>
+        <span class="cs-meta-value">PM, Eng, Content, Business</span>
+      </div>
+      <div class="cs-meta-item">
+        <span class="cs-meta-label">Timeline</span>
+        <span class="cs-meta-value">Mar 2020 &ndash; May 2021</span>
+      </div>
+      <div class="cs-meta-item">
+        <span class="cs-meta-label">Platform</span>
+        <span class="cs-meta-value">Mobile App + Web</span>
+      </div>
+      <div class="cs-meta-item">
+        <span class="cs-meta-label">Company</span>
+        <span class="cs-meta-value">Walmart</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="cs-hero-image reveal">
+    <span class="cs-hero-image-text">Hero shot &mdash; the final tipping experience on mobile showing the standalone tip prompt with preset amounts</span>
+    <span class="cs-hero-image-label">Insert visual</span>
+  </div>
+
+  <div class="cs-content">
+
+    <!-- Overview -->
+    <div class="cs-section reveal">
+      <p class="cs-p" style="font-size: 1.1875rem; line-height: 1.8; color: var(--color-text);">
+        As Walmart scaled its delivery business during Covid, driver tipping was underperforming &mdash; hurting driver earnings, retention, and delivery capacity. I redesigned the tipping experience from the ground up, studying competitor patterns across the gig economy, exploring multiple UI approaches, and validating through A/B experimentation. The result shipped to 100% of users and meaningfully increased tip rates.
+      </p>
+
+      <div class="cs-image cs-image--wide reveal" style="min-height: 280px; margin-top: 3rem;">
+        <span class="cs-image-text">Project overview &mdash; the three user groups (customers, drivers, business) and how the tipping experience sat at the intersection of their competing needs</span>
+        <span class="cs-image-tag">Overview</span>
+      </div>
+      <p class="cs-image-caption">Three user groups, three sets of needs, one design surface</p>
+    </div>
+
+    <!-- 01 Context & Challenge -->
+    <div class="cs-section reveal">
+      <div class="cs-section-header">
+        <span class="cs-section-index">01</span>
+        <h2 class="cs-section-title">Context &amp; Challenge</h2>
+      </div>
+
+      <h3 class="cs-h3">The Business Problem</h3>
+      <p class="cs-p">Covid accelerated Walmart's delivery business almost overnight. With health regulations tightening and consumers shifting to contactless delivery, order volume surged &mdash; but the driver supply side wasn't keeping up. Tipping was a direct lever: drivers who earned more stayed on the platform longer and accepted more deliveries. But the existing tipping experience was underperforming, with tip rates well below industry benchmarks.</p>
+
+      <div class="cs-image reveal">
+        <span class="cs-image-text">The existing tipping experience &mdash; tip option buried at the bottom of a long checkout flow, easy to skip past</span>
+        <span class="cs-image-tag">Before</span>
+      </div>
+      <p class="cs-image-caption">The existing experience: tipping buried in checkout, easy to miss</p>
+
+      <h3 class="cs-h3">The User Problem</h3>
+      <p class="cs-p">This project sat at the intersection of three user groups, each with different needs:</p>
+      <p class="cs-p"><strong>Customers</strong> wanted a fast, frictionless checkout. Many were willing to tip but didn't when the UI didn't prompt them effectively or made it feel like an afterthought. Tipping norms for delivery were still forming &mdash; unlike restaurant dining, there was no established social contract.</p>
+      <p class="cs-p"><strong>Delivery drivers</strong> chose between Walmart, DoorDash, Instacart, and Uber Eats based on total compensation. Low or inconsistent tipping made Walmart deliveries less competitive, pushing the best drivers toward platforms with better earning potential.</p>
+      <p class="cs-p"><strong>The business</strong> needed to increase delivery capacity without raising base driver pay &mdash; tipping was the most scalable lever to close the compensation gap and retain supply.</p>
+
+      <div class="cs-image cs-image--wide cs-image--tall reveal">
+        <span class="cs-image-text">Three-user framework diagram &mdash; customers (fast checkout, willing to tip), drivers (competitive compensation, platform choice), business (delivery capacity, driver retention) with tipping at the center</span>
+        <span class="cs-image-tag">Framework</span>
+      </div>
+      <p class="cs-image-caption">Three user groups with fundamentally different needs — tipping was the shared lever</p>
+
+      <h3 class="cs-h3">What Made This Hard</h3>
+      <p class="cs-p">Unlike restaurant tipping where there's a face-to-face moment of connection, delivery tipping happens around a faceless transaction. The customer never sees the driver juggle three deliveries in a rainstorm. Designing for generosity without that emotional trigger &mdash; and without adding friction to checkout &mdash; was the core design challenge.</p>
+    </div>
+
+    <!-- 02 Discovery & Strategy -->
+    <div class="cs-section reveal">
+      <div class="cs-section-header">
+        <span class="cs-section-index">02</span>
+        <h2 class="cs-section-title">Discovery &amp; Strategy</h2>
+      </div>
+
+      <h3 class="cs-h3">How I Built Understanding</h3>
+      <p class="cs-p">I ran a competitive analysis across the major delivery platforms to map tipping patterns in the gig economy:</p>
+
+      <p class="cs-p"><strong>DoorDash</strong> prompted tipping pre-delivery at checkout with suggested amounts based on order total. The default was pre-selected, making tipping the path of least resistance.</p>
+      <p class="cs-p"><strong>Instacart</strong> used a similar pre-delivery model but defaulted to a 5% suggested tip. They also sent a post-delivery push notification prompting customers to increase their tip &mdash; a two-touch approach.</p>
+      <p class="cs-p"><strong>Uber Eats</strong> prompted tipping exclusively post-delivery, bundled with the delivery rating screen. This captured the emotional moment right after the food arrives &mdash; but meant zero tip commitment at checkout.</p>
+
+      <div class="cs-image cs-image--wide cs-image--tall reveal">
+        <span class="cs-image-text">Competitive analysis matrix &mdash; DoorDash, Instacart, Uber Eats, and Walmart compared across timing (pre vs. post delivery), default amounts, UI patterns, and tip rate benchmarks</span>
+        <span class="cs-image-tag">Competitive Analysis</span>
+      </div>
+      <p class="cs-image-caption">Mapping tipping patterns across the gig economy — timing, defaults, and UI patterns</p>
+
+      <div class="cs-pullquote reveal">
+        <p>The pattern was clear: pre-delivery tipping with smart defaults drove the highest tip rates, but post-delivery prompts captured a different emotional moment. No platform was doing both well.</p>
+        <span class="cs-pullquote-source">Key insight from competitive analysis</span>
+      </div>
+
+      <h3 class="cs-h3">How I Built Alignment</h3>
+      <p class="cs-p">I shared the competitive landscape with PM and business stakeholders to frame the design direction: Walmart's tipping experience wasn't just underperforming against our goals &mdash; it was underperforming against every major competitor. The competitive data shifted the conversation from "should we make tipping more visible?" to "how do we make it visible without hurting conversion?"</p>
+
+      <div class="cs-image reveal">
+        <span class="cs-image-text">Stakeholder alignment deck &mdash; key slide framing Walmart's tipping performance relative to competitors, used to build consensus on design direction</span>
+        <span class="cs-image-tag">Deliverable</span>
+      </div>
+    </div>
+
+    <!-- 03 Ideation & Decision Making -->
+    <div class="cs-section reveal">
+      <div class="cs-section-header">
+        <span class="cs-section-index">03</span>
+        <h2 class="cs-section-title">Ideation &amp; Decisions</h2>
+      </div>
+
+      <h3 class="cs-h3">Design Explorations</h3>
+      <p class="cs-p">I explored four distinct UI patterns for the tipping experience:</p>
+
+      <ol class="cs-numbered-list">
+        <li><strong>List scrolled + order confirmation</strong> &mdash; Tip selection embedded inline within the scrollable order confirmation. Low friction but easily missed below the fold.</li>
+        <li><strong>Inline selection</strong> &mdash; Tip amounts integrated directly into the checkout flow as a step. High visibility but added a required decision point that could slow conversion.</li>
+        <li><strong>Bottom sheet</strong> &mdash; A modal-style bottom sheet surfacing after order placement. Focused interaction but interruptive &mdash; risked feeling like a guilt prompt.</li>
+        <li><strong>Standalone section above receipt</strong> &mdash; Tipping presented as its own dedicated section at the top of the post-order screen, above the digital receipt. Visible without being interruptive.</li>
+      </ol>
+
+      <div class="cs-image cs-image--wide cs-image--tall reveal">
+        <span class="cs-image-text">Side-by-side comparison of the 4 tipping UI explorations &mdash; each annotated with visibility, friction, and conversion trade-offs. Standalone section highlighted as the winning direction.</span>
+        <span class="cs-image-tag">Explorations</span>
+      </div>
+      <p class="cs-image-caption">Four UI patterns explored — each with distinct trade-offs between visibility and conversion</p>
+
+      <h3 class="cs-h3">The Trade-off I Navigated</h3>
+      <p class="cs-p">The checkout team's top priority was conversion &mdash; anything that added steps or cognitive load before the "Place Order" button was a risk. The business team wanted tipping front and center, ideally pre-delivery with an aggressive default. Drivers needed predictable earnings, which favored pre-delivery commitment.</p>
+      <p class="cs-p">I advocated for a <strong>post-order, pre-delivery approach</strong>: tipping surfaced immediately after order placement but before delivery, as a standalone section above the digital receipt. This preserved checkout conversion (no new steps before "Place Order") while capturing tipping intent at a moment when customers were still engaged.</p>
+
+      <div class="cs-image-grid reveal">
+        <div class="cs-image">
+          <span class="cs-image-text">Tip amount presets &mdash; three tiers scaled to basket size, showing how suggested amounts adapt to order total (small, medium, large orders)</span>
+          <span class="cs-image-tag">Preset Logic</span>
+        </div>
+        <div class="cs-image">
+          <span class="cs-image-text">Dollar amounts vs. percentages &mdash; usability testing showing customers chose faster with flat dollar amounts than percentage-based calculations</span>
+          <span class="cs-image-tag">Design Decision</span>
+        </div>
+      </div>
+      <p class="cs-image-caption">Flat dollar amounts over percentages — faster decisions, less mental math</p>
+    </div>
+
+    <!-- 04 Solution & Craft -->
+    <div class="cs-section reveal">
+      <div class="cs-section-header">
+        <span class="cs-section-index">04</span>
+        <h2 class="cs-section-title">Solution &amp; Craft</h2>
+      </div>
+
+      <p class="cs-p">The final design featured a <strong>standalone tipping section positioned above the digital receipt</strong> on the post-order confirmation screen.</p>
+
+      <div class="cs-image cs-image--wide cs-image--tall reveal">
+        <span class="cs-image-text">The final tipping flow &mdash; 3 screens: post-order screen with tip prompt above receipt → preset amount selection with "Optional" label → confirmation state with tip applied to order</span>
+        <span class="cs-image-tag">Final Design</span>
+      </div>
+      <p class="cs-image-caption">The complete flow: order placed → tip prompt → amount selected → confirmation</p>
+
+      <h3 class="cs-h3">Key Design Decisions</h3>
+      <ul class="cs-list">
+        <li><strong>Placement above the receipt</strong> ensured the tip prompt was the first thing customers saw after placing their order &mdash; no scrolling required. This was the single highest-impact layout decision.</li>
+        <li><strong>"Optional" label</strong> reduced guilt pressure while maintaining visibility. Platforms that made tipping feel mandatory saw higher skip rates &mdash; customers who feel coerced tip less, not more.</li>
+        <li><strong>Three tiers of preset amounts scaled to basket size</strong> anchored expectations proportionally. The middle preset was highlighted as a recommended default.</li>
+        <li><strong>Separation from rating</strong> meant customers could tip immediately after ordering and rate after delivery &mdash; each interaction optimized for its best moment.</li>
+      </ul>
+
+      <div class="cs-image-grid reveal">
+        <div class="cs-image">
+          <span class="cs-image-text">Mobile app implementation &mdash; the standalone tip section with preset amounts and custom entry field on iOS</span>
+          <span class="cs-image-tag">Mobile App</span>
+        </div>
+        <div class="cs-image">
+          <span class="cs-image-text">Mobile web implementation &mdash; the same tipping experience adapted for responsive mobile web browsers</span>
+          <span class="cs-image-tag">Mobile Web</span>
+        </div>
+      </div>
+      <p class="cs-image-caption">Consistent behavior across mobile app and mobile web</p>
+
+      <h3 class="cs-h3">Systems Thinking</h3>
+      <p class="cs-p">The standalone tipping pattern was built to extend beyond the initial delivery use case. The component architecture &mdash; prompt, preset amounts, custom entry, optional label &mdash; was designed to be reusable for other Walmart services where tipping might apply, such as curbside pickup or in-home delivery.</p>
+
+      <div class="cs-image reveal">
+        <span class="cs-image-text">Component architecture diagram &mdash; the modular tipping component showing how it could adapt to curbside pickup, in-home delivery, and other Walmart services</span>
+        <span class="cs-image-tag">System</span>
+      </div>
+      <p class="cs-image-caption">A reusable pattern: modular component designed to extend to future services</p>
+    </div>
+
+    <!-- 05 Impact & Outcomes -->
+    <div class="cs-section reveal">
+      <div class="cs-section-header">
+        <span class="cs-section-index">05</span>
+        <h2 class="cs-section-title">Impact &amp; Outcomes</h2>
+      </div>
+
+      <p class="cs-p">The redesigned tipping experience launched as an A/B experiment against the existing flow:</p>
+
+      <div class="cs-metrics reveal">
+        <div class="cs-metric">
+          <div class="cs-metric-value">+1.5pp</div>
+          <div class="cs-metric-label">Increase in tipping rate</div>
+          <div class="cs-metric-note">A/B tested</div>
+        </div>
+        <div class="cs-metric">
+          <div class="cs-metric-value">100%</div>
+          <div class="cs-metric-label">Rolled out to all users</div>
+          <div class="cs-metric-note">App + Mobile Web</div>
+        </div>
+      </div>
+
+      <div class="cs-image cs-image--wide reveal" style="min-height: 280px;">
+        <span class="cs-image-text">A/B experiment results &mdash; tipping rate chart showing the control (existing flow) vs. treatment (redesigned experience) over the test period, with the +1.5pp lift highlighted</span>
+        <span class="cs-image-tag">Results</span>
+      </div>
+      <p class="cs-image-caption">A/B experiment data — statistically significant lift leading to 100% rollout</p>
+
+      <p class="cs-p">A 1.5 percentage point lift may sound small, but on a metric where even fractional improvements translate to millions in annual driver earnings across Walmart's delivery volume, it was a meaningful business outcome.</p>
+
+      <h3 class="cs-h3">Business Impact</h3>
+      <p class="cs-p">Higher tip rates directly supported Walmart's delivery capacity goals. Better-compensated drivers accepted more deliveries and stayed on the platform longer, improving supply-side sustainability during a period of explosive demand growth. The tipping data also gave the business team a new input for forecasting driver economics and competitive positioning against DoorDash and Instacart.</p>
+    </div>
+
+    <!-- 06 Reflections -->
+    <div class="cs-section reveal">
+      <div class="cs-section-header">
+        <span class="cs-section-index">06</span>
+        <h2 class="cs-section-title">Reflections</h2>
+      </div>
+
+      <h3 class="cs-h3">What Went Well</h3>
+      <p class="cs-p">The competitive analysis investment paid off early &mdash; it gave the team a shared frame of reference for what "good" looked like and prevented debates from becoming opinion-based. Having DoorDash and Instacart's approaches mapped out made it easier to advocate for specific design decisions with data rather than intuition.</p>
+
+      <h3 class="cs-h3">What I'd Do Differently</h3>
+      <p class="cs-p">I would have pushed harder for a more inline tipping integration so that customers could clearly understand the tip applied only to their grocery delivery cart &mdash; not their broader online ecommerce order. Making that context more explicit and inline with the grocery cart could have improved both comprehension and tip rates.</p>
+
+      <h3 class="cs-h3">What I Learned</h3>
+      <p class="cs-p">The biggest takeaway was the complexity of designing at the intersection of three core users with fundamentally different needs. The business needed higher tip rates. Drivers needed predictable, competitive earnings. Customers needed a fast, guilt-free experience. Every design decision was a three-way trade-off &mdash; and learning to evaluate those trade-offs at Walmart's scale permanently changed how I approach stakeholder alignment on complex, multi-sided problems.</p>
+
+      <div class="cs-image cs-image--wide reveal" style="min-height: 200px; margin-top: 3rem; background: linear-gradient(135deg, #1a1a1a, #252525);">
+        <span class="cs-image-text">Project timeline &mdash; from Covid-driven demand spike through competitive analysis, exploration, A/B testing, to 100% rollout</span>
+        <span class="cs-image-tag">Timeline</span>
+      </div>
+      <p class="cs-image-caption">March 2020 to May 2021 — from demand spike to 100% rollout</p>
+    </div>
+
+  </div>
+
+  <!-- Case Study Navigation -->
+  <div class="cs-nav reveal">
+    <a href="preview-case-study-mml.html" class="cs-nav-link">
+      <span class="cs-nav-link-label">Previous project</span>
+      &larr; Marketing Message Liquidity
+    </a>
+    <div></div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="reveal">
+    <div class="footer-inner">
+      <div>
+        <a href="preview-animated.html" class="footer-logo">xiao song.</a>
+        <p class="footer-role">Product Designer at Meta</p>
+      </div>
+      <div class="footer-links">
+        <a href="mailto:songxiao16@gmail.com" class="footer-link">Email</a>
+        <span class="footer-divider">/</span>
+        <span class="footer-link" style="opacity: 0.5;">LinkedIn</span>
+        <span class="footer-divider">/</span>
+        <span class="footer-link" style="opacity: 0.5;">GitHub</span>
+      </div>
+    </div>
+    <p class="footer-copy">&copy; 2026 Xiao Song. All rights reserved.</p>
+  </footer>
+
+  <script>
+    const dot = document.getElementById('cursorDot');
+    const ring = document.getElementById('cursorRing');
+    let mouseX = 0, mouseY = 0, dotX = 0, dotY = 0, ringX = 0, ringY = 0;
+    document.addEventListener('mousemove', e => { mouseX = e.clientX; mouseY = e.clientY; });
+    function animateCursor() {
+      dotX += (mouseX - dotX) * 0.2; dotY += (mouseY - dotY) * 0.2;
+      dot.style.left = dotX + 'px'; dot.style.top = dotY + 'px';
+      ringX += (mouseX - ringX) * 0.08; ringY += (mouseY - ringY) * 0.08;
+      ring.style.left = ringX + 'px'; ring.style.top = ringY + 'px';
+      requestAnimationFrame(animateCursor);
+    }
+    animateCursor();
+    document.querySelectorAll('a, button').forEach(el => {
+      el.addEventListener('mouseenter', () => { dot.classList.add('hovering'); ring.classList.add('hovering'); });
+      el.addEventListener('mouseleave', () => { dot.classList.remove('hovering'); ring.classList.remove('hovering'); });
+    });
+
+    const progressBar = document.getElementById('scrollProgress');
+    window.addEventListener('scroll', () => {
+      const progress = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
+      progressBar.style.width = progress + '%';
+    }, { passive: true });
+
+    const reveals = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) { entry.target.classList.add('visible'); observer.unobserve(entry.target); }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+    reveals.forEach(el => observer.observe(el));
+  </script>
+</body>
+</html>

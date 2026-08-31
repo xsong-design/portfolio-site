@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Case Study Preview — Marketing Message Liquidity</title>
+  <style>
+    :root {
+      --text: #1a1a1a;
+      --text-secondary: #555;
+      --bg: #fff;
+      --accent: #0066cc;
+      --border: #e0e0e0;
+      --surface: #f7f7f7;
+      --tag-bg: #eef4ff;
+      --tag-text: #0050a0;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      color: var(--text);
+      background: var(--bg);
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .hero {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 80px 24px 48px;
+    }
+
+    .hero h1 {
+      font-size: 2.25rem;
+      font-weight: 700;
+      line-height: 1.2;
+      letter-spacing: -0.02em;
+      margin-bottom: 20px;
+    }
+
+    .hero .subtitle {
+      font-size: 1.125rem;
+      color: var(--text-secondary);
+      font-style: italic;
+      margin-bottom: 28px;
+      line-height: 1.6;
+    }
+
+    .tldr {
+      background: var(--surface);
+      border-left: 3px solid var(--accent);
+      padding: 20px 24px;
+      margin-bottom: 32px;
+      border-radius: 0 8px 8px 0;
+      font-size: 0.95rem;
+    }
+
+    .meta-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 12px;
+      margin-bottom: 32px;
+    }
+
+    .meta-item {
+      padding: 12px 16px;
+      background: var(--surface);
+      border-radius: 8px;
+    }
+
+    .meta-item .label {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-secondary);
+      margin-bottom: 4px;
+      font-weight: 600;
+    }
+
+    .meta-item .value {
+      font-size: 0.9rem;
+      font-weight: 500;
+    }
+
+    .visual-placeholder {
+      background: var(--surface);
+      border: 2px dashed var(--border);
+      border-radius: 12px;
+      padding: 40px 24px;
+      text-align: center;
+      color: var(--text-secondary);
+      font-size: 0.85rem;
+      margin: 32px 0;
+    }
+
+    article {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 0 24px 80px;
+    }
+
+    article h2 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-top: 56px;
+      margin-bottom: 8px;
+      letter-spacing: -0.01em;
+      padding-top: 32px;
+      border-top: 1px solid var(--border);
+    }
+
+    article h3 {
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-top: 32px;
+      margin-bottom: 12px;
+      color: var(--text);
+    }
+
+    article p {
+      margin-bottom: 16px;
+      font-size: 1rem;
+    }
+
+    article ul, article ol {
+      margin-bottom: 16px;
+      padding-left: 24px;
+    }
+
+    article li {
+      margin-bottom: 8px;
+      font-size: 1rem;
+    }
+
+    article strong {
+      font-weight: 600;
+    }
+
+    article em {
+      color: var(--text-secondary);
+    }
+
+    blockquote {
+      border-left: 3px solid var(--accent);
+      padding: 12px 20px;
+      margin: 20px 0;
+      background: var(--surface);
+      border-radius: 0 8px 8px 0;
+      font-style: italic;
+      color: var(--text-secondary);
+    }
+
+    .stat-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 16px;
+      margin: 24px 0;
+    }
+
+    .stat-card {
+      background: var(--surface);
+      border-radius: 12px;
+      padding: 20px;
+      text-align: center;
+    }
+
+    .stat-card .number {
+      font-size: 1.75rem;
+      font-weight: 700;
+      color: var(--accent);
+      margin-bottom: 4px;
+    }
+
+    .stat-card .desc {
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+      line-height: 1.4;
+    }
+
+    .company-result {
+      background: var(--surface);
+      border-radius: 12px;
+      padding: 20px 24px;
+      margin-bottom: 16px;
+    }
+
+    .company-result .company-name {
+      font-weight: 700;
+      font-size: 0.95rem;
+      margin-bottom: 8px;
+    }
+
+    .company-result .company-context {
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+      margin-bottom: 12px;
+    }
+
+    .company-result ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .company-result li {
+      font-size: 0.9rem;
+      padding: 4px 0;
+    }
+
+    .company-result li strong {
+      color: var(--accent);
+    }
+
+    .tag {
+      display: inline-block;
+      background: var(--tag-bg);
+      color: var(--tag-text);
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 3px 10px;
+      border-radius: 100px;
+      margin-left: 8px;
+    }
+
+    .separator {
+      width: 100%;
+      height: 1px;
+      background: var(--border);
+      margin: 48px 0;
+    }
+
+    .nav-bar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      background: rgba(255,255,255,0.9);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      padding: 12px 24px;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .nav-bar .badge {
+      font-size: 0.75rem;
+      background: var(--tag-bg);
+      color: var(--tag-text);
+      padding: 4px 12px;
+      border-radius: 100px;
+      font-weight: 600;
+    }
+
+    .nav-bar .back {
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      text-decoration: none;
+    }
+
+    @media (max-width: 640px) {
+      .hero h1 { font-size: 1.75rem; }
+      .hero { padding: 72px 20px 40px; }
+      article { padding: 0 20px 60px; }
+      .meta-grid { grid-template-columns: 1fr 1fr; }
+      .stat-grid { grid-template-columns: 1fr 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="nav-bar">
+    <span class="back">← Back to projects</span>
+    <span class="badge">CASE STUDY PREVIEW</span>
+  </div>
+
+  <div class="hero">
+    <h1>Designing Budget Handling and Reporting for Meta's Integrated Marketing Messages Experience</h1>
+    <p class="subtitle">I designed the onboarding, budget handling, and post-creation reporting for integrating WhatsApp marketing messages into Ads Manager — helping advertisers understand and trust a new cross-channel optimization model that drove +20% ROAS in early tests.</p>
+
+    <div class="tldr">
+      <strong>TL;DR:</strong> Meta needed to integrate WhatsApp marketing messages directly into Ads Manager campaigns so the system could optimize spend across ads and messages under a single budget. I owned the onboarding experience and budget handling — the two surfaces where advertisers' expectations clashed hardest with the product model. The alpha shipped to three businesses and showed +20% ROAS, +13% purchases, and -23% cost per add to cart vs. ads-only campaigns.
+    </div>
+
+    <div class="meta-grid">
+      <div class="meta-item">
+        <div class="label">My Role</div>
+        <div class="value">Product Designer — Onboarding, Budget, Reporting</div>
+      </div>
+      <div class="meta-item">
+        <div class="label">Team</div>
+        <div class="value">5 designers + e2e lead; PM &amp; eng working teams</div>
+      </div>
+      <div class="meta-item">
+        <div class="label">Timeline</div>
+        <div class="value">2023 – H1 2024</div>
+      </div>
+      <div class="meta-item">
+        <div class="label">Platform</div>
+        <div class="value">Ads Manager (Web) + WhatsApp</div>
+      </div>
+    </div>
+
+    <div class="visual-placeholder">Hero shot — the integrated campaign experience showing budget optimization across ads and WhatsApp marketing messages</div>
+  </div>
+
+  <article>
+    <h2>The Context &amp; Challenge</h2>
+
+    <h3>The Business Problem</h3>
+    <p>WhatsApp marketing messages let businesses re-engage opted-in subscribers with targeted campaigns — a fundamentally different channel from ads. But Meta's Beta kept ads and marketing messages in completely separate workflows, forcing advertisers to run two campaigns with two budgets. This killed campaign performance and blocked adoption.</p>
+    <p>Integrating the two into a single campaign with optimized delivery could unlock <strong>$3.5B in incremental revenue by 2030</strong>. The target users were performance marketers at large advertisers with $20K+ monthly Ads Manager spend.</p>
+
+    <h3>What Made This Hard</h3>
+    <p>The project sat at the intersection of three organizations with competing priorities. Business Messaging wanted to maximize marketing message adoption and revenue. Ads Experience wanted to protect Ads Manager's streamlined workflow and avoid revenue regression. WhatsApp wanted to protect the consumer experience with higher friction guardrails.</p>
+    <p>My surfaces — onboarding and budget — were where these tensions collided hardest. Budget handling was the most politically charged design problem in the project: Business Messaging wanted optimized delivery on by default, Ads wanted minimal disruption to existing budget controls, and advertisers expected something entirely different from both.</p>
+
+    <div class="visual-placeholder">Framework showing the three-org tension and how onboarding + budget handling sat at the center of competing priorities</div>
+
+    <h2>Discovery &amp; Strategy</h2>
+
+    <h3>How I Built Understanding</h3>
+    <p>I was part of a 5-designer sprint that explored the end-to-end integrated experience. My focus areas were onboarding (how do advertisers activate and set up marketing messages?) and budget handling (how do advertisers understand and trust optimized delivery across ads and messages?).</p>
+    <p>We ran prototype usability testing with 10 performance marketers across priority markets (Brazil, India, Mexico, Indonesia, US, UK). The findings on my surfaces were the most alarming:</p>
+    <ul>
+      <li><strong>All 10 participants</strong> raised significant concerns about optimized delivery to their subscribers</li>
+      <li><strong>9 out of 10</strong> expected all subscribers to receive the campaign, spending budget on messages first — the exact opposite of how optimized delivery works</li>
+      <li>Advertisers mapped marketing messages to <strong>email campaigns</strong> (guaranteed delivery, explicit control) not ads (algorithmic optimization)</li>
+    </ul>
+
+    <blockquote>"With subscribers, they are my loyal customers so I expect significantly higher conversion and expect bulk of my budget (60-70%) to be assigned to WhatsApp. I will not be OK with the reverse because only I can determine the potential with WhatsApp for my business."</blockquote>
+
+    <p>This wasn't a UI problem — it was a conceptual gap. Advertisers fundamentally didn't expect a paid messaging product to provide optimized delivery. This insight reshaped how I approached both the onboarding flow and the budget controls.</p>
+
+    <h3>How I Built Alignment</h3>
+    <p>I presented research findings to Monetization Design Leads alongside the broader team, framing the budget comprehension failure not as "the design didn't work" but as "we've uncovered a conceptual gap that needs both in-product and out-of-product mitigation." This opened the conversation to GTM education and sales enablement alongside product changes — rather than just "redesign the budget card."</p>
+
+    <div class="visual-placeholder">Research synthesis — the mental model diagram showing how email marketing, Ads Manager, and WhatsApp expectations conflicted around budget and delivery</div>
+
+    <h2>Ideation &amp; Decision Making</h2>
+
+    <h3>Design Explorations</h3>
+    <p>The team explored <strong>16 total options</strong> across the full experience. For my surfaces, the key explorations centered on two questions:</p>
+    <ol>
+      <li><strong>Onboarding:</strong> How much context do advertisers need before they create their first integrated campaign? And who is doing the setup — the same person creating campaigns, or someone else?</li>
+      <li><strong>Budget:</strong> How do we communicate that delivery will be optimized across ads and messages when advertisers expect to control budget allocation explicitly?</li>
+    </ol>
+    <p>The research had shown that the person creating a campaign is often not the same person who manages account settings. This meant the creation flow couldn't assume the advertiser had seen the onboarding context. Every campaign needed to independently communicate that marketing messages were included and how budget would work.</p>
+
+    <h3>The Trade-off I Navigated</h3>
+    <p>For budget handling, I faced a direct conflict: the product model optimized delivery automatically (the system decides how to split spend for best ROI), but advertisers expected manual control (I decide how much goes to messages vs. ads). Giving full manual control would undermine the optimization that made integrated campaigns valuable. But hiding the allocation entirely would erode trust.</p>
+    <p>I designed for <strong>transparency without control</strong> — showing advertisers how budget was being allocated and what results it was producing, without giving them a lever to override the optimization. The estimated daily results card was extended to include "Messages Delivered" estimates, giving advertisers a preview of the split before they hit publish. This addressed the core anxiety ("how much of my budget will go to messages?") without fragmenting the optimization.</p>
+    <p>After the sprint, the team split into working groups aligned to PM and engineering partners for build-ready specs. I took budget handling and post-creation reporting through to final specs — designing the campaigns table integration that would close the feedback loop after send.</p>
+
+    <div class="visual-placeholder">Before/after of the budget and estimated results experience — showing how the design communicated delivery split without giving override control</div>
+
+    <h2>The Solution &amp; Craft</h2>
+
+    <h3>The Core Solution</h3>
+    <p><strong>Onboarding:</strong> I designed a proactive activation flow available from multiple entry points in Ads Manager. Only businesses that explicitly activated marketing messages at the account level would see any changes in their creation flow. After activation, setting up reply handling and uploading subscribers were required gates before a campaign could send messages. For high-volume senders, I designed subscriber guardrails — rate limits on initial campaigns with a formal verification path for businesses that needed to send at scale.</p>
+    <p><strong>Budget Handling:</strong> The estimated daily results card was extended with a "Messages Delivered" estimate alongside existing reach and impression projections. This gave advertisers a concrete expectation of how many subscribers would receive messages — directly addressing the research finding that 9 out of 10 expected all subscribers to be messaged. By showing the estimate upfront, advertisers could calibrate expectations before publishing.</p>
+    <p><strong>Post-Creation Reporting:</strong> I designed the integrated campaigns table to surface marketing messages as a line item alongside ad placements in the existing breakdowns experience. Advertisers could compare ROI across ads and messages within the same view. "Delivered Messages" was introduced as a new metric in performance presets — not auto-populated initially (to avoid null states for the majority of campaigns without messages), but surfaced through lightweight onboarding after an advertiser's first integrated campaign.</p>
+    <p>The final creation flow shipped as a <strong>hybrid</strong> — both the Audience card and Placements card included marketing message controls, giving advertisers two touchpoints to understand and manage whether their campaign included messages.</p>
+
+    <h3>Systems Thinking</h3>
+    <p>The reporting patterns I designed — integrating a non-ad delivery channel as a comparable line item in the campaigns table — established a framework for how future messaging products could surface alongside ads in performance reporting. The activation flow pattern (account-level opt-in → readiness gates → creation integration) was designed to be reusable for future non-ad capabilities in Ads Manager.</p>
+
+    <div class="visual-placeholder">The integrated campaigns table showing marketing messages as a breakdown line item alongside ad placements, with the new Delivered Messages metric</div>
+
+    <h2>Impact &amp; Outcomes</h2>
+
+    <h3>Quantitative Impact</h3>
+    <p>The alpha launched to three onboarded businesses, producing externally sharable results:</p>
+
+    <div class="company-result">
+      <div class="company-name">Bombay Shaving Company <span class="tag">Strongest proof point</span></div>
+      <div class="company-context">India, DTC — A/B test for Full Body Trimmer product</div>
+      <ul>
+        <li><strong>+20% ROAS</strong> vs. BAU (ads-only)</li>
+        <li><strong>+13% more purchases</strong></li>
+        <li><strong>-23% cost per add to cart</strong> <span class="tag">95%+ confidence</span></li>
+        <li><strong>-18% lower cost of sales</strong> (84% confidence, directional)</li>
+      </ul>
+    </div>
+
+    <div class="company-result">
+      <div class="company-name">XYXX <span class="tag">First external case study</span></div>
+      <div class="company-context">India, mid-market retailer</div>
+      <ul>
+        <li><strong>8% improvement in cost per result</strong> in a sales campaign</li>
+      </ul>
+    </div>
+
+    <div class="company-result">
+      <div class="company-name">OZiva</div>
+      <div class="company-context">India, Accelerate Program</div>
+      <ul>
+        <li><strong>11% better CPA</strong> for Liquidity (Ads+MM) vs. BAU</li>
+      </ul>
+    </div>
+
+    <p>These results validated the core hypothesis: optimized delivery across ads and messages drives better campaign performance than running them separately.</p>
+
+    <h3>Business &amp; Organizational Impact</h3>
+    <p>The results gave the GTM team concrete proof points to drive broader adoption. The Bombay Shaving Company data — with statistically significant cost per add to cart improvements — became the anchor case study for sales enablement across priority markets.</p>
+
+    <div class="visual-placeholder">Alpha results summary — the three case studies with key metrics, or the Bombay Shaving Company A/B test data</div>
+
+    <h2>Reflections &amp; Learnings</h2>
+
+    <h3>What Went Well</h3>
+    <p>The design sprint format — 5 designers exploring the full experience end-to-end before splitting into focused working teams — was the right call for a project of this scope. It gave everyone shared context on the integrated experience before we went deep on individual surfaces. I built relationships with designers across Ads Experience that carried through the entire project.</p>
+
+    <h3>What I'd Do Differently</h3>
+    <p>I would have pushed to involve the GTM and sales team earlier in the budget handling design. Much of the comprehension gap around optimized delivery couldn't be fully solved in-product — advertisers needed education from their Meta reps to recalibrate expectations from email-style guaranteed delivery to algorithmic optimization. Having that education strategy in place earlier would have let me make bolder design choices in the creation flow.</p>
+
+    <h3>What I Learned</h3>
+    <p>Working this broadly — across Business Messaging, Ads, and WhatsApp — and then later partnering closely with Ads counterparts on build-ready specs was one of the best professional experiences I've had. The scale of the collaboration (designers, PMs, engineers, researchers, content strategists across multiple orgs) taught me that the hardest design problems aren't about pixels. They're about aligning competing organizational incentives around what's actually best for the user. The budget handling design only worked because I understood what all three orgs needed, not just my own.</p>
+  </article>
+</body>
+</html>

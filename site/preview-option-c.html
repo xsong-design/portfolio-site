@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Option C: Parallax Stack — Homepage Case Studies</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=JetBrains+Mono:wght@400;500;700&family=Playfair+Display:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --color-bg: #F5F5F5;
+      --color-surface: #FFFFFF;
+      --color-text: #1A1A1A;
+      --color-text-secondary: #555555;
+      --color-text-muted: #757575;
+      --color-accent: #6B7F6B;
+      --color-accent-hover: #4A5D4A;
+      --color-border: #E0E0E0;
+      --font-display: 'Playfair Display', Georgia, serif;
+      --font-sans: 'DM Sans', system-ui, sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background: var(--color-bg);
+      color: var(--color-text);
+      font-family: var(--font-sans);
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    .option-badge {
+      position: fixed; top: 20px; left: 50%; transform: translateX(-50%); z-index: 100;
+      background: var(--color-text); color: var(--color-bg);
+      font-family: var(--font-mono); font-size: 0.6875rem; font-weight: 500;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      padding: 10px 24px; border-radius: 100px;
+    }
+    .option-nav {
+      position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); z-index: 100;
+      display: flex; gap: 8px;
+      background: rgba(26,26,26,0.9); backdrop-filter: blur(12px);
+      padding: 8px 16px; border-radius: 100px;
+    }
+    .option-nav a {
+      font-family: var(--font-mono); font-size: 0.625rem; font-weight: 500;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      color: rgba(245,245,245,0.5); text-decoration: none;
+      padding: 6px 14px; border-radius: 100px; transition: all 0.2s;
+    }
+    .option-nav a:hover { color: var(--color-bg); }
+    .option-nav a.active { background: var(--color-accent); color: #fff; }
+
+    /* Hero */
+    .hero-placeholder {
+      height: 100vh; display: flex; flex-direction: column;
+      justify-content: flex-end; padding: 0 64px 80px;
+    }
+    .hero-placeholder h1 {
+      font-family: var(--font-display); font-size: clamp(4rem,10vw,8rem);
+      font-weight: 700; line-height: 0.9; letter-spacing: -0.03em;
+    }
+    .hero-placeholder p {
+      margin-top: 1.5rem; font-size: 1rem; line-height: 1.7;
+      color: var(--color-text-secondary); max-width: 400px;
+    }
+    .hero-placeholder .label {
+      font-family: var(--font-mono); font-size: 0.6875rem; font-weight: 500;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--color-text-muted); margin-bottom: 1.5rem;
+    }
+
+    .section-header {
+      display: flex; align-items: flex-end; gap: 1.5rem;
+      padding: 80px 64px 48px;
+    }
+    .section-index {
+      font-family: var(--font-mono); font-size: clamp(3rem,8vw,7rem);
+      font-weight: 700; line-height: 1; color: var(--color-accent); opacity: 0.3;
+    }
+    .section-title {
+      font-family: var(--font-display); font-size: clamp(2.5rem,6vw,5rem);
+      font-weight: 600; line-height: 0.95; letter-spacing: -0.02em;
+    }
+
+    /* PARALLAX STACK */
+    .parallax-stack {
+      display: flex; flex-direction: column;
+      align-items: center;
+      padding: 0 64px 120px;
+    }
+
+    .parallax-card {
+      position: relative;
+      width: 100%; max-width: 900px;
+      margin-bottom: 96px;
+    }
+
+    .parallax-card__index {
+      position: absolute; top: -60px; right: 0;
+      font-family: var(--font-mono); font-size: 120px; font-weight: 700;
+      color: rgba(26, 26, 26, 0.08); line-height: 1; z-index: 0;
+      will-change: transform; pointer-events: none;
+      user-select: none;
+    }
+
+    .parallax-card__image {
+      position: relative; z-index: 1;
+      width: 100%; aspect-ratio: 16 / 10;
+      overflow: hidden; will-change: transform;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .parallax-card__image-gradient {
+      position: absolute; inset: 0;
+    }
+    .parallax-card__image-text {
+      position: relative; z-index: 1;
+      font-family: var(--font-display); font-size: clamp(2rem,4vw,3.5rem);
+      font-weight: 700; text-align: center; color: rgba(255,255,255,0.08);
+      line-height: 1.1;
+    }
+
+    /* Clip-path reveal */
+    .parallax-card__image {
+      clip-path: inset(0 0 100% 0);
+      transition: clip-path 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .parallax-card.revealed .parallax-card__image {
+      clip-path: inset(0 0 0% 0);
+    }
+
+    .parallax-card__info {
+      position: relative; z-index: 2;
+      margin-top: 24px;
+      display: flex; justify-content: space-between; align-items: flex-start;
+    }
+    .parallax-card__info-left {}
+    .parallax-card__info-title {
+      font-family: var(--font-display); font-size: 24px; font-weight: 600;
+      letter-spacing: -0.01em; line-height: 1.2;
+      opacity: 0; transform: translateY(24px);
+      transition: opacity 0.5s cubic-bezier(0.16,1,0.3,1) 0.3s,
+                  transform 0.5s cubic-bezier(0.16,1,0.3,1) 0.3s;
+    }
+    .parallax-card.revealed .parallax-card__info-title {
+      opacity: 1; transform: translateY(0);
+    }
+    .parallax-card__info-desc {
+      margin-top: 8px; font-size: 15px; line-height: 1.6;
+      color: var(--color-text-secondary); max-width: 480px;
+      opacity: 0; transform: translateY(24px);
+      transition: opacity 0.5s cubic-bezier(0.16,1,0.3,1) 0.4s,
+                  transform 0.5s cubic-bezier(0.16,1,0.3,1) 0.4s;
+    }
+    .parallax-card.revealed .parallax-card__info-desc {
+      opacity: 1; transform: translateY(0);
+    }
+    .parallax-card__info-tag {
+      font-family: var(--font-mono); font-size: 0.6875rem; font-weight: 500;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--color-text-muted); white-space: nowrap;
+      opacity: 0; transform: translateY(16px);
+      transition: opacity 0.5s cubic-bezier(0.16,1,0.3,1) 0.5s,
+                  transform 0.5s cubic-bezier(0.16,1,0.3,1) 0.5s;
+    }
+    .parallax-card.revealed .parallax-card__info-tag {
+      opacity: 1; transform: translateY(0);
+    }
+
+    .parallax-card__divider {
+      width: 100%; height: 1px; background: var(--color-accent);
+      margin-top: 48px;
+      transform: scaleX(0); transform-origin: left;
+      transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1) 0.6s;
+    }
+    .parallax-card.revealed .parallax-card__divider {
+      transform: scaleX(1);
+    }
+
+    .parallax-card__index {
+      opacity: 0;
+      transition: opacity 0.6s ease 0s;
+    }
+    .parallax-card.revealed .parallax-card__index {
+      opacity: 1;
+    }
+
+    .footer-placeholder {
+      padding: 80px 64px; border-top: 1px solid var(--color-border);
+      text-align: center; color: var(--color-text-muted);
+      font-family: var(--font-mono); font-size: 0.75rem;
+      letter-spacing: 0.08em; text-transform: uppercase;
+    }
+
+    @media (max-width: 768px) {
+      .parallax-stack { padding: 0 24px 80px; }
+      .parallax-card { margin-bottom: 64px; }
+      .parallax-card__index { display: none; }
+      .parallax-card__image { aspect-ratio: 3 / 2; }
+      .parallax-card__info { flex-direction: column; gap: 8px; }
+      .parallax-card__info-title { font-size: 20px; }
+      .parallax-card__divider { max-width: 60px; }
+      .hero-placeholder { padding: 0 24px 60px; }
+      .section-header { padding: 60px 24px 32px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .parallax-card__image { clip-path: none; transition: none; }
+      .parallax-card__info-title,
+      .parallax-card__info-desc,
+      .parallax-card__info-tag,
+      .parallax-card__divider,
+      .parallax-card__index { opacity: 1; transform: none; transition: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="option-badge">Option C — Parallax Stack</div>
+
+  <nav class="option-nav">
+    <a href="preview-option-a.html">A: Theater</a>
+    <a href="preview-option-b.html">B: Split</a>
+    <a href="preview-option-c.html" class="active">C: Parallax</a>
+  </nav>
+
+  <section class="hero-placeholder">
+    <p class="label">product designer</p>
+    <h1>xiao<br>song.</h1>
+    <p>Designing enterprise messaging experiences at Meta. Crafting complex workflows into clear, usable systems.</p>
+  </section>
+
+  <div class="section-header">
+    <span class="section-index">01</span>
+    <h2 class="section-title">selected<br>work.</h2>
+  </div>
+
+  <div class="parallax-stack" id="parallaxStack"></div>
+
+  <footer class="footer-placeholder">
+    <p>&copy; 2026 Xiao Song &mdash; Scroll up to replay</p>
+  </footer>
+
+  <script>
+    const projects = [
+      {
+        title: 'Marketing Message Liquidity',
+        desc: 'Redesigning how businesses manage and optimize message delivery at scale',
+        tag: 'Meta · 2024',
+        colors: ['#1a1a2e', '#16213e'],
+        imageText: 'Marketing\nMessage\nLiquidity'
+      },
+      {
+        title: 'Driver Tipping at Walmart',
+        desc: 'Designing a tipping experience that balances customer, driver, and business needs',
+        tag: 'Walmart · 2021',
+        colors: ['#0f3460', '#162447'],
+        imageText: 'Driver\nTipping'
+      },
+      {
+        title: 'Modular Search & Browse',
+        desc: 'Building contextual search modules that adapt to how customers shop',
+        tag: 'Walmart · 2019',
+        colors: ['#1b1a2e', '#2d2b42'],
+        imageText: 'Search &\nBrowse'
+      },
+      {
+        title: 'Integrated Campaign Creation',
+        desc: 'Unifying ad and messaging workflows within a single campaign experience',
+        tag: 'Meta · 2023',
+        colors: ['#2d132c', '#1a1a2e'],
+        imageText: 'Campaign\nCreation'
+      }
+    ];
+
+    const container = document.getElementById('parallaxStack');
+
+    projects.forEach((p, i) => {
+      const card = document.createElement('div');
+      card.className = 'parallax-card';
+      card.innerHTML = `
+        <div class="parallax-card__index" data-parallax-rate="0.6">${String(i + 1).padStart(2, '0')}</div>
+        <div class="parallax-card__image" data-parallax-rate="0.85">
+          <div class="parallax-card__image-gradient" style="background: linear-gradient(135deg, ${p.colors[0]}, ${p.colors[1]})"></div>
+          <span class="parallax-card__image-text">${p.imageText.replace(/\n/g, '<br>')}</span>
+        </div>
+        <div class="parallax-card__info">
+          <div class="parallax-card__info-left">
+            <h3 class="parallax-card__info-title">${p.title}</h3>
+            <p class="parallax-card__info-desc">${p.desc}</p>
+          </div>
+          <span class="parallax-card__info-tag">${p.tag}</span>
+        </div>
+        <div class="parallax-card__divider"></div>
+      `;
+      container.appendChild(card);
+    });
+
+    // Reveal on scroll
+    const cards = document.querySelectorAll('.parallax-card');
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('revealed');
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15 });
+
+    cards.forEach(card => revealObserver.observe(card));
+
+    // Parallax
+    function applyParallax() {
+      const scrollY = window.scrollY;
+      cards.forEach(card => {
+        const rect = card.getBoundingClientRect();
+        const cardCenter = rect.top + rect.height / 2;
+        const viewportCenter = window.innerHeight / 2;
+        const distFromCenter = cardCenter - viewportCenter;
+
+        const indexEl = card.querySelector('.parallax-card__index');
+        const imageEl = card.querySelector('.parallax-card__image');
+
+        if (indexEl) {
+          const rate = 0.6;
+          const offset = distFromCenter * (1 - rate);
+          indexEl.style.transform = `translateY(${offset * 0.3}px)`;
+        }
+        if (imageEl) {
+          const rate = 0.85;
+          const offset = distFromCenter * (1 - rate);
+          imageEl.style.transform = `translateY(${offset * 0.3}px)`;
+        }
+      });
+    }
+
+    let ticking = false;
+    window.addEventListener('scroll', () => {
+      if (!ticking) {
+        requestAnimationFrame(() => {
+          applyParallax();
+          ticking = false;
+        });
+        ticking = true;
+      }
+    }, { passive: true });
+
+    applyParallax();
+  </script>
+</body>
+</html>

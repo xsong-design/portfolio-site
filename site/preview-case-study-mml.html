@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Marketing Message Liquidity — xiao song.</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=JetBrains+Mono:wght@400;500;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --color-bg: #F5F5F5;
+      --color-surface: #FFFFFF;
+      --color-surface-muted: #EBEBEB;
+      --color-text: #1A1A1A;
+      --color-text-secondary: #555555;
+      --color-text-muted: #757575;
+      --color-accent: #6B7F6B;
+      --color-accent-hover: #4A5D4A;
+      --color-accent-text: #4A5D4A;
+      --color-accent-muted: rgba(107, 127, 107, 0.12);
+      --color-border: #E0E0E0;
+      --color-shape-accent: #6B7F6B;
+      --font-display: 'Playfair Display', Georgia, serif;
+      --font-sans: 'DM Sans', system-ui, sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+      --content-max-width: 1060px;
+      --content-wide: 1200px;
+      --page-padding: clamp(1.25rem, 5vw, 4rem);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    ::selection { background-color: var(--color-accent-muted); color: var(--color-text); }
+
+    body {
+      background: var(--color-bg);
+      color: var(--color-text);
+      font-family: var(--font-sans);
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+      cursor: none;
+    }
+
+    /* ---------- SCROLL PROGRESS ---------- */
+    .scroll-progress {
+      position: fixed; top: 0; left: 0; height: 2px; z-index: 100;
+      background: var(--color-accent); width: 0%;
+    }
+
+    /* ---------- CUSTOM CURSOR ---------- */
+    .cursor-dot {
+      position: fixed; top: 0; left: 0; z-index: 9999;
+      width: 8px; height: 8px; background: var(--color-accent);
+      border-radius: 50%; pointer-events: none;
+      transform: translate(-50%, -50%);
+      transition: width 0.3s cubic-bezier(0.16,1,0.3,1), height 0.3s cubic-bezier(0.16,1,0.3,1), background 0.3s;
+    }
+    .cursor-ring {
+      position: fixed; top: 0; left: 0; z-index: 9998;
+      width: 40px; height: 40px; border: 1.5px solid var(--color-accent);
+      border-radius: 50%; pointer-events: none;
+      transform: translate(-50%, -50%); opacity: 0.4;
+      transition: width 0.3s cubic-bezier(0.16,1,0.3,1), height 0.3s cubic-bezier(0.16,1,0.3,1), opacity 0.3s;
+    }
+    .cursor-dot.hovering { width: 48px; height: 48px; background: rgba(107, 127, 107, 0.08); }
+    .cursor-ring.hovering { width: 48px; height: 48px; opacity: 0.8; border-color: var(--color-accent); }
+    a, button { cursor: none; }
+    @media (max-width: 1023px) {
+      body { cursor: auto; } a, button { cursor: pointer; }
+      .cursor-dot, .cursor-ring { display: none; }
+    }
+
+    /* ---------- NAV ---------- */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 40;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 20px var(--page-padding);
+      background: rgba(245, 245, 245, 0.8);
+      backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+    }
+    .nav-logo { font-family: var(--font-display); font-size: 1.25rem; font-weight: 700; letter-spacing: -0.02em; color: var(--color-text); text-decoration: none; }
+    .nav-links { display: flex; align-items: center; gap: 2rem; }
+    .nav-link {
+      font-family: var(--font-mono); font-size: 0.6875rem; font-weight: 500;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--color-text-muted); text-decoration: none; position: relative; transition: color 0.15s;
+    }
+    .nav-link:hover { color: var(--color-text); }
+    .nav-link::after {
+      content: ''; position: absolute; bottom: -4px; left: 0;
+      width: 100%; height: 1.5px; background: var(--color-accent);
+      transform: scaleX(0); transform-origin: left; transition: transform 0.3s cubic-bezier(0.16,1,0.3,1);
+    }
+    .nav-link:hover::after { transform: scaleX(1); }
+    .nav-link--accent { color: var(--color-accent-text); }
+    .nav-link--accent:hover { color: var(--color-accent-hover); }
+
+    /* ---------- SCROLL REVEAL ---------- */
+    .reveal {
+      opacity: 0; transform: translateY(32px);
+      transition: opacity 0.8s cubic-bezier(0.16,1,0.3,1), transform 0.8s cubic-bezier(0.16,1,0.3,1);
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
+
+    /* ---------- CASE STUDY HERO ---------- */
+    .cs-hero {
+      padding: 8rem var(--page-padding) clamp(3rem, 6vw, 5rem);
+      max-width: 1200px; margin: 0 auto;
+    }
+    .cs-back {
+      font-family: var(--font-mono); font-size: 0.6875rem; font-weight: 500;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--color-text-muted); text-decoration: none;
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      margin-bottom: 3rem; transition: color 0.15s, gap 0.3s cubic-bezier(0.16,1,0.3,1);
+    }
+    .cs-back:hover { color: var(--color-text); gap: 0.75rem; }
+    .cs-title {
+      font-family: var(--font-display);
+      font-size: clamp(2.5rem, 6vw, 4.5rem);
+      font-weight: 700; line-height: 0.95; letter-spacing: -0.02em;
+      color: var(--color-text);
+    }
+    .cs-tagline {
+      margin-top: 1.5rem; font-size: 1.125rem; line-height: 1.6;
+      color: var(--color-text-secondary); max-width: 800px;
+      font-style: italic;
+    }
+    .cs-meta {
+      margin-top: 2.5rem; display: flex; flex-wrap: wrap; gap: 2rem 3rem;
+    }
+    .cs-meta-item { display: flex; flex-direction: column; gap: 0.25rem; }
+    .cs-meta-label {
+      font-family: var(--font-mono); font-size: 0.6875rem; font-weight: 500;
+      letter-spacing: 0.12em; text-transform: uppercase; color: var(--color-text-muted);
+    }
+    .cs-meta-value { font-size: 0.875rem; font-weight: 500; color: var(--color-text); }
+
+    /* ---------- HERO IMAGE ---------- */
+    .cs-hero-image {
+      margin: 0 var(--page-padding);
+      background: linear-gradient(135deg, #1a1a1a, #2a2a2a);
+      aspect-ratio: 16 / 7; display: flex; align-items: center; justify-content: center;
+      overflow: hidden; position: relative;
+    }
+    .cs-hero-image-text {
+      font-family: var(--font-display); font-size: clamp(1rem, 2vw, 1.5rem);
+      color: rgba(255,255,255,0.12); text-align: center; padding: 2rem;
+      line-height: 1.6; max-width: 600px;
+    }
+    .cs-hero-image-label {
+      position: absolute; bottom: 1rem; right: 1.5rem;
+      font-family: var(--font-mono); font-size: 0.625rem; font-weight: 500;
+      letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.25);
+    }
+
+    /* ---------- CONTENT ---------- */
+    .cs-content {
+      max-width: var(--content-max-width); margin: 0 auto;
+      padding: 0 var(--page-padding);
+    }
+
+    .cs-section { padding: clamp(4rem, 8vw, 6rem) 0; }
+    .cs-section + .cs-section { border-top: none; }
+
+    .cs-section-header {
+      display: flex; align-items: baseline; gap: 1.25rem;
+      margin-bottom: clamp(2rem, 4vw, 3rem);
+    }
+    .cs-section-index {
+      font-family: var(--font-mono); font-size: clamp(0.75rem, 1.5vw, 0.875rem);
+      font-weight: 500; letter-spacing: 0.05em; line-height: 1;
+      color: var(--color-accent); opacity: 0.6;
+    }
+    .cs-section-title {
+      font-family: var(--font-display); font-size: clamp(1.75rem, 3.5vw, 2.5rem);
+      font-weight: 600; line-height: 1.1; letter-spacing: -0.02em; color: var(--color-text);
+    }
+
+    .cs-h3 {
+      font-family: var(--font-mono); font-size: 0.6875rem; font-weight: 500;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--color-text-muted); margin-top: 3rem; margin-bottom: 1rem;
+    }
+    .cs-h3:first-child { margin-top: 0; }
+
+    .cs-p {
+      font-size: 1.0625rem; line-height: 1.8; color: var(--color-text-secondary);
+      margin-bottom: 1.5rem;
+    }
+    .cs-p:last-child { margin-bottom: 0; }
+    .cs-p strong { color: var(--color-text); font-weight: 600; }
+
+    .cs-list {
+      list-style: none; padding: 0; margin-bottom: 1.5rem;
+    }
+    .cs-list li {
+      font-size: 1.0625rem; line-height: 1.8; color: var(--color-text-secondary);
+      padding-left: 1.5rem; position: relative; margin-bottom: 0.75rem;
+    }
+    .cs-list li::before {
+      content: ''; position: absolute; left: 0; top: 0.65em;
+      width: 5px; height: 5px; border-radius: 50%;
+      background: var(--color-accent); opacity: 0.5;
+    }
+    .cs-list li strong { color: var(--color-text); font-weight: 600; }
+
+    /* ---------- PULLQUOTE ---------- */
+    .cs-pullquote {
+      border-left: 3px solid var(--color-accent);
+      padding: 2rem 0 2rem 2.5rem; margin: 3rem 0;
+    }
+    .cs-pullquote p {
+      font-family: var(--font-display); font-style: italic;
+      font-size: clamp(1.25rem, 2vw, 1.5rem); line-height: 1.55; color: var(--color-text);
+      font-weight: 400;
+    }
+    .cs-pullquote-source {
+      margin-top: 0.75rem; font-family: var(--font-mono); font-size: 0.6875rem;
+      letter-spacing: 0.08em; text-transform: uppercase; color: var(--color-text-muted);
+    }
+
+    /* ---------- IMAGE PLACEHOLDER ---------- */
+    .cs-image {
+      background: linear-gradient(135deg, #1a1a1a, #2a2a2a);
+      padding: clamp(2rem, 4vw, 3rem); margin: 2.5rem 0;
+      display: flex; align-items: center; justify-content: center;
+      min-height: 240px; position: relative;
+    }
+    .cs-image--tall { min-height: 360px; }
+    .cs-image--short { min-height: 180px; }
+    .cs-image--wide {
+      max-width: var(--content-wide);
+      margin-left: auto; margin-right: auto;
+      width: calc(100% + 6rem);
+      transform: translateX(calc(-3rem));
+    }
+    @media (max-width: 1023px) {
+      .cs-image--wide { width: 100%; transform: none; }
+    }
+    .cs-image--bleed {
+      margin-left: calc(-50vw + 50%);
+      margin-right: calc(-50vw + 50%);
+      width: 100vw;
+    }
+    .cs-image-text {
+      font-family: var(--font-mono); font-size: 0.6875rem; font-weight: 400;
+      color: rgba(255,255,255,0.3); text-align: center; line-height: 1.6;
+      max-width: 420px;
+    }
+    .cs-image-tag {
+      position: absolute; top: 1rem; left: 1.5rem;
+      font-family: var(--font-mono); font-size: 0.5625rem; font-weight: 500;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: rgba(255,255,255,0.2); background: rgba(255,255,255,0.06);
+      padding: 0.25rem 0.5rem;
+    }
+    .cs-image-caption {
+      margin-top: 0.75rem; font-family: var(--font-mono); font-size: 0.6875rem;
+      color: var(--color-text-muted); line-height: 1.5; text-align: center;
+    }
+
+    .cs-image-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;
+      margin: 2.5rem 0;
+    }
+    @media (max-width: 639px) { .cs-image-grid { grid-template-columns: 1fr; } }
+    .cs-image-grid .cs-image { margin: 0; min-height: 200px; }
+
+    /* ---------- METRIC CALLOUTS ---------- */
+    .cs-metrics {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1px; margin: 3rem 0;
+      background: var(--color-border);
+    }
+    .cs-metric {
+      padding: 2rem; background: var(--color-surface);
+    }
+    .cs-metric-value {
+      font-family: var(--font-mono); font-size: clamp(2rem, 3.5vw, 3rem);
+      font-weight: 700; letter-spacing: -0.03em; color: var(--color-accent);
+      line-height: 1;
+    }
+    .cs-metric-label {
+      margin-top: 0.75rem; font-size: 0.875rem; line-height: 1.4;
+      color: var(--color-text-secondary);
+    }
+    .cs-metric-note {
+      margin-top: 0.25rem; font-family: var(--font-mono);
+      font-size: 0.625rem; letter-spacing: 0.05em;
+      color: var(--color-text-muted); text-transform: uppercase;
+    }
+
+    /* ---------- CASE STUDY NAV ---------- */
+    .cs-nav {
+      max-width: var(--content-max-width); margin: 0 auto;
+      padding: clamp(4rem, 8vw, 6rem) var(--page-padding);
+      border-top: 1px solid var(--color-border);
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .cs-nav-link {
+      font-family: var(--font-mono); font-size: 0.6875rem; font-weight: 500;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--color-accent-text); text-decoration: none;
+      display: flex; flex-direction: column; gap: 0.25rem;
+      transition: color 0.15s;
+    }
+    .cs-nav-link:hover { color: var(--color-accent-hover); }
+    .cs-nav-link-label { color: var(--color-text-muted); font-size: 0.625rem; }
+    .cs-nav-link--next { text-align: right; }
+
+    /* ---------- FOOTER ---------- */
+    footer {
+      padding: clamp(3rem, 5vw, 4rem) var(--page-padding);
+      border-top: 1px solid var(--color-border);
+    }
+    .footer-inner { display: flex; flex-direction: column; gap: 1.5rem; }
+    @media (min-width: 768px) {
+      .footer-inner { flex-direction: row; justify-content: space-between; align-items: center; }
+    }
+    .footer-logo { font-family: var(--font-display); font-size: 1.125rem; font-weight: 700; letter-spacing: -0.02em; color: var(--color-text); text-decoration: none; }
+    .footer-role { margin-top: 0.25rem; font-size: 0.875rem; color: var(--color-text-muted); }
+    .footer-links { display: flex; align-items: center; gap: 1.5rem; }
+    .footer-link {
+      font-family: var(--font-mono); font-size: 0.6875rem; font-weight: 500;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--color-text-muted); text-decoration: none; position: relative; transition: color 0.15s;
+    }
+    .footer-link:hover { color: var(--color-text); }
+    .footer-link::after {
+      content: ''; position: absolute; bottom: -2px; left: 0;
+      width: 100%; height: 1px; background: var(--color-accent);
+      transform: scaleX(0); transform-origin: left; transition: transform 0.3s cubic-bezier(0.16,1,0.3,1);
+    }
+    .footer-link:hover::after { transform: scaleX(1); }
+    .footer-divider { color: var(--color-border); }
+    .footer-copy { margin-top: 2rem; font-size: 0.75rem; color: var(--color-text-muted); }
+
+    @media (max-width: 639px) { .nav-links { display: none; } }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important; animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+      .reveal { opacity: 1; transform: none; }
+      .scroll-progress { display: none; }
+      .cursor-dot, .cursor-ring { display: none; }
+      body { cursor: auto; } a, button { cursor: pointer; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="scroll-progress" id="scrollProgress"></div>
+  <div class="cursor-dot" id="cursorDot"></div>
+  <div class="cursor-ring" id="cursorRing"></div>
+
+  <!-- Navigation -->
+  <nav>
+    <a href="preview-animated.html" class="nav-logo">xiao song.</a>
+    <div class="nav-links">
+      <a href="preview-animated.html" class="nav-link">work</a>
+      <a href="#" class="nav-link">about</a>
+      <a href="#" class="nav-link">contact</a>
+      <a href="#" class="nav-link nav-link--accent">resume &darr;</a>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <div class="cs-hero">
+    <a href="preview-animated.html" class="cs-back reveal"><span>&larr;</span> Back to work</a>
+
+    <h1 class="cs-title reveal reveal-delay-1">Marketing Message Liquidity</h1>
+    <p class="cs-tagline reveal reveal-delay-2">I designed the onboarding, budget handling, and post-creation reporting for integrating WhatsApp marketing messages into Ads Manager &mdash; helping advertisers understand and trust a new cross-channel optimization model that drove +20% ROAS in early tests.</p>
+
+    <div class="cs-meta reveal reveal-delay-3">
+      <div class="cs-meta-item">
+        <span class="cs-meta-label">Role</span>
+        <span class="cs-meta-value">Product Designer</span>
+      </div>
+      <div class="cs-meta-item">
+        <span class="cs-meta-label">Team</span>
+        <span class="cs-meta-value">5 designers + PM + Eng</span>
+      </div>
+      <div class="cs-meta-item">
+        <span class="cs-meta-label">Timeline</span>
+        <span class="cs-meta-value">2023 &ndash; H1 2024</span>
+      </div>
+      <div class="cs-meta-item">
+        <span class="cs-meta-label">Platform</span>
+        <span class="cs-meta-value">Ads Manager (Web)</span>
+      </div>
+      <div class="cs-meta-item">
+        <span class="cs-meta-label">Company</span>
+        <span class="cs-meta-value">Meta</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Hero Image -->
+  <div class="cs-hero-image reveal">
+    <span class="cs-hero-image-text">Hero shot &mdash; the integrated campaign experience showing budget optimization across ads and WhatsApp marketing messages</span>
+    <span class="cs-hero-image-label">Insert visual</span>
+  </div>
+
+  <!-- Content -->
+  <div class="cs-content">
+
+    <!-- Overview -->
+    <div class="cs-section reveal">
+      <p class="cs-p" style="font-size: 1.1875rem; line-height: 1.8; color: var(--color-text);">
+        Meta needed to integrate WhatsApp marketing messages directly into Ads Manager campaigns so the system could optimize spend across ads and messages under a single budget. I owned the onboarding experience and budget handling &mdash; the two surfaces where advertisers' expectations clashed hardest with the product model. The alpha shipped to three businesses and showed +20% ROAS, +13% purchases, and -23% cost per add to cart vs. ads-only campaigns.
+      </p>
+
+      <div class="cs-image cs-image--wide reveal" style="min-height: 280px; margin-top: 3rem;">
+        <span class="cs-image-text">Project overview diagram &mdash; showing the two separate workflows (Ads Manager + WhatsApp Business) merging into one integrated campaign experience</span>
+        <span class="cs-image-tag">Overview</span>
+      </div>
+      <p class="cs-image-caption">The core product vision: one campaign, one budget, optimized delivery across ads and messages</p>
+    </div>
+
+    <!-- 01 Context & Challenge -->
+    <div class="cs-section reveal">
+      <div class="cs-section-header">
+        <span class="cs-section-index">01</span>
+        <h2 class="cs-section-title">Context &amp; Challenge</h2>
+      </div>
+
+      <h3 class="cs-h3">The Business Problem</h3>
+      <p class="cs-p">WhatsApp marketing messages let businesses re-engage opted-in subscribers with targeted campaigns &mdash; a fundamentally different channel from ads. But Meta's Beta kept ads and marketing messages in completely separate workflows, forcing advertisers to run two campaigns with two budgets. This killed campaign performance and blocked adoption.</p>
+      <p class="cs-p">Integrating the two into a single campaign with optimized delivery could unlock <strong>$3.5B in incremental revenue by 2030</strong>. The target users were performance marketers at large advertisers with $20K+ monthly Ads Manager spend.</p>
+
+      <div class="cs-image-grid reveal">
+        <div class="cs-image">
+          <span class="cs-image-text">Before: the separate Ads Manager campaign creation flow &mdash; no marketing message option</span>
+          <span class="cs-image-tag">Before</span>
+        </div>
+        <div class="cs-image">
+          <span class="cs-image-text">Before: the standalone WhatsApp Business messaging interface &mdash; separate budget, separate workflow</span>
+          <span class="cs-image-tag">Before</span>
+        </div>
+      </div>
+      <p class="cs-image-caption">Two separate tools, two budgets, zero optimization between them</p>
+
+      <h3 class="cs-h3">What Made This Hard</h3>
+      <p class="cs-p">The project sat at the intersection of three organizations with competing priorities. Business Messaging wanted to maximize marketing message adoption and revenue. Ads Experience wanted to protect Ads Manager's streamlined workflow and avoid revenue regression. WhatsApp wanted to protect the consumer experience with higher friction guardrails.</p>
+      <p class="cs-p">My surfaces &mdash; onboarding and budget &mdash; were where these tensions collided hardest. Budget handling was the most politically charged design problem in the project: Business Messaging wanted optimized delivery on by default, Ads wanted minimal disruption to existing budget controls, and advertisers expected something entirely different from both.</p>
+
+      <div class="cs-image cs-image--wide cs-image--tall reveal">
+        <span class="cs-image-text">Stakeholder map &mdash; the three-org tension diagram showing Business Messaging, Ads Experience, and WhatsApp's competing priorities, with onboarding + budget handling at the center</span>
+        <span class="cs-image-tag">Framework</span>
+      </div>
+      <p class="cs-image-caption">Three organizations, three priorities, one design surface</p>
+    </div>
+
+    <!-- 02 Discovery & Strategy -->
+    <div class="cs-section reveal">
+      <div class="cs-section-header">
+        <span class="cs-section-index">02</span>
+        <h2 class="cs-section-title">Discovery &amp; Strategy</h2>
+      </div>
+
+      <h3 class="cs-h3">How I Built Understanding</h3>
+      <p class="cs-p">I was part of a 5-designer sprint that explored the end-to-end integrated experience. My focus areas were onboarding (how do advertisers activate and set up marketing messages?) and budget handling (how do advertisers understand and trust optimized delivery across ads and messages?).</p>
+
+      <div class="cs-image cs-image--wide reveal" style="min-height: 200px;">
+        <span class="cs-image-text">Design sprint structure &mdash; the 5-designer team and their respective focus areas across the integrated experience</span>
+        <span class="cs-image-tag">Process</span>
+      </div>
+
+      <p class="cs-p">We ran prototype usability testing with 10 performance marketers across priority markets (Brazil, India, Mexico, Indonesia, US, UK). The findings on my surfaces were the most alarming:</p>
+
+      <ul class="cs-list">
+        <li><strong>All 10 participants</strong> raised significant concerns about optimized delivery to their subscribers</li>
+        <li><strong>9 out of 10</strong> expected all subscribers to receive the campaign, spending budget on messages first &mdash; the exact opposite of how optimized delivery works</li>
+        <li>Advertisers mapped marketing messages to <strong>email campaigns</strong> (guaranteed delivery, explicit control) not ads (algorithmic optimization)</li>
+      </ul>
+
+      <div class="cs-pullquote reveal">
+        <p>&ldquo;With subscribers, they are my loyal customers so I expect significantly higher conversion and expect bulk of my budget (60-70%) to be assigned to WhatsApp. I will not be OK with the reverse because only I can determine the potential with WhatsApp for my business.&rdquo;</p>
+        <span class="cs-pullquote-source">Research participant &mdash; Performance marketer, India</span>
+      </div>
+
+      <p class="cs-p">This wasn't a UI problem &mdash; it was a conceptual gap. Advertisers fundamentally didn't expect a paid messaging product to provide optimized delivery. This insight reshaped how I approached both the onboarding flow and the budget controls.</p>
+
+      <div class="cs-image cs-image--wide cs-image--tall reveal">
+        <span class="cs-image-text">Mental model diagram &mdash; how advertisers expected marketing messages to work (email model: guaranteed delivery, explicit budget control) vs. how the product actually worked (ads model: algorithmic optimization across channels)</span>
+        <span class="cs-image-tag">Research Insight</span>
+      </div>
+      <p class="cs-image-caption">The conceptual gap: advertisers expected email-style control, the product delivered ads-style optimization</p>
+
+      <h3 class="cs-h3">How I Built Alignment</h3>
+      <p class="cs-p">I presented research findings to Monetization Design Leads alongside the broader team, framing the budget comprehension failure not as "the design didn't work" but as "we've uncovered a conceptual gap that needs both in-product and out-of-product mitigation." This opened the conversation to GTM education and sales enablement alongside product changes.</p>
+
+      <div class="cs-image reveal">
+        <span class="cs-image-text">Research readout deck &mdash; key slide showing the budget comprehension failure framed as a conceptual gap requiring in-product and out-of-product mitigation</span>
+        <span class="cs-image-tag">Deliverable</span>
+      </div>
+    </div>
+
+    <!-- 03 Ideation & Decision Making -->
+    <div class="cs-section reveal">
+      <div class="cs-section-header">
+        <span class="cs-section-index">03</span>
+        <h2 class="cs-section-title">Ideation &amp; Decisions</h2>
+      </div>
+
+      <h3 class="cs-h3">Design Explorations</h3>
+      <p class="cs-p">The team explored <strong>16 total options</strong> across the full experience. For my surfaces, the key explorations centered on two questions:</p>
+      <ul class="cs-list">
+        <li><strong>Onboarding:</strong> How much context do advertisers need before they create their first integrated campaign? And who is doing the setup &mdash; the same person creating campaigns, or someone else?</li>
+        <li><strong>Budget:</strong> How do we communicate that delivery will be optimized across ads and messages when advertisers expect to control budget allocation explicitly?</li>
+      </ul>
+
+      <div class="cs-image cs-image--wide cs-image--tall reveal">
+        <span class="cs-image-text">Exploration grid &mdash; the 16 design options across the full integrated experience, with my focus areas (onboarding + budget) highlighted</span>
+        <span class="cs-image-tag">Explorations</span>
+      </div>
+      <p class="cs-image-caption">16 explorations across 5 designers — my focus areas highlighted in orange</p>
+
+      <p class="cs-p">The research had shown that the person creating a campaign is often not the same person who manages account settings. This meant the creation flow couldn't assume the advertiser had seen the onboarding context. Every campaign needed to independently communicate that marketing messages were included and how budget would work.</p>
+
+      <h3 class="cs-h3">The Trade-off I Navigated</h3>
+      <p class="cs-p">For budget handling, I faced a direct conflict: the product model optimized delivery automatically (the system decides how to split spend for best ROI), but advertisers expected manual control (I decide how much goes to messages vs. ads). Giving full manual control would undermine the optimization that made integrated campaigns valuable. But hiding the allocation entirely would erode trust.</p>
+      <p class="cs-p">I designed for <strong>transparency without control</strong> &mdash; showing advertisers how budget was being allocated and what results it was producing, without giving them a lever to override the optimization. The estimated daily results card was extended to include "Messages Delivered" estimates, giving advertisers a preview of the split before they hit publish.</p>
+
+      <div class="cs-image-grid reveal">
+        <div class="cs-image cs-image--tall">
+          <span class="cs-image-text">Before: the existing estimated daily results card &mdash; showing reach and impressions only, no mention of marketing messages</span>
+          <span class="cs-image-tag">Before</span>
+        </div>
+        <div class="cs-image cs-image--tall">
+          <span class="cs-image-text">After: the redesigned estimated daily results card &mdash; now including "Messages Delivered" estimate alongside reach and impressions</span>
+          <span class="cs-image-tag">After</span>
+        </div>
+      </div>
+      <p class="cs-image-caption">Transparency without control — showing the budget split without giving override levers</p>
+    </div>
+
+    <!-- 04 Solution & Craft -->
+    <div class="cs-section reveal">
+      <div class="cs-section-header">
+        <span class="cs-section-index">04</span>
+        <h2 class="cs-section-title">Solution &amp; Craft</h2>
+      </div>
+
+      <h3 class="cs-h3">Onboarding</h3>
+      <p class="cs-p">I designed a proactive activation flow available from multiple entry points in Ads Manager. Only businesses that explicitly activated marketing messages at the account level would see any changes in their creation flow. After activation, setting up reply handling and uploading subscribers were required gates before a campaign could send messages. For high-volume senders, I designed subscriber guardrails &mdash; rate limits on initial campaigns with a formal verification path for businesses that needed to send at scale.</p>
+
+      <div class="cs-image cs-image--wide cs-image--tall reveal">
+        <span class="cs-image-text">Onboarding flow &mdash; the step-by-step activation experience: account-level opt-in → reply handling setup → subscriber upload → campaign creation enabled</span>
+        <span class="cs-image-tag">Flow</span>
+      </div>
+      <p class="cs-image-caption">Progressive disclosure: each gate unlocked the next step of the integration</p>
+
+      <h3 class="cs-h3">Budget Handling</h3>
+      <p class="cs-p">The estimated daily results card was extended with a "Messages Delivered" estimate alongside existing reach and impression projections. This gave advertisers a concrete expectation of how many subscribers would receive messages &mdash; directly addressing the research finding that 9 out of 10 expected all subscribers to be messaged. By showing the estimate upfront, advertisers could calibrate expectations before publishing.</p>
+
+      <div class="cs-image reveal">
+        <span class="cs-image-text">Budget handling UI &mdash; the extended estimated daily results card showing Messages Delivered alongside reach and impressions, with the delivery split visualization</span>
+        <span class="cs-image-tag">UI Detail</span>
+      </div>
+
+      <h3 class="cs-h3">Post-Creation Reporting</h3>
+      <p class="cs-p">I designed the integrated campaigns table to surface marketing messages as a line item alongside ad placements in the existing breakdowns experience. Advertisers could compare ROI across ads and messages within the same view. "Delivered Messages" was introduced as a new metric in performance presets &mdash; surfaced through lightweight onboarding after an advertiser's first integrated campaign.</p>
+      <p class="cs-p">The final creation flow shipped as a <strong>hybrid</strong> &mdash; both the Audience card and Placements card included marketing message controls, giving advertisers two touchpoints to understand and manage whether their campaign included messages.</p>
+
+      <div class="cs-image-grid reveal">
+        <div class="cs-image">
+          <span class="cs-image-text">Audience card &mdash; marketing message toggle and subscriber audience selection within the existing Ads Manager audience configuration</span>
+          <span class="cs-image-tag">Creation Flow</span>
+        </div>
+        <div class="cs-image">
+          <span class="cs-image-text">Placements card &mdash; WhatsApp messaging shown alongside other ad placements, giving advertisers a second touchpoint</span>
+          <span class="cs-image-tag">Creation Flow</span>
+        </div>
+      </div>
+      <p class="cs-image-caption">Two touchpoints in the creation flow — Audience card and Placements card</p>
+
+      <h3 class="cs-h3">Systems Thinking</h3>
+      <p class="cs-p">The reporting patterns I designed &mdash; integrating a non-ad delivery channel as a comparable line item in the campaigns table &mdash; established a framework for how future messaging products could surface alongside ads in performance reporting. The activation flow pattern (account-level opt-in &rarr; readiness gates &rarr; creation integration) was designed to be reusable for future non-ad capabilities in Ads Manager.</p>
+
+      <div class="cs-image cs-image--wide reveal">
+        <span class="cs-image-text">Integrated campaigns table &mdash; marketing messages as a breakdown line item alongside ad placements, with the new Delivered Messages metric in the performance presets</span>
+        <span class="cs-image-tag">Reporting</span>
+      </div>
+      <p class="cs-image-caption">A new reporting paradigm: non-ad channels as comparable line items in performance views</p>
+    </div>
+
+    <!-- 05 Impact & Outcomes -->
+    <div class="cs-section reveal">
+      <div class="cs-section-header">
+        <span class="cs-section-index">05</span>
+        <h2 class="cs-section-title">Impact &amp; Outcomes</h2>
+      </div>
+
+      <p class="cs-p">The alpha launched to three onboarded businesses, producing externally sharable results. Bombay Shaving Company (India, DTC) produced the strongest proof point from a controlled A/B test:</p>
+
+      <div class="cs-metrics reveal">
+        <div class="cs-metric">
+          <div class="cs-metric-value">+20%</div>
+          <div class="cs-metric-label">ROAS vs. BAU (ads-only)</div>
+        </div>
+        <div class="cs-metric">
+          <div class="cs-metric-value">+13%</div>
+          <div class="cs-metric-label">More purchases</div>
+        </div>
+        <div class="cs-metric">
+          <div class="cs-metric-value">-23%</div>
+          <div class="cs-metric-label">Cost per add to cart</div>
+          <div class="cs-metric-note">95%+ confidence</div>
+        </div>
+        <div class="cs-metric">
+          <div class="cs-metric-value">-18%</div>
+          <div class="cs-metric-label">Lower cost of sales</div>
+          <div class="cs-metric-note">84% confidence</div>
+        </div>
+      </div>
+
+      <div class="cs-image cs-image--wide reveal" style="min-height: 280px;">
+        <span class="cs-image-text">A/B test results visualization &mdash; Bombay Shaving Company performance data comparing integrated campaigns (Ads + Marketing Messages) vs. ads-only baseline</span>
+        <span class="cs-image-tag">Results</span>
+      </div>
+      <p class="cs-image-caption">Bombay Shaving Company A/B test — the anchor case study for sales enablement</p>
+
+      <h3 class="cs-h3">Additional Proof Points</h3>
+      <ul class="cs-list">
+        <li><strong>XYXX</strong> (India, mid-market retailer) &mdash; 8% improvement in cost per result in a sales campaign</li>
+        <li><strong>OZiva</strong> (India, Accelerate Program) &mdash; 11% better CPA for Liquidity (Ads+MM) vs. BAU</li>
+      </ul>
+
+      <p class="cs-p">These results validated the core hypothesis: optimized delivery across ads and messages drives better campaign performance than running them separately. The Bombay Shaving Company data became the anchor case study for sales enablement across priority markets.</p>
+    </div>
+
+    <!-- 06 Reflections -->
+    <div class="cs-section reveal">
+      <div class="cs-section-header">
+        <span class="cs-section-index">06</span>
+        <h2 class="cs-section-title">Reflections</h2>
+      </div>
+
+      <h3 class="cs-h3">What Went Well</h3>
+      <p class="cs-p">The design sprint format &mdash; 5 designers exploring the full experience end-to-end before splitting into focused working teams &mdash; was the right call for a project of this scope. It gave everyone shared context on the integrated experience before we went deep on individual surfaces. I built relationships with designers across Ads Experience that carried through the entire project.</p>
+
+      <h3 class="cs-h3">What I'd Do Differently</h3>
+      <p class="cs-p">I would have pushed to involve the GTM and sales team earlier in the budget handling design. Much of the comprehension gap around optimized delivery couldn't be fully solved in-product &mdash; advertisers needed education from their Meta reps to recalibrate expectations from email-style guaranteed delivery to algorithmic optimization. Having that education strategy in place earlier would have let me make bolder design choices in the creation flow.</p>
+
+      <h3 class="cs-h3">What I Learned</h3>
+      <p class="cs-p">Working this broadly &mdash; across Business Messaging, Ads, and WhatsApp &mdash; and then later partnering closely with Ads counterparts on build-ready specs was one of the best professional experiences I've had. The scale of the collaboration taught me that the hardest design problems aren't about pixels. They're about aligning competing organizational incentives around what's actually best for the user. The budget handling design only worked because I understood what all three orgs needed, not just my own.</p>
+
+      <div class="cs-image cs-image--wide reveal" style="min-height: 200px; margin-top: 3rem; background: linear-gradient(135deg, #1a1a1a, #252525);">
+        <span class="cs-image-text">Timeline or journey map &mdash; the full project arc from initial design sprint through alpha launch, showing key milestones, pivots, and decision points</span>
+        <span class="cs-image-tag">Timeline</span>
+      </div>
+      <p class="cs-image-caption">From design sprint to alpha launch — the full project arc</p>
+    </div>
+
+  </div>
+
+  <!-- Case Study Navigation -->
+  <div class="cs-nav reveal">
+    <div></div>
+    <a href="preview-case-study-dtwm.html" class="cs-nav-link cs-nav-link--next">
+      <span class="cs-nav-link-label">Next project</span>
+      Driver Tipping at Walmart &rarr;
+    </a>
+  </div>
+
+  <!-- Footer -->
+  <footer class="reveal">
+    <div class="footer-inner">
+      <div>
+        <a href="preview-animated.html" class="footer-logo">xiao song.</a>
+        <p class="footer-role">Product Designer at Meta</p>
+      </div>
+      <div class="footer-links">
+        <a href="mailto:songxiao16@gmail.com" class="footer-link">Email</a>
+        <span class="footer-divider">/</span>
+        <span class="footer-link" style="opacity: 0.5;">LinkedIn</span>
+        <span class="footer-divider">/</span>
+        <span class="footer-link" style="opacity: 0.5;">GitHub</span>
+      </div>
+    </div>
+    <p class="footer-copy">&copy; 2026 Xiao Song. All rights reserved.</p>
+  </footer>
+
+  <script>
+    const dot = document.getElementById('cursorDot');
+    const ring = document.getElementById('cursorRing');
+    let mouseX = 0, mouseY = 0, dotX = 0, dotY = 0, ringX = 0, ringY = 0;
+    document.addEventListener('mousemove', e => { mouseX = e.clientX; mouseY = e.clientY; });
+    function animateCursor() {
+      dotX += (mouseX - dotX) * 0.2; dotY += (mouseY - dotY) * 0.2;
+      dot.style.left = dotX + 'px'; dot.style.top = dotY + 'px';
+      ringX += (mouseX - ringX) * 0.08; ringY += (mouseY - ringY) * 0.08;
+      ring.style.left = ringX + 'px'; ring.style.top = ringY + 'px';
+      requestAnimationFrame(animateCursor);
+    }
+    animateCursor();
+    document.querySelectorAll('a, button').forEach(el => {
+      el.addEventListener('mouseenter', () => { dot.classList.add('hovering'); ring.classList.add('hovering'); });
+      el.addEventListener('mouseleave', () => { dot.classList.remove('hovering'); ring.classList.remove('hovering'); });
+    });
+
+    const progressBar = document.getElementById('scrollProgress');
+    window.addEventListener('scroll', () => {
+      const progress = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
+      progressBar.style.width = progress + '%';
+    }, { passive: true });
+
+    const reveals = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) { entry.target.classList.add('visible'); observer.unobserve(entry.target); }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+    reveals.forEach(el => observer.observe(el));
+  </script>
+</body>
+</html>

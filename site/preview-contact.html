@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contact — Xiao Song</title>
+  <meta name="description" content="Get in touch with Xiao Song — product designer at Meta. Open to collaborations, speaking opportunities, and interesting conversations." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=JetBrains+Mono:wght@400;500;700&family=Playfair+Display:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --color-bg: #F5F5F5;
+      --color-surface: #FFFFFF;
+      --color-surface-muted: #EBEBEB;
+      --color-text: #1A1A1A;
+      --color-text-secondary: #555555;
+      --color-text-muted: #757575;
+      --color-accent: #6B7F6B;
+      --color-accent-hover: #4A5D4A;
+      --color-accent-text: #4A5D4A;
+      --color-accent-muted: rgba(107, 127, 107, 0.12);
+      --color-border: #E0E0E0;
+      --color-shape-white: #FFFFFF;
+      --color-shape-accent: #6B7F6B;
+      --color-shape-dark: #1A1A1A;
+      --font-display: 'Playfair Display', Georgia, serif;
+      --font-sans: 'DM Sans', system-ui, sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    ::selection {
+      background-color: var(--color-accent-muted);
+      color: var(--color-text);
+    }
+
+    body {
+      background: var(--color-bg);
+      color: var(--color-text);
+      font-family: var(--font-sans);
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+      cursor: none;
+    }
+
+    /* ---------- SCROLL PROGRESS ---------- */
+    .scroll-progress {
+      position: fixed; top: 0; left: 0; height: 2px; z-index: 100;
+      background: var(--color-accent);
+      width: 0%;
+      transition: none;
+    }
+
+    /* ---------- CUSTOM CURSOR ---------- */
+    .cursor-dot {
+      position: fixed; top: 0; left: 0; z-index: 9999;
+      width: 8px; height: 8px;
+      background: var(--color-accent);
+      border-radius: 50%;
+      pointer-events: none;
+      transform: translate(-50%, -50%);
+      transition: width 0.3s cubic-bezier(0.16,1,0.3,1),
+                  height 0.3s cubic-bezier(0.16,1,0.3,1),
+                  background 0.3s;
+    }
+    .cursor-ring {
+      position: fixed; top: 0; left: 0; z-index: 9998;
+      width: 40px; height: 40px;
+      border: 1.5px solid var(--color-accent);
+      border-radius: 50%;
+      pointer-events: none;
+      transform: translate(-50%, -50%);
+      opacity: 0.4;
+      transition: width 0.3s cubic-bezier(0.16,1,0.3,1),
+                  height 0.3s cubic-bezier(0.16,1,0.3,1),
+                  opacity 0.3s,
+                  border-color 0.3s;
+    }
+    .cursor-dot.hovering {
+      width: 48px; height: 48px;
+      background: rgba(107, 127, 107, 0.08);
+      mix-blend-mode: normal;
+    }
+    .cursor-ring.hovering {
+      width: 48px; height: 48px;
+      opacity: 0.8;
+      border-color: var(--color-accent);
+    }
+
+    a, button { cursor: none; }
+
+    @media (max-width: 1023px) {
+      body { cursor: auto; }
+      a, button { cursor: pointer; }
+      .cursor-dot, .cursor-ring { display: none; }
+    }
+
+    /* ---------- NAV ---------- */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 40;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 20px clamp(1.25rem, 5vw, 4rem);
+      background: rgba(245, 245, 245, 0.8);
+      backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+      transform: translateY(-100%);
+      animation: nav-slide-in 0.8s cubic-bezier(0.16,1,0.3,1) 0.2s forwards;
+    }
+    @keyframes nav-slide-in {
+      to { transform: translateY(0); }
+    }
+    .nav-logo {
+      font-family: var(--font-display);
+      font-size: 1.25rem; font-weight: 700;
+      letter-spacing: -0.02em;
+      color: var(--color-text); text-decoration: none;
+    }
+    .nav-links { display: flex; align-items: center; gap: 2rem; }
+    .nav-link {
+      font-family: var(--font-mono);
+      font-size: 0.6875rem; font-weight: 500;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--color-text-muted); text-decoration: none;
+      position: relative;
+      transition: color 0.15s;
+    }
+    .nav-link:hover { color: var(--color-text); }
+    .nav-link::after {
+      content: '';
+      position: absolute; bottom: -4px; left: 0;
+      width: 100%; height: 1.5px;
+      background: var(--color-accent);
+      transform: scaleX(0); transform-origin: left;
+      transition: transform 0.3s cubic-bezier(0.16,1,0.3,1);
+    }
+    .nav-link:hover::after { transform: scaleX(1); }
+    .nav-link--active {
+      color: var(--color-accent-text);
+    }
+    .nav-link--active::after {
+      transform: scaleX(1);
+      background: var(--color-accent);
+    }
+    .nav-link--accent { color: var(--color-accent-text); }
+    .nav-link--accent:hover { color: var(--color-accent-hover); }
+    .nav-link--accent::after { background: var(--color-accent-hover); }
+
+    /* ---------- SCROLL REVEAL ---------- */
+    .reveal {
+      opacity: 0;
+      transform: translateY(32px);
+      transition: opacity 0.8s cubic-bezier(0.16,1,0.3,1),
+                  transform 0.8s cubic-bezier(0.16,1,0.3,1);
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
+    .reveal-delay-4 { transition-delay: 0.4s; }
+
+    /* ---------- PAGE LAYOUT ---------- */
+    .contact-page {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 8rem clamp(1.25rem, 5vw, 4rem) clamp(4rem, 8vw, 6rem);
+    }
+
+    .contact-inner {
+      max-width: 1060px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    /* ---------- HEADLINE ---------- */
+    .contact-headline {
+      font-family: var(--font-display);
+      font-size: clamp(3.5rem, 10vw, 8rem);
+      font-weight: 700;
+      line-height: 0.95;
+      letter-spacing: -0.03em;
+      color: var(--color-text);
+      margin-bottom: 1.5rem;
+    }
+
+    .contact-subtext {
+      font-size: clamp(1rem, 1.5vw, 1.125rem);
+      line-height: 1.7;
+      color: var(--color-text-secondary);
+      max-width: 560px;
+      margin-bottom: clamp(4rem, 8vw, 6rem);
+    }
+
+    /* ---------- CONTACT METHODS ---------- */
+    .contact-methods {
+      margin-bottom: clamp(4rem, 8vw, 6rem);
+    }
+
+    .contact-method {
+      padding: clamp(1.5rem, 3vw, 2rem) 0;
+      border-bottom: 1px solid var(--color-border);
+    }
+    .contact-method:first-child {
+      border-top: 1px solid var(--color-border);
+    }
+
+    .contact-method-label {
+      font-family: var(--font-mono);
+      font-size: 0.6875rem;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--color-text-muted);
+      margin-bottom: 0.75rem;
+    }
+
+    .contact-method-link {
+      font-family: var(--font-display);
+      font-size: clamp(1.5rem, 4vw, 2.75rem);
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      color: var(--color-text);
+      text-decoration: none;
+      display: inline-block;
+      position: relative;
+      transition: color 0.2s ease;
+    }
+    .contact-method-link:hover {
+      color: var(--color-accent);
+    }
+    .contact-method-link::after {
+      content: '';
+      position: absolute;
+      bottom: 2px; left: 0;
+      width: 100%; height: 2px;
+      background: var(--color-accent);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.4s cubic-bezier(0.16,1,0.3,1);
+    }
+    .contact-method-link:hover::after {
+      transform: scaleX(1);
+    }
+
+    /* Hero email — extra prominence */
+    .contact-method--primary .contact-method-link {
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      font-weight: 700;
+    }
+    .contact-method--primary .contact-method-link::after {
+      height: 3px;
+    }
+
+    .contact-method-link--disabled {
+      color: var(--color-text-muted);
+      pointer-events: none;
+      opacity: 0.5;
+    }
+    .contact-method-link--disabled::after {
+      display: none;
+    }
+
+    .contact-method-soon {
+      display: inline-block;
+      margin-left: 1rem;
+      font-family: var(--font-mono);
+      font-size: 0.625rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--color-text-muted);
+      background: var(--color-surface-muted);
+      padding: 0.25rem 0.625rem;
+      border-radius: 2px;
+      vertical-align: middle;
+    }
+
+    /* ---------- AVAILABILITY ---------- */
+    .availability {
+      max-width: 560px;
+    }
+
+    .availability-label {
+      font-family: var(--font-mono);
+      font-size: 0.6875rem;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--color-text-muted);
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .availability-dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: #22C55E;
+      animation: pulse-dot 2s ease-in-out infinite;
+    }
+    @keyframes pulse-dot {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
+
+    .availability-text {
+      font-size: 1rem;
+      line-height: 1.7;
+      color: var(--color-text-secondary);
+    }
+
+    /* ---------- DECORATIVE SHAPE ---------- */
+    .contact-shape {
+      position: fixed;
+      bottom: -80px; right: -60px;
+      width: 320px; height: 240px;
+      background: var(--color-shape-accent);
+      opacity: 0.06;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .contact-circle {
+      position: fixed;
+      top: 20%; right: 10%;
+      width: 200px; height: 200px;
+      border-radius: 50%;
+      background: var(--color-shape-white);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.04);
+      opacity: 0;
+      pointer-events: none;
+      z-index: 0;
+      animation: shape-enter 1s cubic-bezier(0.16,1,0.3,1) 0.8s forwards;
+    }
+
+    @keyframes shape-enter {
+      from { opacity: 0; transform: scale(0.8) translateY(20px); }
+      to { opacity: 0.7; transform: scale(1) translateY(0); }
+    }
+
+    /* ---------- FOOTER ---------- */
+    footer {
+      padding: clamp(3rem, 5vw, 4rem) clamp(1.25rem, 5vw, 4rem);
+      border-top: 1px solid var(--color-border);
+    }
+    .footer-inner {
+      display: flex; flex-direction: column; gap: 1.5rem;
+    }
+    @media (min-width: 768px) {
+      .footer-inner {
+        flex-direction: row; justify-content: space-between; align-items: center;
+      }
+    }
+    .footer-logo {
+      font-family: var(--font-display);
+      font-size: 1.125rem; font-weight: 700;
+      letter-spacing: -0.02em;
+      color: var(--color-text); text-decoration: none;
+    }
+    .footer-role {
+      margin-top: 0.25rem;
+      font-size: 0.875rem;
+      color: var(--color-text-muted);
+    }
+    .footer-links { display: flex; align-items: center; gap: 1.5rem; }
+    .footer-link {
+      font-family: var(--font-mono);
+      font-size: 0.6875rem; font-weight: 500;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--color-text-muted); text-decoration: none;
+      position: relative;
+      transition: color 0.15s;
+    }
+    .footer-link:hover { color: var(--color-text); }
+    .footer-link::after {
+      content: '';
+      position: absolute; bottom: -2px; left: 0;
+      width: 100%; height: 1px;
+      background: var(--color-accent);
+      transform: scaleX(0); transform-origin: left;
+      transition: transform 0.3s cubic-bezier(0.16,1,0.3,1);
+    }
+    .footer-link:hover::after { transform: scaleX(1); }
+    .footer-divider { color: var(--color-border); }
+    .footer-copy {
+      margin-top: 2rem;
+      font-size: 0.75rem;
+      color: var(--color-text-muted);
+    }
+
+    /* ---------- RESPONSIVE ---------- */
+    @media (max-width: 1023px) {
+      .contact-circle { display: none; }
+    }
+    @media (max-width: 639px) {
+      .nav-links { display: none; }
+      .contact-method-soon {
+        display: block;
+        margin-left: 0;
+        margin-top: 0.5rem;
+        width: fit-content;
+      }
+    }
+
+    /* ---------- REDUCED MOTION ---------- */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+      nav {
+        opacity: 1 !important;
+        transform: none !important;
+      }
+      .reveal { opacity: 1; transform: none; }
+      .scroll-progress { display: none; }
+      .cursor-dot, .cursor-ring { display: none; }
+      .contact-circle { opacity: 0.7 !important; transform: none !important; }
+      .availability-dot { animation: none; opacity: 1; }
+      body { cursor: auto; }
+      a, button { cursor: pointer; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Scroll Progress Bar -->
+  <div class="scroll-progress" id="scrollProgress"></div>
+
+  <!-- Custom Cursor -->
+  <div class="cursor-dot" id="cursorDot"></div>
+  <div class="cursor-ring" id="cursorRing"></div>
+
+  <!-- Decorative Shapes -->
+  <div class="contact-shape shape" data-parallax="0.05"></div>
+  <div class="contact-circle shape" data-parallax="0.12"></div>
+
+  <!-- Navigation -->
+  <nav>
+    <a href="preview-animated.html" class="nav-logo">xiao song.</a>
+    <div class="nav-links">
+      <a href="preview-animated.html" class="nav-link">work</a>
+      <a href="preview-about.html" class="nav-link">about</a>
+      <a href="preview-contact.html" class="nav-link nav-link--active">contact</a>
+      <a href="/resume" class="nav-link nav-link--accent">resume &darr;</a>
+    </div>
+  </nav>
+
+  <!-- Contact Content -->
+  <main class="contact-page">
+    <div class="contact-inner">
+
+      <!-- Headline -->
+      <h1 class="contact-headline reveal">Let's connect.</h1>
+      <p class="contact-subtext reveal reveal-delay-1">
+        I'm always open to interesting conversations about design, messaging platforms, and building products that work at scale.
+      </p>
+
+      <!-- Contact Methods -->
+      <div class="contact-methods">
+        <div class="contact-method contact-method--primary reveal reveal-delay-2">
+          <p class="contact-method-label">Email</p>
+          <a href="mailto:songxiao16@gmail.com" class="contact-method-link">songxiao16@gmail.com</a>
+        </div>
+
+        <div class="contact-method reveal reveal-delay-3">
+          <p class="contact-method-label">LinkedIn</p>
+          <span class="contact-method-link contact-method-link--disabled">linkedin.com/in/xiaosong<span class="contact-method-soon">Coming soon</span></span>
+        </div>
+
+        <div class="contact-method reveal reveal-delay-4">
+          <p class="contact-method-label">GitHub</p>
+          <span class="contact-method-link contact-method-link--disabled">github.com/xiaosong<span class="contact-method-soon">Coming soon</span></span>
+        </div>
+      </div>
+
+      <!-- Availability -->
+      <div class="availability reveal">
+        <p class="availability-label">
+          <span class="availability-dot"></span>
+          Availability
+        </p>
+        <p class="availability-text">
+          Currently designing enterprise messaging experiences at Meta. Open to collaborations, speaking, and interesting side projects.
+        </p>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="reveal">
+    <div class="footer-inner">
+      <div>
+        <a href="preview-animated.html" class="footer-logo">xiao song.</a>
+        <p class="footer-role">Product Designer at Meta</p>
+      </div>
+      <div class="footer-links">
+        <a href="mailto:songxiao16@gmail.com" class="footer-link">Email</a>
+        <span class="footer-divider">/</span>
+        <span class="footer-link" style="opacity: 0.5;">LinkedIn</span>
+        <span class="footer-divider">/</span>
+        <span class="footer-link" style="opacity: 0.5;">GitHub</span>
+      </div>
+    </div>
+    <p class="footer-copy">&copy; 2026 Xiao Song. All rights reserved.</p>
+  </footer>
+
+  <script>
+    // ---- Custom Cursor ----
+    const dot = document.getElementById('cursorDot');
+    const ring = document.getElementById('cursorRing');
+    let mouseX = 0, mouseY = 0;
+    let dotX = 0, dotY = 0;
+    let ringX = 0, ringY = 0;
+
+    document.addEventListener('mousemove', e => {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+    });
+
+    function animateCursor() {
+      dotX += (mouseX - dotX) * 0.2;
+      dotY += (mouseY - dotY) * 0.2;
+      dot.style.left = dotX + 'px';
+      dot.style.top = dotY + 'px';
+
+      ringX += (mouseX - ringX) * 0.08;
+      ringY += (mouseY - ringY) * 0.08;
+      ring.style.left = ringX + 'px';
+      ring.style.top = ringY + 'px';
+
+      requestAnimationFrame(animateCursor);
+    }
+    animateCursor();
+
+    const interactives = document.querySelectorAll('a, button, .contact-method-link:not(.contact-method-link--disabled)');
+    interactives.forEach(el => {
+      el.addEventListener('mouseenter', () => {
+        dot.classList.add('hovering');
+        ring.classList.add('hovering');
+      });
+      el.addEventListener('mouseleave', () => {
+        dot.classList.remove('hovering');
+        ring.classList.remove('hovering');
+      });
+    });
+
+    // ---- Scroll Progress Bar ----
+    const progressBar = document.getElementById('scrollProgress');
+    window.addEventListener('scroll', () => {
+      const scrollTop = window.scrollY;
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const progress = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+      progressBar.style.width = progress + '%';
+    }, { passive: true });
+
+    // ---- Scroll Reveal (Intersection Observer) ----
+    const reveals = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15, rootMargin: '0px 0px -60px 0px' });
+
+    reveals.forEach(el => observer.observe(el));
+
+    // ---- Parallax on Shapes ----
+    const shapes = document.querySelectorAll('[data-parallax]');
+    let ticking = false;
+
+    window.addEventListener('scroll', () => {
+      if (!ticking) {
+        requestAnimationFrame(() => {
+          const scrollY = window.scrollY;
+          shapes.forEach(shape => {
+            const rate = parseFloat(shape.dataset.parallax);
+            const offset = scrollY * rate;
+            shape.style.transform = `translateY(${offset}px)`;
+          });
+          ticking = false;
+        });
+        ticking = true;
+      }
+    }, { passive: true });
+  </script>
+</body>
+</html>

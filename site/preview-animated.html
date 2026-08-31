@@ -1,0 +1,854 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>xiao song. — animated preview</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=JetBrains+Mono:wght@400;500;700&family=Playfair+Display:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --color-bg: #F5F5F5;
+      --color-surface: #FFFFFF;
+      --color-surface-muted: #EBEBEB;
+      --color-text: #1A1A1A;
+      --color-text-secondary: #555555;
+      --color-text-muted: #757575;
+      --color-accent: #6B7F6B;
+      --color-accent-hover: #4A5D4A;
+      --color-accent-text: #4A5D4A;
+      --color-accent-muted: rgba(107, 127, 107, 0.12);
+      --color-border: #E0E0E0;
+      --font-display: 'Playfair Display', Georgia, serif;
+      --font-sans: 'DM Sans', system-ui, sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    ::selection {
+      background-color: var(--color-accent-muted);
+      color: var(--color-text);
+    }
+
+    body {
+      background: var(--color-bg);
+      color: var(--color-text);
+      font-family: var(--font-sans);
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+      cursor: none;
+    }
+
+    /* ---------- SCROLL PROGRESS ---------- */
+    .scroll-progress {
+      position: fixed; top: 0; left: 0; height: 2px; z-index: 100;
+      background: var(--color-accent);
+      width: 0%;
+      transition: none;
+    }
+
+    /* ---------- CUSTOM CURSOR ---------- */
+    .cursor-dot {
+      position: fixed; top: 0; left: 0; z-index: 9999;
+      width: 8px; height: 8px;
+      background: var(--color-accent);
+      border-radius: 50%;
+      pointer-events: none;
+      transform: translate(-50%, -50%);
+      transition: width 0.3s cubic-bezier(0.16,1,0.3,1),
+                  height 0.3s cubic-bezier(0.16,1,0.3,1),
+                  background 0.3s;
+    }
+    .cursor-ring {
+      position: fixed; top: 0; left: 0; z-index: 9998;
+      width: 40px; height: 40px;
+      border: 1.5px solid var(--color-accent);
+      border-radius: 50%;
+      pointer-events: none;
+      transform: translate(-50%, -50%);
+      opacity: 0.4;
+      transition: width 0.3s cubic-bezier(0.16,1,0.3,1),
+                  height 0.3s cubic-bezier(0.16,1,0.3,1),
+                  opacity 0.3s,
+                  border-color 0.3s;
+    }
+    .cursor-dot.hovering {
+      width: 48px; height: 48px;
+      background: rgba(107, 127, 107, 0.08);
+      mix-blend-mode: normal;
+    }
+    .cursor-ring.hovering {
+      width: 48px; height: 48px;
+      opacity: 0.8;
+      border-color: var(--color-accent);
+    }
+
+    /* Restore system cursor on interactive elements for usability */
+    a, button { cursor: none; }
+
+    @media (max-width: 1023px) {
+      body { cursor: auto; }
+      a, button { cursor: pointer; }
+      .cursor-dot, .cursor-ring { display: none; }
+    }
+
+    /* ---------- NAV ---------- */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 40;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 20px clamp(1.25rem, 5vw, 4rem);
+      background: rgba(245, 245, 245, 0.8);
+      backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+      transform: translateY(-100%);
+      animation: nav-slide-in 0.8s cubic-bezier(0.16,1,0.3,1) 0.2s forwards;
+    }
+    @keyframes nav-slide-in {
+      to { transform: translateY(0); }
+    }
+    .nav-logo {
+      font-family: var(--font-display);
+      font-size: 1.25rem; font-weight: 700;
+      letter-spacing: -0.02em;
+      color: var(--color-text); text-decoration: none;
+    }
+    .nav-links { display: flex; align-items: center; gap: 2rem; }
+    .nav-link {
+      font-family: var(--font-mono);
+      font-size: 0.75rem; font-weight: 500;
+      letter-spacing: 0.02em;
+      color: var(--color-text-muted); text-decoration: none;
+      position: relative;
+      transition: color 0.15s;
+    }
+    .nav-link:hover { color: var(--color-text); }
+    .nav-link::after {
+      content: '';
+      position: absolute; bottom: -4px; left: 0;
+      width: 100%; height: 1.5px;
+      background: var(--color-accent);
+      transform: scaleX(0); transform-origin: left;
+      transition: transform 0.3s cubic-bezier(0.16,1,0.3,1);
+    }
+    .nav-link:hover::after { transform: scaleX(1); }
+    .nav-link--accent { color: var(--color-accent-text); }
+    .nav-link--accent:hover { color: var(--color-accent-hover); }
+    .nav-link--accent::after { background: var(--color-accent-hover); }
+
+    /* ---------- HERO ---------- */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      padding: clamp(6rem, 12vw, 10rem) clamp(1.25rem, 5vw, 4rem) clamp(3rem, 6vw, 5rem);
+      text-align: center;
+      overflow: hidden;
+    }
+
+    /* Frame container */
+    .hero__frame-container {
+      position: relative;
+      display: flex; flex-direction: column; align-items: center;
+      margin-bottom: clamp(2rem, 4vw, 3rem);
+    }
+
+    /* Title */
+    .hero__title {
+      font-family: var(--font-display);
+      font-size: clamp(4.5rem, 14vw, 11rem);
+      font-weight: 800; line-height: 0.88;
+      letter-spacing: -0.04em;
+      color: var(--color-text);
+      margin: 0;
+      padding: clamp(1rem, 3vw, 2.5rem) clamp(1.5rem, 4vw, 4rem);
+    }
+    .hero__title-word {
+      display: inline-block;
+      padding-bottom: 0.15em;
+      clip-path: inset(100% 0 -0.15em 0);
+      animation: clip-reveal 600ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+    .hero__title-word:nth-child(1) { animation-delay: 500ms; margin-right: 0.25em; }
+    .hero__title-word:nth-child(2) { animation-delay: 700ms; }
+    .hero__title-dot {
+      display: inline-block;
+      color: var(--color-accent);
+      opacity: 0;
+      animation: fade-in 200ms linear 900ms forwards;
+    }
+    @keyframes clip-reveal {
+      from { clip-path: inset(100% 0 -0.15em 0); }
+      to { clip-path: inset(0 0 -0.15em 0); }
+    }
+    @keyframes fade-in {
+      from { opacity: 0; } to { opacity: 1; }
+    }
+    @keyframes fade-in-up {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Typography specimen wrapper */
+    .hero__type-specimen {
+      position: relative;
+      display: inline-block;
+    }
+
+    /* Anatomy lines */
+    .hero__anatomy-line {
+      position: absolute;
+      left: -60px; right: -60px;
+      height: 0;
+      border-top: 1px dashed var(--color-border);
+      pointer-events: none;
+      opacity: 0;
+      animation: anatomy-in 500ms ease-out forwards;
+    }
+    .hero__anatomy-line--cap {
+      top: 12%;
+      animation-delay: 1100ms;
+    }
+    .hero__anatomy-line--baseline {
+      bottom: 18%;
+      animation-delay: 1250ms;
+    }
+    .hero__anatomy-line--descender {
+      bottom: 2%;
+      animation-delay: 1400ms;
+    }
+
+    @keyframes anatomy-in {
+      from { opacity: 0; }
+      to { opacity: 0.5; }
+    }
+
+    .hero__anatomy-label {
+      position: absolute;
+      right: 0; top: -1px;
+      transform: translateY(-100%);
+      font-family: var(--font-mono);
+      font-size: 0.5625rem;
+      font-weight: 400;
+      letter-spacing: 0.04em;
+      color: var(--color-text-muted);
+      opacity: 0.6;
+      white-space: nowrap;
+      padding-bottom: 3px;
+    }
+
+    /* Tagline */
+    .hero__tagline {
+      font-family: var(--font-display);
+      font-size: clamp(0.8125rem, 1.5vw, 1rem);
+      font-style: italic; font-weight: 400;
+      color: var(--color-text-muted);
+      letter-spacing: 0.02em;
+      margin-top: clamp(0.75rem, 1.5vw, 1.25rem);
+      opacity: 0;
+      animation: fade-in-up 400ms ease-out 1000ms forwards;
+    }
+
+    /* Stat line */
+    .hero__stat {
+      display: flex; align-items: center; gap: 0.5rem;
+      margin-top: clamp(1rem, 2vw, 1.5rem);
+      font-family: var(--font-mono);
+      font-size: 0.75rem; font-weight: 400;
+      letter-spacing: 0.02em;
+      color: var(--color-text-muted);
+      opacity: 0;
+      animation: fade-in-up 400ms ease-out 1600ms forwards;
+    }
+    .hero__stat-icon {
+      font-size: 0.625rem;
+      color: var(--color-accent);
+    }
+
+    /* Hero responsive */
+    @media (max-width: 639px) {
+      .hero { padding-top: 8rem; padding-bottom: 3rem; }
+      .hero__title { padding: 0.75rem 1rem; }
+      .hero__anatomy-line { left: -20px; right: -20px; }
+      .hero__anatomy-label { font-size: 0.5rem; }
+    }
+    @media (min-width: 640px) and (max-width: 1023px) {
+      .hero__title { padding: 1.25rem 2rem; }
+      .hero__anatomy-line { left: -40px; right: -40px; }
+    }
+
+    /* ---------- SCROLL REVEAL ---------- */
+    .reveal {
+      opacity: 0;
+      transform: translateY(32px);
+      transition: opacity 0.8s cubic-bezier(0.16,1,0.3,1),
+                  transform 0.8s cubic-bezier(0.16,1,0.3,1);
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
+    .reveal-delay-4 { transition-delay: 0.4s; }
+
+    /* ---------- SECTIONS ---------- */
+    section { padding: clamp(4rem, 8vw, 6rem) clamp(1.25rem, 5vw, 4rem); }
+
+    .section-header {
+      display: flex; align-items: flex-end; gap: 1.5rem;
+      margin-bottom: clamp(3rem, 5vw, 4rem);
+    }
+    .section-index {
+      font-family: var(--font-mono);
+      font-size: clamp(3rem, 8vw, 7rem);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      line-height: 1;
+      color: var(--color-accent);
+      opacity: 0.3;
+    }
+    .section-title {
+      font-family: var(--font-display);
+      font-size: clamp(2.5rem, 6vw, 5rem);
+      font-weight: 600;
+      line-height: 0.95;
+      letter-spacing: -0.02em;
+      color: var(--color-text);
+    }
+
+    /* ---------- STICKY THEATER ---------- */
+    .theater { position: relative; }
+    .theater-stage {
+      position: sticky; top: 0; height: 100vh;
+      display: flex; flex-direction: column;
+      justify-content: center; align-items: center;
+      padding: 0 clamp(1.25rem, 5vw, 4rem);
+      overflow: hidden;
+    }
+    .theater-project {
+      position: absolute; inset: 0;
+      display: flex; flex-direction: column;
+      justify-content: center; align-items: center;
+      padding: 0 clamp(1.25rem, 5vw, 4rem);
+      opacity: 0; transform: scale(1.05);
+      transition: opacity 0.6s cubic-bezier(0.16,1,0.3,1),
+                  transform 0.8s cubic-bezier(0.16,1,0.3,1);
+      pointer-events: none;
+    }
+    .theater-project.active {
+      opacity: 1; transform: scale(1); pointer-events: auto;
+    }
+    .theater-project.exiting {
+      opacity: 0.3; transform: scale(0.92) translateY(-40px);
+    }
+    .theater-image {
+      width: 100%; max-width: 1060px; aspect-ratio: 16 / 9;
+      background: linear-gradient(135deg, #1a1a1a, #2a2a2a);
+      display: flex; align-items: center; justify-content: center;
+      overflow: hidden; position: relative;
+      cursor: pointer;
+      transition: box-shadow 0.4s cubic-bezier(0.16,1,0.3,1);
+    }
+    .theater-project.active .theater-image:hover {
+      box-shadow: 0 16px 48px rgba(0,0,0,0.15);
+    }
+    .theater-image-gradient {
+      position: absolute; inset: 0;
+    }
+    .theater-image-text {
+      position: relative; z-index: 1;
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 4vw, 3.5rem);
+      font-weight: 700; text-align: center;
+      color: rgba(255,255,255,0.08); line-height: 1.1;
+    }
+    .theater-info {
+      display: flex; gap: 32px; align-items: flex-start;
+      max-width: 1060px; width: 100%; margin-top: 32px;
+      opacity: 0; transform: translateY(40px);
+      transition: opacity 0.5s cubic-bezier(0.16,1,0.3,1) 0.15s,
+                  transform 0.5s cubic-bezier(0.16,1,0.3,1) 0.15s;
+    }
+    .theater-project.active .theater-info {
+      opacity: 1; transform: translateY(0);
+    }
+    .theater-info-index {
+      display: none;
+    }
+    .theater-info-body { flex: 1; min-width: 0; }
+    .theater-info-title {
+      font-family: var(--font-display); font-size: 22px; font-weight: 600;
+      letter-spacing: -0.01em; line-height: 1.2;
+    }
+    .theater-info-title a {
+      color: inherit; text-decoration: none; transition: color 0.2s;
+    }
+    .theater-info-title a:hover { color: var(--color-accent); }
+    .theater-info-tag {
+      margin-top: 6px; font-family: var(--font-mono);
+      font-size: 0.75rem; font-weight: 500;
+      letter-spacing: 0.02em;
+      color: var(--color-text-muted);
+    }
+    .theater-info-desc {
+      margin-top: 12px; font-size: 14px; line-height: 1.65;
+      color: var(--color-text-secondary);
+    }
+    .theater-metrics {
+      display: flex; gap: 1.5rem; margin-top: 16px;
+    }
+    .theater-metric {
+      display: flex; align-items: baseline; gap: 6px;
+    }
+    .theater-metric-value {
+      font-family: var(--font-mono); font-size: 0.9375rem; font-weight: 700;
+      letter-spacing: -0.02em; color: var(--color-accent); line-height: 1;
+    }
+    .theater-metric-label {
+      font-family: var(--font-mono); font-size: 0.625rem; font-weight: 500;
+      letter-spacing: 0.02em;
+      color: var(--color-text-muted); line-height: 1;
+    }
+    @media (max-width: 768px) {
+      .theater-metrics { gap: 1rem; flex-wrap: wrap; }
+      .theater-metric-value { font-size: 0.8125rem; }
+    }
+
+    .theater-dots {
+      position: fixed; right: 32px; top: 50%; transform: translateY(-50%);
+      z-index: 50; display: flex; flex-direction: column; gap: 12px;
+      opacity: 0; transition: opacity 0.4s;
+    }
+    .theater-dots.visible { opacity: 1; }
+    .theater-dot {
+      width: 8px; height: 8px; border-radius: 50%;
+      background: var(--color-border);
+      transition: all 0.4s cubic-bezier(0.16,1,0.3,1);
+    }
+    .theater-dot.active {
+      background: var(--color-accent); transform: scale(1.5);
+    }
+
+    @media (max-width: 1023px) {
+      .theater-dots { right: 16px; }
+    }
+    @media (max-width: 768px) {
+      .theater-stage { height: auto; position: relative; padding: 64px 24px; }
+      .theater { height: auto !important; }
+      .theater-project {
+        position: relative; opacity: 1; transform: none;
+        padding: 0; margin-bottom: 64px; pointer-events: auto;
+      }
+      .theater-project.active, .theater-project.exiting {
+        opacity: 1; transform: none;
+      }
+      .theater-info { opacity: 1; transform: none; }
+      .theater-image { aspect-ratio: 3 / 2; }
+      .theater-info-index { display: none; }
+      .theater-dots { display: none; }
+    }
+
+    /* ---------- LINKS ---------- */
+    .view-link {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      font-family: var(--font-mono);
+      font-size: 0.75rem; font-weight: 500;
+      letter-spacing: 0.02em;
+      color: var(--color-accent-text); text-decoration: none;
+      transition: color 0.15s, gap 0.3s cubic-bezier(0.16,1,0.3,1);
+    }
+    .view-link:hover { color: var(--color-accent-hover); gap: 0.75rem; }
+    .view-link span { font-size: 0.875rem; transition: transform 0.3s cubic-bezier(0.16,1,0.3,1); }
+    .view-link:hover span { transform: translateX(4px); }
+
+    /* ---------- ABOUT SECTION ---------- */
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: clamp(2rem, 4vw, 4rem);
+      align-items: start;
+    }
+    @media (min-width: 1024px) {
+      .about-grid { grid-template-columns: 5fr 7fr; }
+    }
+    .about-text {
+      font-size: 1rem; line-height: 1.7;
+      color: var(--color-text-secondary);
+      max-width: 480px;
+    }
+
+    /* (craft section removed) */
+
+    /* ---------- FOOTER ---------- */
+    footer {
+      padding: clamp(3rem, 5vw, 4rem) clamp(1.25rem, 5vw, 4rem);
+      border-top: 1px solid var(--color-border);
+    }
+    .footer-inner {
+      display: flex; flex-direction: column; gap: 1.5rem;
+    }
+    @media (min-width: 768px) {
+      .footer-inner {
+        flex-direction: row; justify-content: space-between; align-items: center;
+      }
+    }
+    .footer-logo {
+      font-family: var(--font-display);
+      font-size: 1.125rem; font-weight: 700;
+      letter-spacing: -0.02em;
+      color: var(--color-text); text-decoration: none;
+    }
+    .footer-role {
+      margin-top: 0.25rem;
+      font-size: 0.875rem;
+      color: var(--color-text-muted);
+    }
+    .footer-links { display: flex; align-items: center; gap: 1.5rem; }
+    .footer-link {
+      font-family: var(--font-mono);
+      font-size: 0.75rem; font-weight: 500;
+      letter-spacing: 0.02em;
+      color: var(--color-text-muted); text-decoration: none;
+      position: relative;
+      transition: color 0.15s;
+    }
+    .footer-link:hover { color: var(--color-text); }
+    .footer-link::after {
+      content: '';
+      position: absolute; bottom: -2px; left: 0;
+      width: 100%; height: 1px;
+      background: var(--color-accent);
+      transform: scaleX(0); transform-origin: left;
+      transition: transform 0.3s cubic-bezier(0.16,1,0.3,1);
+    }
+    .footer-link:hover::after { transform: scaleX(1); }
+    .footer-divider { color: var(--color-border); }
+    .footer-copy {
+      margin-top: 2rem;
+      font-size: 0.75rem;
+      color: var(--color-text-muted);
+    }
+
+    @media (max-width: 639px) {
+      .nav-links { display: none; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+      .hero__title-word, .hero__title-dot, .hero__tagline,
+      .hero__anatomy-line, .hero__stat, nav {
+        animation: none !important;
+        opacity: 1 !important;
+        transform: none !important;
+        clip-path: none !important;
+        filter: none !important;
+      }
+      .reveal { opacity: 1; transform: none; }
+      .scroll-progress { display: none; }
+      .cursor-dot, .cursor-ring { display: none; }
+      body { cursor: auto; }
+      a, button { cursor: pointer; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Scroll Progress Bar -->
+  <div class="scroll-progress" id="scrollProgress"></div>
+
+  <!-- Custom Cursor -->
+  <div class="cursor-dot" id="cursorDot"></div>
+  <div class="cursor-ring" id="cursorRing"></div>
+
+  <!-- Navigation -->
+  <nav>
+    <a href="/" class="nav-logo">xiao song.</a>
+    <div class="nav-links">
+      <a href="/work" class="nav-link">work</a>
+      <a href="/about" class="nav-link">about</a>
+      <a href="/contact" class="nav-link">contact</a>
+      <a href="/resume" class="nav-link nav-link--accent">resume &darr;</a>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero__frame-container">
+      <!-- Typography anatomy wrapper -->
+      <div class="hero__type-specimen">
+        <span class="hero__anatomy-line hero__anatomy-line--cap">
+          <span class="hero__anatomy-label">Meta</span>
+        </span>
+        <span class="hero__anatomy-line hero__anatomy-line--baseline">
+          <span class="hero__anatomy-label">DoorDash</span>
+        </span>
+        <span class="hero__anatomy-line hero__anatomy-line--descender">
+          <span class="hero__anatomy-label">Walmart</span>
+        </span>
+
+        <h1 class="hero__title">
+          <span class="hero__title-word">xiao</span>
+          <span class="hero__title-word">song</span><span class="hero__title-dot">.</span>
+        </h1>
+      </div>
+
+      <p class="hero__tagline">Designing what comes next</p>
+    </div>
+
+    <p class="hero__stat">
+      <span class="hero__stat-icon">&#10022;</span>
+      Senior Product Designer &middot; 8+ years of experience
+    </p>
+  </section>
+
+  <!-- Selected Work -->
+  <section>
+    <div class="section-header reveal">
+      <span class="section-index">01</span>
+      <h2 class="section-title">selected<br>work.</h2>
+    </div>
+  </section>
+
+  <!-- Sticky Theater -->
+  <div class="theater" id="theater">
+    <div class="theater-stage" id="theaterStage"></div>
+  </div>
+  <div class="theater-dots" id="theaterDots"></div>
+
+  <!-- About -->
+  <section>
+    <div class="about-grid">
+      <div class="section-header reveal" style="margin-bottom: 0;">
+        <span class="section-index">02</span>
+        <h2 class="section-title">about.</h2>
+      </div>
+      <div class="reveal reveal-delay-1" style="padding-top: 0.5rem;">
+        <p class="about-text">
+          Product designer at Meta building enterprise messaging tools for millions of businesses.
+          I care about making complex systems feel simple and bringing craft to every interaction.
+        </p>
+        <a href="/about" class="view-link" style="margin-top: 1.5rem;">More about me <span>&rarr;</span></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="reveal">
+    <div class="footer-inner">
+      <div>
+        <a href="/" class="footer-logo">xiao song.</a>
+        <p class="footer-role">Product Designer at Meta</p>
+      </div>
+      <div class="footer-links">
+        <a href="mailto:songxiao16@gmail.com" class="footer-link">Email</a>
+        <span class="footer-divider">/</span>
+        <span class="footer-link" style="opacity: 0.5;">LinkedIn</span>
+        <span class="footer-divider">/</span>
+        <span class="footer-link" style="opacity: 0.5;">GitHub</span>
+      </div>
+    </div>
+    <p class="footer-copy">&copy; 2026 Xiao Song. All rights reserved.</p>
+  </footer>
+
+  <script>
+    // ---- Custom Cursor ----
+    const dot = document.getElementById('cursorDot');
+    const ring = document.getElementById('cursorRing');
+    let mouseX = 0, mouseY = 0;
+    let dotX = 0, dotY = 0;
+    let ringX = 0, ringY = 0;
+
+    document.addEventListener('mousemove', e => {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+    });
+
+    function animateCursor() {
+      // Dot follows with slight lag
+      dotX += (mouseX - dotX) * 0.2;
+      dotY += (mouseY - dotY) * 0.2;
+      dot.style.left = dotX + 'px';
+      dot.style.top = dotY + 'px';
+
+      // Ring follows with more lag (spring feel)
+      ringX += (mouseX - ringX) * 0.08;
+      ringY += (mouseY - ringY) * 0.08;
+      ring.style.left = ringX + 'px';
+      ring.style.top = ringY + 'px';
+
+      requestAnimationFrame(animateCursor);
+    }
+    animateCursor();
+
+    // Cursor hover states
+    const interactives = document.querySelectorAll('a, button');
+    interactives.forEach(el => {
+      el.addEventListener('mouseenter', () => {
+        dot.classList.add('hovering');
+        ring.classList.add('hovering');
+      });
+      el.addEventListener('mouseleave', () => {
+        dot.classList.remove('hovering');
+        ring.classList.remove('hovering');
+      });
+    });
+
+    // ---- Scroll Progress Bar ----
+    const progressBar = document.getElementById('scrollProgress');
+    window.addEventListener('scroll', () => {
+      const scrollTop = window.scrollY;
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const progress = (scrollTop / docHeight) * 100;
+      progressBar.style.width = progress + '%';
+    }, { passive: true });
+
+    // ---- Scroll Reveal (Intersection Observer) ----
+    const reveals = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15, rootMargin: '0px 0px -60px 0px' });
+
+    reveals.forEach(el => observer.observe(el));
+
+    // ---- Sticky Theater ----
+    const theaterProjects = [
+      {
+        title: '1P Buying & Audience Send',
+        desc: 'Designing the end-to-end buying experience for WhatsApp business messaging — helping advertisers create, target, and send marketing messages to subscriber audiences at scale.',
+        tag: 'Meta · 2025',
+        link: '#',
+        colors: ['#2a2a2a', '#3a3a3a'],
+        imageText: '1P Buying &<br>Audience Send',
+        metrics: []
+      },
+      {
+        title: 'Parcel Platform',
+        desc: 'Designed DoorDash\'s 0→1 Parcels platform — consolidating isolated manual workflows into a single web and mobile tool that simplified daily logistics for frontline operations teams.',
+        tag: 'DoorDash · 2025',
+        link: '#',
+        colors: ['#1f1f1f', '#333333'],
+        imageText: 'Parcel<br>Platform',
+        metrics: []
+      },
+      {
+        title: 'Marketing Message Liquidity',
+        desc: 'I designed budget handling and onboarding for integrating WhatsApp marketing messages into Ads Manager — enabling optimized spend across ads and messages within a single campaign.',
+        tag: 'Meta · 2024',
+        link: 'preview-case-study-mml.html',
+        colors: ['#1a1a2e', '#16213e'],
+        imageText: 'Marketing<br>Message<br>Liquidity',
+        metrics: [
+          { value: '+20%', label: 'ROAS' },
+          { value: '+13%', label: 'Purchases' },
+          { value: '−23%', label: 'Cost / Add to Cart' }
+        ]
+      },
+      {
+        title: 'Driver Tipping at Walmart',
+        desc: 'I led the design of a pre-transaction tipping experience for delivery drivers — balancing customer conversion, driver compensation, and business growth during Walmart\'s rapid delivery expansion.',
+        tag: 'Walmart · 2021',
+        link: 'preview-case-study-dtwm.html',
+        colors: ['#0f3460', '#162447'],
+        imageText: 'Driver<br>Tipping',
+        metrics: [
+          { value: '31→76%', label: 'Tip Rate' },
+          { value: '$7M', label: 'Annual Savings' },
+          { value: '7.5M', label: 'More Deliveries' }
+        ]
+      },
+      {
+        title: 'Modular Search & Browse',
+        desc: 'I designed Top Picks and Shop By — contextual search modules that adapt to product type and shopping intent, transforming 6,000+ result walls into guided experiences.',
+        tag: 'Walmart · 2019',
+        link: 'preview-case-study-sb.html',
+        colors: ['#1b1a2e', '#2d2b42'],
+        imageText: 'Search &<br>Browse',
+        metrics: [
+          { value: '+0.66%', label: 'Conversion Rate' },
+          { value: '−30%', label: 'Actions to Cart' },
+          { value: '47%', label: 'Feedback Addressed' }
+        ]
+      }
+    ];
+
+    const theaterEl = document.getElementById('theater');
+    const stageEl = document.getElementById('theaterStage');
+    const dotsEl = document.getElementById('theaterDots');
+
+    theaterEl.style.height = (theaterProjects.length * 100 + 100) + 'vh';
+
+    theaterProjects.forEach((p, i) => {
+      const proj = document.createElement('div');
+      proj.className = 'theater-project';
+      proj.dataset.index = i;
+      const metricsHTML = p.metrics.map(m =>
+        `<div class="theater-metric"><span class="theater-metric-value">${m.value}</span><span class="theater-metric-label">${m.label}</span></div>`
+      ).join('');
+
+      proj.innerHTML = `
+        <a href="${p.link}" class="theater-image" style="text-decoration:none;">
+          <div class="theater-image-gradient" style="background:linear-gradient(135deg,${p.colors[0]},${p.colors[1]})"></div>
+          <span class="theater-image-text">${p.imageText}</span>
+        </a>
+        <div class="theater-info">
+          <span class="theater-info-index">${String(i + 1).padStart(2, '0')}</span>
+          <div class="theater-info-body">
+            <h3 class="theater-info-title"><a href="${p.link}">${p.title}</a></h3>
+            <p class="theater-info-tag">${p.tag}</p>
+            <p class="theater-info-desc">${p.desc}</p>
+            <div class="theater-metrics">${metricsHTML}</div>
+          </div>
+        </div>
+      `;
+      stageEl.appendChild(proj);
+
+      const dot = document.createElement('div');
+      dot.className = 'theater-dot';
+      dotsEl.appendChild(dot);
+    });
+
+    const projEls = document.querySelectorAll('.theater-project');
+    const dotEls = document.querySelectorAll('.theater-dot');
+    let currentTheaterIdx = -1;
+
+    function updateTheater() {
+      const rect = theaterEl.getBoundingClientRect();
+      const h = theaterEl.offsetHeight;
+      const scrollIn = -rect.top;
+      const seg = h / (theaterProjects.length + 1);
+      let idx = Math.floor(scrollIn / seg);
+      idx = Math.max(0, Math.min(theaterProjects.length - 1, idx));
+
+      const inView = rect.top < window.innerHeight && rect.bottom > 0;
+      dotsEl.classList.toggle('visible', inView);
+
+      if (!inView) idx = -1;
+
+      if (idx !== currentTheaterIdx) {
+        currentTheaterIdx = idx;
+        projEls.forEach((el, i) => {
+          el.classList.remove('active', 'exiting');
+          if (i === idx) el.classList.add('active');
+          else if (i === idx - 1) el.classList.add('exiting');
+        });
+        dotEls.forEach((d, i) => d.classList.toggle('active', i === idx));
+      }
+    }
+
+    window.addEventListener('scroll', () => requestAnimationFrame(updateTheater), { passive: true });
+    updateTheater();
+  </script>
+</body>
+</html>
