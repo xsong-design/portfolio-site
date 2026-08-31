@@ -2,6 +2,12 @@
 
 Append-only. Newest at the top. Filled by the Orchestrator from Xiao's feedback.
 
+## 2026-08-31 — GitHub Desktop signed in; Cursor terminal still cannot push
+Xiao: "im in". `git push` from this agent still fails (no HTTPS username). Next: click **Publish branch** in GitHub Desktop.
+
+## 2026-08-31 — GitHub repo created, push blocked on auth
+Repo: https://github.com/xsong-design/portfolio-site.git (empty, public). Local `main` committed (f19b209), origin set. Push failed: no GitHub credentials / no `gh` / no SSH key.
+
 ## 2026-08-31 — Claimed Vercel deploy
 Xiao: "i claimed the push". Next: GitHub repo so the project is not only a one-off claim. This laptop still has no git and Vercel CLI is logged out.
 

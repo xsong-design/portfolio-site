@@ -156,21 +156,24 @@ export default function HeroSection() {
           ))}
         </div>
 
-        {/* Product designer — on the baseline rail */}
+        {/* Product designer — on the baseline rail (em must use display size, not label size) */}
         <motion.span
-          className="hidden sm:block absolute z-20 font-display italic font-normal tracking-[0.01em] whitespace-nowrap pointer-events-none"
+          className="hidden sm:block absolute z-20 whitespace-nowrap pointer-events-none"
           style={{
             right: 0,
             top: "calc(4.5rem + 0.78em)",
             transform: "translateY(-50%)",
-            fontSize: "0.6875rem",
-            color: INK,
           }}
           initial={noMotion ? { opacity: 1 } : { opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.4, ease: "easeOut", delay: 0.6 }}
         >
-          Product designer
+          <span
+            className="font-display italic font-normal tracking-[0.01em]"
+            style={{ fontSize: "0.6875rem", color: INK }}
+          >
+            Product designer
+          </span>
         </motion.span>
 
         <h1
@@ -237,22 +240,36 @@ export default function HeroSection() {
                   </span>
                 )}
 
-                {/* Line sits under the label — never through it */}
+                {/* Tip nearest the letter; stem between tip and label — never through the name */}
+                {!above && (
+                  <span
+                    className="shrink-0"
+                    style={{
+                      width: 3,
+                      height: 3,
+                      background: INK,
+                    }}
+                    aria-hidden
+                  />
+                )}
+
                 <span
                   className="w-px flex-1 min-h-[0.5rem]"
                   style={{ background: INK }}
                   aria-hidden
                 />
 
-                <span
-                  className="shrink-0"
-                  style={{
-                    width: c.primary ? 4 : 3,
-                    height: c.primary ? 4 : 3,
-                    background: INK,
-                  }}
-                  aria-hidden
-                />
+                {above && (
+                  <span
+                    className="shrink-0"
+                    style={{
+                      width: c.primary ? 4 : 3,
+                      height: c.primary ? 4 : 3,
+                      background: INK,
+                    }}
+                    aria-hidden
+                  />
+                )}
 
                 {!above && (
                   <span
