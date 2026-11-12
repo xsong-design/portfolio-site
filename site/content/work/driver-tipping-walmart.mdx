@@ -1,12 +1,12 @@
 ---
 title: "Driver Tipping at Walmart"
-subtitle: "Designing a fair and transparent tipping experience for delivery drivers"
-description: "Designing a tipping experience for delivery drivers in the Walmart ecosystem"
+subtitle: "Move tipping to checkout so Spark drivers get paid, and customers know it is only for grocery delivery"
+description: "Post-delivery tips were getting lost. I designed tipping at checkout for Spark grocery delivery — 100% to the driver, and only on the grocery cart in an app that mixed store and fulfillment orders."
 company: "Walmart"
-year: "2024"
-role: "Product Designer"
-team: "Design, PM, Eng, Research — 6 people"
-timeline: "Q1-Q2 2024 (5 months)"
+year: "2020–2021"
+role: "Product Designer — Spark driver tipping at checkout"
+team: "Fulfillment"
+timeline: "Nov 2020 – March 2021"
 heroImage: "/images/work/dtwm-hero.jpg"
 slug: "driver-tipping-walmart"
 imageText:
@@ -16,59 +16,38 @@ featured: true
 order: 2
 ---
 
-## Overview
+This work came about because of COVID. People could not go to stores, so Walmart delivered groceries through DoorDash. Those drivers jump between apps depending on pay. Grocery time slots are time-sensitive, and we could not meet demand. Walmart wanted its own Spark fleet. More drivers meant more slots. Tipping had to help keep that fleet.
 
-Driver Tipping at Walmart reimagined how customers tip delivery drivers during the online grocery checkout and post-delivery experience. The project balanced the needs of three stakeholders — customers seeking transparency, drivers depending on fair compensation, and the business aiming for a sustainable delivery model.
+## After delivery, the tip disappeared
 
-## Context & Problem
+With DoorDash, the tip sat after delivery. Once groceries arrived, most people did not come back. Those tips were lost.
 
-Walmart's delivery tipping experience was underperforming. Customers were confused about when and how tips were distributed, drivers felt the system was opaque, and tip rates lagged behind competitors. The existing flow buried tipping in the checkout process with poor defaults and no post-delivery option.
+I designed moving the ask to checkout — while someone is already paying. We looked at competitors first. Two things had to be obvious there: 100% of the tip goes to the driver, and it only applies to grocery delivery.
 
-Key challenges included:
-- Low tip attachment rate compared to industry benchmarks
-- Customer confusion about tip timing and distribution
-- No ability to adjust tips after delivery based on experience
-- Lack of transparency eroding trust with both customers and drivers
+## Grocery only, in a mixed cart
 
-## Process
+Store groceries and online fulfillment were merging into one app. A cart could mix items a driver brings from the store with items that ship. Walmart customers are budget-sensitive. They needed to feel they could tip, and to see that the tip was for the grocery delivery, not the whole mixed cart.
 
-This project required balancing quantitative business metrics with qualitative human factors across a compressed timeline.
+<SparkParties />
 
-### Research & Discovery
-- Analyzed tipping data across 6 months of delivery orders
-- Conducted 10 customer interviews focused on tipping mental models
-- Reviewed driver feedback surveys and NPS verbatims
-- Competitive audit of DoorDash, Instacart, and Uber Eats tipping flows
+My job was that checkout moment: when to ask, how to say the money goes to the driver, and how to keep it on groceries only.
 
-### Definition & Ideation
-- Mapped the end-to-end tipping journey across pre-order, checkout, and post-delivery
-- Identified 4 key intervention points for improving tip rates
-- Workshopped solutions with cross-functional stakeholders
-- Prioritized using an impact-effort matrix
+## What we shipped
 
-### Design & Iteration
-- Designed A/B test variants for checkout tipping UI
-- Prototyped post-delivery tipping flow with rating integration
-- Ran 2 rounds of unmoderated usability testing (n=24)
-- Refined copy and interaction patterns based on comprehension metrics
+<FigureSlot title="Shipped — checkout tipping for grocery delivery" caption="Hero for this section: the screens that shipped. Talk through the final so we can write it." />
 
-## Solution
+## What we tried
 
-The redesign touched three moments in the customer journey:
+We tried percent of the order (15%, 20%) against set dollars ($3, $5). We tried an empty tipping module against a preselected amount — on unless the customer removes it. We tried putting the module on its own, right above the wallet, versus inside the grocery cart, where it reads as part of that order.
 
-### Smart Defaults at Checkout
-Replaced flat-dollar defaults with percentage-based suggestions anchored to order size. Added contextual messaging about how tips support drivers, increasing perceived value of tipping.
+Those three questions are what the final had to answer.
 
-### Post-Delivery Prompt
-Introduced a well-timed push notification and in-app prompt after delivery completion, letting customers adjust their tip based on actual experience. Included driver name and delivery details to personalize the moment.
+<TippingTried />
 
-### Transparency Layer
-Added clear confirmation of tip distribution timing and a breakdown visible in order history. Customers could see exactly when their tip reached the driver, building trust in the system.
+## Takeaways
 
-## Outcome
+COVID showed up while I was on Search & Browse. I moved to checkout — fulfillment, the bottom of the funnel — mainly to take on more responsibility. Search and browse is nice to have. The real complexity sits in checkout. Business goals changed with COVID. I had to get adaptive: sit with business partners to name the problem, then solve it.
 
-- Tip attachment rate increased from 52% to 68% (+31% relative lift)
-- Average tip amount increased by 18% across tipped orders
-- Post-delivery tip adjustments added incremental revenue for drivers
-- Driver satisfaction NPS improved by 12 points in post-launch survey
-- Feature rolled out to all Walmart delivery markets within 3 months
+What I would keep is that communication. Not only UX, engineering, and PM. At the bottom of the funnel you also need business and legal in the room, and a real working relationship with both.
+
+What that taught me as I grew into a senior designer: the job is not only the customer, or the business of that customer. It is every party in the mix, and one solution that still holds.

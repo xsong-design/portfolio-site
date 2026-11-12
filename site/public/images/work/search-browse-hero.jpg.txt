@@ -1,0 +1,3 @@
+PLACEHOLDER: Replace this file with the actual hero image for "Search & Browse at Walmart" case study.
+Recommended dimensions: 1600x900px or 16:9 aspect ratio.
+File should be named: search-browse-hero.jpg

@@ -4,12 +4,13 @@ import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
+import { launch } from "@/lib/launch";
 
 const EASE = [0.16, 1, 0.3, 1] as const;
 
 const NAV_ITEMS = [
-  { href: "/work", label: "work" },
-  { href: "/about", label: "about" },
+  ...(!launch.hideWork ? [{ href: "/work", label: "work" }] : []),
+  ...(!launch.hideAbout ? [{ href: "/about", label: "about" }] : []),
   { href: "/contact", label: "contact" },
 ];
 
@@ -104,7 +105,7 @@ export default function Navigation() {
         initial={prefersReduced ? { y: 0 } : { y: "-100%" }}
         animate={{ y: 0 }}
         transition={{ duration: 0.8, ease: EASE, delay: 0.2 }}
-        className={`fixed top-0 left-0 right-0 z-40 flex items-center justify-between py-[18px] page-pad backdrop-blur-[16px] ${
+        className={`no-print fixed top-0 left-0 right-0 z-40 flex items-center justify-between py-[18px] page-pad backdrop-blur-[16px] ${
           scrolled
             ? "bg-bg/[0.92] shadow-[0_1px_0_var(--color-border)]"
             : "bg-bg/80"

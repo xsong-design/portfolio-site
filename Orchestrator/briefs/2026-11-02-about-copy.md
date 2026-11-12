@@ -1,0 +1,11 @@
+# Brief: About copy from Xiao’s talk-through
+
+- **Date:** 2026-11-02
+- **From:** Xiao
+- **To:** Front End / Case Study Writer
+
+## Verbatim
+> For the about me section, I want to talk about how I most recently worked at Meta, DoorDash, and previously at Walmart. I've worked at large scale e-commerce, I've worked at big companies, tech companies, as well as agencies and also startups. I've also been at a Series A. I really like the intersection of complex business logic and human-centered design. I like that section. And I love the section about transforming intricate workflows into interfaces that feel clear and purposeful. I really like that. And in the philosophy section, I think before pixels, I map and build relationships. I don't just map relationships, I build relationships as well. I want to make sure that everyone on my team or everyone that I'm working with, every single XFN is heard. I want to be that bridge for them. I want to design experiences not only for our end users, but also for people that I'm working with. And I like the sentence about between users, data, and business logic. This creates interfaces that scale gracefully and adapt to evolving needs without accumulating design debt. I like that part. Craft at every scale also makes sense to me. I think just because nowadays user experience is very, I guess, user. I think. So there's, even at large companies, there's a lot of built-out design systems, but I think design. Still has to be the craft, still has to be kept there. We need to use the right design patterns for the right solutions. And if there isn't one, we want to propose new design, new design, new design interactions. We don't want to just force design interactions. So I really like that part. I just babbled a lot. Make sure that everything that I just said comes across, but keep the keep this these sentences sounding very short and sweet. Yeah.
+
+## Intent
+Keep the sentences Xiao liked. Add Meta, DoorDash, Walmart; e-commerce / big tech / agencies / startups / Series A. Philosophy: map *and* build relationships; XFN heard; bridge; craft inside existing design systems; right pattern or a new one. Short. Do not invent DoorDash product details or agency names.

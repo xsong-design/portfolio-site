@@ -22,6 +22,16 @@ export interface ProjectFrontmatter {
   imageText: string[];
   featured: boolean;
   order: number;
+  /** Job title for the homepage stage. Case pages keep `role`. */
+  cardRole?: string;
+  /** One line on what the project is. Case pages keep `description`. */
+  cardSummary?: string;
+  /** Confirmed result only. Omit when there is no number. */
+  metric?: { value: string; label: string };
+  /** Homepage photograph. Case pages keep screens for later. */
+  cardImage?: string;
+  /** Where object-cover keeps the picture inside the homepage frame. */
+  cardFocus?: string;
 }
 
 export interface Project {
@@ -116,7 +126,13 @@ export async function getCompiledProject(
 export function getAdjacentProjects(
   slug: string
 ): { prev: ProjectListItem | null; next: ProjectListItem | null } {
-  const projects = getAllProjects();
+  const all = getAllProjects();
+  const current = all.find((p) => p.frontmatter.slug === slug);
+  if (!current) return { prev: null, next: null };
+
+  const projects = current.frontmatter.featured
+    ? all.filter((p) => p.frontmatter.featured)
+    : all;
   const currentIndex = projects.findIndex((p) => p.frontmatter.slug === slug);
 
   if (currentIndex === -1) return { prev: null, next: null };

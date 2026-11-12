@@ -20,18 +20,22 @@ const RAILS = [
   { id: "descender", top: "1.02em" },
 ] as const;
 
-type Letter = { id: string; ch: string };
+type Letter = {
+  id: string;
+  ch: string;
+  mark?: "crown" | "tittle" | "loop" | "bowl" | "arch";
+};
 
 const LETTERS: Letter[] = [
   { id: "x", ch: "x" },
-  { id: "i", ch: "i" },
+  { id: "i", ch: "i", mark: "tittle" },
   { id: "a", ch: "a" },
-  { id: "o-xiao", ch: "o" },
+  { id: "o-xiao", ch: "o", mark: "crown" },
   { id: "space", ch: "\u00a0" },
-  { id: "s", ch: "s" },
+  { id: "s", ch: "s", mark: "bowl" },
   { id: "o-song", ch: "o" },
-  { id: "n", ch: "n" },
-  { id: "g", ch: "g" },
+  { id: "n", ch: "n", mark: "arch" },
+  { id: "g", ch: "g", mark: "loop" },
 ];
 
 /** Vertical stems only. Spread across the name — not clustered on xiao. */
@@ -81,6 +85,38 @@ const CALLOUTS: Callout[] = [
 const TIP_GAP_PX = 12;
 
 type Tip = { x: number; y: number };
+
+/** Darker green for the name. Lighter sage for the letter details. */
+const NAME = "var(--color-accent-text)";
+const FILL = "color-mix(in srgb, var(--color-accent) 70%, var(--color-bg))";
+
+function Glyph({ ch, mark }: { ch: string; mark?: Letter["mark"] }) {
+  if (ch === "\u00a0" || !mark) return <>{ch}</>;
+
+  const clip =
+    mark === "tittle"
+      ? "inset(0 12% 66% 12%)"
+      : mark === "loop"
+        ? "inset(58% -30% -45% -30%)"
+        : mark === "bowl"
+          ? "inset(54% -36% -28% -36%)"
+          : mark === "crown"
+            ? "inset(-14% -26% 48% -26%)"
+            : "inset(-18% -28% -12% 58%)";
+
+  return (
+    <span className="relative inline-block">
+      {ch}
+      <span
+        aria-hidden
+        className="pointer-events-none absolute inset-0"
+        style={{ color: FILL, clipPath: clip }}
+      >
+        {ch}
+      </span>
+    </span>
+  );
+}
 
 export default function HeroSection() {
   const prefersReduced = useReducedMotion();
@@ -177,8 +213,8 @@ export default function HeroSection() {
         </motion.span>
 
         <h1
-          className="relative z-10 m-0 text-center font-display font-bold leading-[1.1] tracking-[-0.02em] text-text whitespace-nowrap"
-          style={{ fontSize: "1em" }}
+          className="relative z-10 m-0 text-center font-display font-bold leading-[1.1] tracking-[-0.02em] whitespace-nowrap"
+          style={{ fontSize: "1em", color: NAME }}
         >
           {LETTERS.map((letter, i) => (
             <motion.span
@@ -196,7 +232,7 @@ export default function HeroSection() {
                 delay: 0.04 * Math.min(i, 5),
               }}
             >
-              {letter.ch}
+              <Glyph ch={letter.ch} mark={letter.mark} />
             </motion.span>
           ))}
         </h1>

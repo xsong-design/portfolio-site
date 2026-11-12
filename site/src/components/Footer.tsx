@@ -14,7 +14,7 @@ export default function Footer() {
   };
 
   return (
-    <footer className="page-pad pt-[clamp(5rem,8vw,7rem)] pb-[clamp(3rem,5vw,4rem)] border-t border-border">
+    <footer className="no-print page-pad pt-[clamp(5rem,8vw,7rem)] pb-[clamp(3rem,5vw,4rem)] border-t border-border">
       <ScrollReveal>
         <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-8">
           <div>

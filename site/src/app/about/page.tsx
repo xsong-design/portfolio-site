@@ -6,7 +6,7 @@ import { generatePageMetadata } from "@/lib/seo";
 export const metadata = generatePageMetadata({
   title: "About",
   description:
-    "I\u2019m Xiao Song, a product designer at Meta focused on enterprise messaging \u2014 making complex systems feel simple.",
+    "Xiao Song is a product designer. Most recently Meta and DoorDash, previously Walmart — complex business logic, human-centered design.",
   path: "/about",
 });
 
@@ -14,27 +14,31 @@ const experience = [
   {
     company: "Meta",
     role: "Product Designer",
-    period: "2024 – Present",
+    period: "2022 – Present",
     description:
-      "Business Messaging, Engagement team. Designing enterprise messaging tools for WhatsApp Business Platform — marketing message delivery, subscriber management, and business settings.",
+      "Business Messaging, Engagement. Marketing messages in Ads Manager, Meta Business Suite, and partner surfaces.",
+  },
+  {
+    company: "DoorDash",
+    role: "Product Designer",
+    period: "",
+    description: "",
   },
   {
     company: "Walmart",
     role: "Product Designer",
-    period: "2023 – 2024",
+    period: "2019 – 2021",
     description:
-      "Delivery Experience team. Designed end-to-end delivery experiences including driver tipping, order tracking, and last-mile logistics interfaces.",
-  },
-  {
-    company: "Previous Role",
-    role: "Product Designer",
-    period: "2021 – 2023",
-    description:
-      "Placeholder — Xiao will add previous experience details here.",
+      "Search & Browse, then checkout and fulfillment — Spark driver tipping at the bottom of the funnel.",
   },
 ];
 
 const skills = [
+  {
+    category: "AI",
+    items:
+      "Fills the gaps and takes the slow work so I can stay on UX, complexity, and the human interaction.",
+  },
   {
     category: "Design",
     items: "Figma, FigJam, Adobe Creative Suite, Sketch",
@@ -66,20 +70,25 @@ export default function AboutPage() {
           about
         </p>
         <h1 className="font-display text-[clamp(2.5rem,6vw,4.5rem)] font-bold leading-[0.95] tracking-[-0.03em] text-text max-w-3xl">
-          I design systems that make
+          I like to orchestrate
           <br />
-          complexity feel{" "}
-          <span className="text-accent">inevitable.</span>
+          <span className="text-accent">experiences.</span>
         </h1>
       </ScrollReveal>
 
       <ScrollReveal delay={0.15}>
-        <p className="mt-10 text-[1.0625rem] leading-[1.85] text-text-secondary max-w-2xl">
-          I&apos;m Xiao Song, a product designer at Meta focused on enterprise
-          messaging. I work at the intersection of complex business logic and
-          human-centered design — transforming intricate workflows into
-          interfaces that feel clear and purposeful.
-        </p>
+        <div className="mt-10 text-[1.0625rem] leading-[1.85] text-text-secondary max-w-2xl space-y-5">
+          <p>
+            I&apos;m Xiao Song, a product designer. Most recently Meta and
+            DoorDash, and before that Walmart. I have worked large-scale
+            e-commerce, big tech, agencies, startups, and a Series A.
+          </p>
+          <p>
+            I work at the intersection of complex business logic and
+            human-centered design — transforming intricate workflows into
+            interfaces that feel clear and purposeful.
+          </p>
+        </div>
       </ScrollReveal>
 
       {/* ─── Philosophy ─── */}
@@ -89,12 +98,15 @@ export default function AboutPage() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12 max-w-4xl">
             <div>
               <h3 className="font-display text-[1.375rem] font-semibold tracking-[-0.02em] text-text mb-4">
-                Systems thinking first
+                Map and build relationships
               </h3>
               <p className="text-[0.9375rem] leading-[1.75] text-text-secondary">
-                Before pixels, I map relationships — between users, data, and
-                business logic. This creates interfaces that scale gracefully and
-                adapt to evolving needs without accumulating design debt.
+                Before pixels, I map and build relationships — between users,
+                data, and business logic, and with every function on the team. I
+                want each XFN heard. I try to be the bridge: design for the end
+                user, and for the people I work with. This creates interfaces
+                that scale gracefully and adapt to evolving needs without
+                accumulating design debt.
               </p>
             </div>
             <div>
@@ -102,10 +114,10 @@ export default function AboutPage() {
                 Craft at every scale
               </h3>
               <p className="text-[0.9375rem] leading-[1.75] text-text-secondary">
-                From the timing of a micro-animation to the information
-                architecture of a platform, I sweat the details that compound
-                into exceptional experiences. Great design lives in the tension
-                between complexity and clarity.
+                Large companies already have design systems. Craft still has to
+                live there. Use the right pattern for the problem. If the library
+                does not have one, propose a new interaction — do not force one
+                that does not fit.
               </p>
             </div>
           </div>
@@ -131,13 +143,17 @@ export default function AboutPage() {
                     </h3>
                     <p className="text-sm text-text-muted">{exp.role}</p>
                   </div>
-                  <span className="font-mono text-[0.5625rem] font-medium tracking-[0.15em] uppercase text-text-muted shrink-0">
-                    {exp.period}
-                  </span>
+                  {exp.period ? (
+                    <span className="font-mono text-[0.5625rem] font-medium tracking-[0.15em] uppercase text-text-muted shrink-0">
+                      {exp.period}
+                    </span>
+                  ) : null}
                 </div>
-                <p className="text-[0.9375rem] leading-[1.7] text-text-secondary">
-                  {exp.description}
-                </p>
+                {exp.description ? (
+                  <p className="text-[0.9375rem] leading-[1.7] text-text-secondary">
+                    {exp.description}
+                  </p>
+                ) : null}
               </div>
             </ScrollReveal>
           ))}
@@ -148,9 +164,14 @@ export default function AboutPage() {
       <SectionDivider label="skills & tools" />
       <section className="py-12">
         <ScrollReveal>
-          <h2 className="font-display text-[1.75rem] font-bold tracking-[-0.02em] text-text mb-10">
+          <h2 className="font-display text-[1.75rem] font-bold tracking-[-0.02em] text-text mb-4">
             Skills &amp; Tools
           </h2>
+          <p className="text-[0.9375rem] leading-[1.75] text-text-secondary max-w-2xl mb-10">
+            The tools below still matter. AI does not replace that expertise. It
+            helps me move through the design journey faster so the time I keep
+            is the human side.
+          </p>
         </ScrollReveal>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 max-w-4xl">
           {skills.map((skill, i) => (

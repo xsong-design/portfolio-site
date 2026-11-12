@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Xiao Song — resume example</title>
+  <style>
+    @page { size: letter; margin: 0; }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; }
+    body {
+      background: #d9d9d9;
+      -webkit-font-smoothing: antialiased;
+    }
+    .frame {
+      width: min(816px, calc(100vw - 24px));
+      height: calc(min(816px, 100vw - 24px) * 11 / 8.5);
+      margin: 12px auto 28px;
+    }
+    .sheet {
+      position: relative;
+      width: 816px;
+      height: 1056px;
+      background: #fff;
+      color: #111;
+      overflow: hidden;
+      box-shadow: 0 10px 28px rgba(0, 0, 0, 0.16);
+      transform-origin: top left;
+    }
+    .brush {
+      position: absolute;
+      left: 54px;
+      top: 78px;
+      width: 136px;
+      height: 57px;
+    }
+    .name {
+      position: absolute;
+      left: 128px;
+      top: 102px;
+      margin: 0;
+      font-family: "Garamond Premier Pro", Garamond, "Times New Roman", serif;
+      font-weight: 700;
+      font-size: 14pt;
+      letter-spacing: 0.14em;
+      line-height: 1;
+    }
+    .name span { color: #fff; }
+    .role {
+      position: absolute;
+      left: 172px;
+      top: 126px;
+      margin: 0;
+      font-family: "Garamond Premier Pro", Garamond, "Times New Roman", serif;
+      font-weight: 400;
+      font-size: 10.5pt;
+      letter-spacing: 0.03em;
+    }
+    .col-left {
+      position: absolute;
+      left: 132px;
+      top: 224px;
+      width: 360px;
+    }
+    .col-right {
+      position: absolute;
+      left: 508px;
+      top: 160px;
+      width: 242px;
+    }
+    h2 {
+      margin: 0 0 22pt;
+      font-family: "Garamond Premier Pro", Garamond, "Times New Roman", serif;
+      font-weight: 700;
+      font-size: 10pt;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+    }
+    .job { margin: 0 0 22pt; }
+    .job h3,
+    .side h3,
+    .label {
+      margin: 0;
+      font-family: "Garamond Premier Pro", Garamond, "Times New Roman", serif;
+      font-weight: 700;
+      font-size: 10.5pt;
+      letter-spacing: 0.01em;
+      text-transform: lowercase;
+    }
+    .job .title {
+      margin: 1pt 0 0;
+      font-family: "Garamond Premier Pro", Garamond, "Times New Roman", serif;
+      font-weight: 400;
+      font-size: 10.5pt;
+      text-transform: lowercase;
+    }
+    .when {
+      margin: 2pt 0 8pt;
+      font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+      font-weight: 200;
+      font-size: 8pt;
+    }
+    .job p,
+    .tools,
+    .contact p,
+    .edu p {
+      margin: 0 0 11pt;
+      font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+      font-weight: 300;
+      font-size: 7.5pt;
+      line-height: 12pt;
+    }
+    .job p strong,
+    .lang b {
+      font-weight: 500;
+    }
+    .side h2 { margin-bottom: 12pt; }
+    .side section { margin-bottom: 20pt; }
+    .school {
+      margin: 0;
+      font-family: "Garamond Premier Pro", Garamond, "Times New Roman", serif;
+      font-weight: 700;
+      font-size: 10.5pt;
+      text-transform: lowercase;
+    }
+    .place {
+      margin: 1pt 0 3pt;
+      font-family: "Garamond Premier Pro", Garamond, "Times New Roman", serif;
+      font-weight: 400;
+      font-size: 10.5pt;
+      text-transform: lowercase;
+    }
+    .degree {
+      margin: 0;
+      font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+      font-weight: 300;
+      font-size: 7.7pt;
+    }
+    .label { margin: 8pt 0 2pt; }
+    .tools { margin: 0; }
+    .tools.serif {
+      font-family: "Garamond Premier Pro", Garamond, "Times New Roman", serif;
+      font-weight: 400;
+      font-size: 7.6pt;
+    }
+    .lang {
+      margin: 1pt 0;
+      font-family: "Garamond Premier Pro", Garamond, "Times New Roman", serif;
+      font-weight: 400;
+      font-size: 8pt;
+      text-transform: lowercase;
+    }
+    .lang span {
+      font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+      font-weight: 300;
+      font-size: 7.5pt;
+      text-transform: none;
+    }
+    .contact p { margin: 0; line-height: 11pt; font-size: 8pt; }
+    .contact .thin { font-weight: 200; }
+    .who {
+      margin: 0 0 2pt;
+      font-family: "Garamond Premier Pro", Garamond, "Times New Roman", serif;
+      font-weight: 700;
+      font-size: 10.5pt;
+      text-transform: lowercase;
+    }
+    @media print {
+      body { background: #fff; }
+      .frame { width: 816px; height: 1056px; margin: 0; }
+      .sheet { transform: none; box-shadow: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="frame">
+  <article class="sheet">
+    <img class="brush" src="brush.png" alt="" />
+    <p class="name"><span>XIA</span>O SONG</p>
+    <p class="role">product designer</p>
+
+    <div class="col-left">
+      <h2>Experience</h2>
+
+      <section class="job">
+        <h3>meta - teksystems</h3>
+        <p class="title">product designer</p>
+        <p class="when">October 2022 – Present</p>
+        <p>For the past two years, I’ve been working as a contingent worker at Meta. Collaborated with cross-functional teams to design and integrate Marketing Messages, a 0-to-1 product, into Ads Manager.</p>
+        <p>Focusing on <strong>Budgeting</strong><br />Collaborated with ads designers to create guidance and experiences that clarify budget allocation between ads and marketing messages, enhancing user understanding and campaign efficiency.</p>
+        <p>Focusing on <strong>Reporting</strong><br />Partnered with ads reporting designers to seamlessly integrate marketing messages data with ads data, enabling easier comparisons and improved campaign insights.</p>
+      </section>
+
+      <section class="job">
+        <h3>livecontrol.io</h3>
+        <p class="title">lead product designer</p>
+        <p class="when">August 2021 – September 2022</p>
+        <p>Led end-to-end design for LiveControl’s Studio application, supporting two senior designers from discovery to delivery. Collaborated with internal and external stakeholders to redefine the live streaming experience, making production more accessible, affordable, and fully remote.</p>
+      </section>
+
+      <section class="job">
+        <h3>walmart labs</h3>
+        <p class="title">sr. product designer</p>
+        <p class="when">July 2019 – August 2021</p>
+        <p>Led designs on <strong>Fulfillment</strong><br />Designed customer-facing solutions for fulfillment methods, collaborating across teams to simplify experiences. Launched features like driver tipping, boosting tip rates by 20%.</p>
+        <p>Led designs on <strong>Account</strong><br />Enhanced post-transaction and privacy experiences. Redesigned orders flow, reducing order inquiries, and launched “Traceable Tender,” integrating in-store receipts with online accounts for 37+ million customers.</p>
+        <p>Designed experiences for <strong>Search &amp; Browse</strong><br />Developed a modular search system for Walmart.com, introducing features like “top picks” and “progressive disclosure” to enhance product discovery and define the foundation of Walmart’s modular search experience.</p>
+      </section>
+    </div>
+
+    <aside class="col-right">
+      <section class="side">
+        <h2>Education</h2>
+        <p class="school">rhode island school of design</p>
+        <p class="place">providence, ri</p>
+        <p class="degree">BFA Class of 2017 | Industrial Design</p>
+      </section>
+
+      <section class="side">
+        <h2>Skill Sets</h2>
+        <p class="label">software</p>
+        <p class="tools">Indesign | Illustrator | Photoshop | After Effects</p>
+        <p class="tools serif">Experience Design | Lightroom | Sketch | Invision</p>
+        <p class="tools">Figma</p>
+        <p class="label">languages</p>
+        <p class="lang">chinese <span>Fluent bilingual proficiency</span></p>
+        <p class="lang">english <span>Fluent bilingual proficiency</span></p>
+      </section>
+
+      <section class="side contact">
+        <h2>Contact</h2>
+        <p class="who">xiao song</p>
+        <p>(626) 203 8927</p>
+        <p>songxiao16@gmail.com</p>
+        <p class="label">portfolio</p>
+        <p>Link: songxiao.webflow.io</p>
+        <p class="thin">Password: 2025</p>
+      </section>
+    </aside>
+  </article>
+  </div>
+  <script>
+    function fit() {
+      const s = Math.min(1, (document.documentElement.clientWidth - 24) / 816);
+      const sheet = document.querySelector(".sheet");
+      const frame = document.querySelector(".frame");
+      sheet.style.transform = "scale(" + s + ")";
+      frame.style.width = 816 * s + "px";
+      frame.style.height = 1056 * s + "px";
+    }
+    fit();
+    window.addEventListener("resize", fit);
+  </script>
+</body>
+</html>

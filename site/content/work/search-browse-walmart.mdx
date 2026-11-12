@@ -1,0 +1,79 @@
+---
+title: "Search & Browse at Walmart"
+subtitle: "Hired onto Search & Browse to personalize Walmart.com when a query like AA batteries returned thousands of results"
+description: "I joined Walmart to work on Search & Browse — personalizing e-commerce across millions of SKUs — and owned Top Picks and Shop By."
+company: "Walmart"
+year: "2019–2020"
+role: "Product Designer, Search & Browse — Top Picks and Shop By"
+team: "2 UX designers, CX PMs, 2 data scientists, 1 researcher; frontend and backend leads; category specialists"
+timeline: "April 2019 – ~Q1 2020"
+heroImage: "/images/work/search-browse-hero.jpg"
+slug: "search-browse-walmart"
+imageText:
+  - "Search"
+  - "&"
+  - "Browse"
+featured: true
+order: 3
+---
+
+I joined Walmart to work on Search & Browse. That is what I was hired to do: personalize shopping on Walmart.com, where the catalog runs to millions of SKUs.
+
+A query like AA batteries returned 6,266 items. Rugs — the #1 search on the site — had more than 130,000. Sort and filter were not enough. People were taking about 20 actions before anything went in the cart, and 47% of tracked online customer feedback was about search and browse.
+
+The job was not to polish those filters. It was to make search feel personal at that scale — modules that change with what someone is shopping for, instead of one layout for every query. I owned two of those modules, Top Picks and Shop By, through design, delivery, and A/B test.
+
+## How we thought about the problem
+
+Search is hard because the trip is not always the same. Sometimes you need batteries because the remote died. Sometimes you are restocking. Sometimes you are remodeling and you will visit a few times before you buy.
+
+We mapped journeys three ways:
+
+- **Occasion** — urgent, routine, or planned research
+- **What they want from search** — cheapest, something they can trust, or room to compare
+- **Product type** — low-consideration (batteries) vs high-consideration (TVs, rugs)
+
+That became the strategy. Do not build one search. Build modules that can change with the query and the category.
+
+The old success metrics were mostly speed and filter use. I pushed for whether people actually found something: **find-it score** on the top results, **add-to-cart**, and **NPS**. Make search easier, not just faster.
+
+The working team was small and mixed: UX, CX PMs, data scientists, a researcher. We partnered with frontend and backend leads, and with category specialists — the buyers who own Home, Fashion, Everyday Living, and so on.
+
+We went through a lot of ideas, tested about 50, and used co-creation (designing with customers) and storyboards to pick what to build. The two that I took to ship were Top Picks and Shop By.
+
+## Top Picks
+
+Top Picks pulls **four choices** out of thousands of results: top selling, best ratings, best deal, and budget-friendly (cheapest per unit). For batteries, that is a shortcut. For Samsung TVs, the same pattern translates specs (4K, 200Hz, UHD) into language people use — “great value,” “budget friendly” — because 200Hz means nothing if you do not already know TVs. Category specialists helped curate those picks.
+
+I tried a few looks. Color behind each segment turned into a rainbow once it repeated down the page. A four-grid and a carousel both ate too much. We landed on a fold-based layout, then had to pull back: putting every pick above the fold shoved organic results down, and we were giving up too much information per tile. Tiles were capped at **320px** (iPhone 5SE width). Horizontal and vertical scroll both had to work so the module did not bury the rest of search.
+
+## Shop By
+
+Shop By is contextual filters, shown as you go, based on the product. For rugs, text filters like “velvet” or “twill” do not mean much. Shop By uses **images** — shop by room, shop by style — so people narrow with things they can see. Picking a filter reloads results without a full page refresh.
+
+The trade-off was familiar text lists vs visual filters. Text was what people knew. It failed on categories where the words are insider language. Co-creation sessions had people reaching for pictures, not labels. Category specialists curated the imagery.
+
+**Inline filters** sit further down as lighter chips for people who are still scrolling. Same idea, smaller interruption.
+
+## How the modules sit in search
+
+As you scroll results, modules inject between product tiles based on the query and category. Top Picks is near the top. Shop By shows up once you have seen the first results and likely need help narrowing. The modules are separate units so we could compose them differently later — not a one-off redesign of the whole page.
+
+I worked with frontend and backend leads so the framework could inject modules, change them by category, and pull content from the specialist teams.
+
+## Impact
+
+Both modules A/B tested against existing search:
+
+- **Top Picks:** better relevance on the top four results, and **+0.66% conversion** (add-to-cart). Small on paper, large at Walmart’s volume.
+- Queries with both modules: average **actions-to-cart fell by about 30%**, from about 20 to about 14.
+
+They held up on low-consideration queries (batteries, household) and high-consideration ones (TVs, rugs). That was the point of the system: same pattern, different content logic.
+
+## What I would do differently
+
+I would have pushed personalization sooner. The modules knew the **query** and the **category**. They did not know the **person**. Someone who always buys Duracell should not see the same Top Picks as a first-time battery shopper. The architecture could have supported that. We did not get there while I was on the team.
+
+What I would keep is the way the team was built. Data scientists, specialists, and research were in the work, not reviewing it after. Co-creation kept us honest about how people actually shop.
+
+Search is huge. You cannot wander it. This project was practice in going wide, then cutting hundreds of ideas down to two modules we could actually test.

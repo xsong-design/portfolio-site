@@ -2,6 +2,7 @@ import ScrollReveal from "@/components/ScrollReveal";
 import ProjectCard from "@/components/ProjectCard";
 import { projects } from "@/lib/projects";
 import { generatePageMetadata } from "@/lib/seo";
+import { launch } from "@/lib/launch";
 
 export const metadata = generatePageMetadata({
   title: "Work",
@@ -15,7 +16,7 @@ export default function WorkPage() {
     <main className="pt-32 pb-24 page-pad">
       <ScrollReveal>
         <p className="font-mono text-[0.6875rem] font-medium tracking-[0.12em] uppercase text-text-muted mb-6">
-          projects
+          {launch.wip ? "work in progress" : "projects"}
         </p>
         <h1 className="font-display text-[clamp(3rem,7vw,5.5rem)] font-bold leading-[0.9] tracking-[-0.03em] text-text">
           selected work<span className="text-accent">.</span>

@@ -94,7 +94,7 @@ export default function CustomCursor() {
     <>
       <div
         ref={dotRef}
-        className="fixed top-0 left-0 z-[9999] pointer-events-none -translate-x-1/2 -translate-y-1/2 hidden lg:block rounded-full"
+        className="custom-cursor no-print fixed top-0 left-0 z-[9999] pointer-events-none -translate-x-1/2 -translate-y-1/2 hidden lg:block rounded-full"
         style={{
           width: 6,
           height: 6,
@@ -106,7 +106,7 @@ export default function CustomCursor() {
       />
       <div
         ref={ringRef}
-        className="fixed top-0 left-0 z-[9998] pointer-events-none -translate-x-1/2 -translate-y-1/2 hidden lg:block rounded-full"
+        className="custom-cursor no-print fixed top-0 left-0 z-[9998] pointer-events-none -translate-x-1/2 -translate-y-1/2 hidden lg:block rounded-full"
         style={{
           width: 36,
           height: 36,

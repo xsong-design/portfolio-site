@@ -21,4 +21,5 @@ To force a specialist: name them ("Designer: restyle the hero") or `@` the folde
 
 Skill: `.cursor/skills/orchestrator/SKILL.md`  
 Designer craft bar: `.cursor/skills/10x-designer/SKILL.md`  
-Hosting: `.cursor/skills/vercel-host/SKILL.md`
+Hosting: `.cursor/skills/vercel-host/SKILL.md`  
+Resume voice (same tone as the case studies, shorter): `.cursor/skills/resume-writer/SKILL.md`

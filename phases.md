@@ -65,7 +65,7 @@ Establish visual direction and build the site simultaneously. Design decisions h
 | Work index page | Front End | Pending |
 | About page | Front End | Pending |
 | Contact page | Front End | Pending |
-| Resume page (placeholder) | Front End | Pending |
+| Resume page | Front End | ✅ On `/resume` in site type and color |
 | Page transition animations | Front End | Pending |
 | Scroll-driven animations | Front End | Pending |
 | Hover/cursor micro-interactions | Front End | Pending |
@@ -77,8 +77,9 @@ Establish visual direction and build the site simultaneously. Design decisions h
 ### Content Being Written in Parallel
 | Case Study | Status |
 |------------|--------|
-| Marketing Message Liquidity | 🔄 In progress (separate agent session) |
-| Driver Tipping at Walmart | 🔄 In progress (separate agent session) |
+| Marketing Message Liquidity | 🔄 Opening rewrite from Xiao talk-through; budget/reporting detail next |
+| Driver Tipping at Walmart | ⏸ Paused — outline voice; dates vs old site unresolved |
+| Search & Browse at Walmart | ⏸ Draft exists; waiting on Xiao voice + craft bar |
 
 ### Exit Criteria
 - [x] Visual direction decided (color palette, typography, light mode only)
@@ -105,7 +106,7 @@ Populate real content, add P1 interactions, polish details, and optimize perform
 | Case study content populated (2 projects) | Xiao + Back End | Pending |
 | Real hero images + project images | Xiao | Pending |
 | About page real content | Xiao | Pending |
-| Resume PDF drop-in | Xiao | Pending |
+| Resume PDF drop-in | Front End | ✅ `site/public/xiao-song-resume.pdf` |
 | Social links added | Xiao | Pending |
 | P1 interactions (custom cursor, magnetic nav, scroll progress) | Front End | Pending |
 | Performance optimization pass | Front End + Back End | Pending |

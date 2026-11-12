@@ -35,7 +35,7 @@ Build an interactive/experimental personal portfolio site that showcases Xiao's 
 - Budget: $0 hosting preferred (free tier platforms)
 
 ## Talking to agents
-In Cursor, talk to the **Orchestrator** in this chat. It turns feedback into briefs (`Orchestrator/briefs/`) and inbox items on the right specialist. Skill: `.cursor/skills/orchestrator/SKILL.md`. Roster: `AGENTS.md`.
+In Cursor, talk to the **Orchestrator** in this chat. It turns feedback into briefs (`Orchestrator/briefs/`) and inbox items on the right specialist. Skill: `.cursor/skills/orchestrator/SKILL.md`. Roster: `AGENTS.md`. Resume experience lines: `.cursor/skills/resume-writer/SKILL.md`.
 
 ## Agent Team
 | Agent | Folder | Role |

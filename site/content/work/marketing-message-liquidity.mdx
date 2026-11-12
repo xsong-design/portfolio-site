@@ -1,12 +1,12 @@
 ---
 title: "Marketing Message Liquidity"
-subtitle: "Redesigning how businesses manage message delivery at scale"
-description: "Redesigning how businesses manage and optimize message delivery at scale"
+subtitle: "Integrating marketing messages into ads creation so Meta’s optimizations could acquire and retain under one budget"
+description: "I was a senior designer on the end-to-end with a Design Lead, then led budget comprehension and reporting after testing showed advertisers did not understand a shared, optimized budget."
 company: "Meta"
-year: "2025"
-role: "Product Designer"
-team: "Design, PM, Eng — 8 people"
-timeline: "Q3-Q4 2025 (6 months)"
+year: "2022–2024"
+role: "Senior Product Designer — e2e with Design Lead; then budget comprehension and reporting"
+team: "Marketing Messages, with a Design Lead; later the ads reporting and metrics teams"
+timeline: "Q4 2022 – Q3 2024"
 heroImage: "/images/work/mml-hero.jpg"
 slug: "marketing-message-liquidity"
 imageText:
@@ -17,58 +17,60 @@ featured: true
 order: 1
 ---
 
-## Overview
+Liquidity was one of the big bets the Marketing Messages team had for the year. For us it meant integrating marketing messages into ads creation.
 
-Marketing Message Liquidity addresses the challenge of helping businesses efficiently manage and optimize their messaging delivery across WhatsApp Business Platform. The project focused on creating a system that balances message throughput, quality, and cost — giving businesses visibility and control over how their marketing messages reach customers.
+Marketing messages are campaigns sent to subscribers — people who have already shown interest and opted in. The business can then reach them directly with a coupon, a seasonal promotion, a Black Friday offer. Ads reach people who have not made that commitment yet. The two do not do the same job.
 
-## Context & Problem
+<StrategyPair />
 
-Businesses on the WhatsApp Business Platform were struggling with opaque delivery systems. They had limited insight into why messages were throttled, failed, or delivered slowly. This created frustration and eroded trust, especially for enterprises running time-sensitive campaigns.
+Ads already lived in Ads Manager. Marketing messages followed a similar creation pattern, but sat in a different part of the product. Advertisers did not want two budgets, and they were reluctant to leave a workflow they knew for a channel whose benefit was not obvious.
 
-Key challenges included:
-- No visibility into delivery pipeline health
-- Unclear feedback loops between message quality and delivery capacity
-- Fragmented controls spread across multiple surfaces
-- Businesses over-sending low-quality messages, degrading ecosystem health
+We wanted marketing messages inside ads creation in order to leverage Meta’s optimizations — one of the strongest capabilities in the ads ecosystem. We already had optimizations for ads and for marketing messages. We did not have them operating as one system. That is Liquidity.
 
-## Process
+I was one of the senior designers brought on with a Design Lead to define the end-to-end, from onboarding through reporting. That took a few sprints, with advertiser testing and reviews with Ads and Marketing Messages leadership along the way.
 
-The design process spanned discovery, definition, and iterative delivery across two quarters.
+## Budget comprehension
 
-### Research & Discovery
-- Conducted 12 interviews with enterprise messaging customers
-- Analyzed support ticket patterns related to delivery issues
-- Mapped the existing mental models businesses had about message delivery
-- Benchmarked against email deliverability tools (SendGrid, Mailchimp)
+Coming out of those sprints, leadership reviews, and tests, the budget strategy was set: rely on optimizations, and keep advertiser control of the split as limited as possible. A manual mix would defeat the purpose of the system. Over time, those optimizations — using ads delivery data and the rest of what Meta already knows — should get better at choosing what is best for the business.
 
-### Definition & Ideation
-- Synthesized research into key opportunity areas
-- Ran collaborative design sprints with PM and engineering
-- Explored multiple interaction models for surfacing delivery health
-- Defined progressive disclosure strategy for complexity management
+I led budget comprehension because that model was not landing. Advertisers are highly sensitive to spend. They need to know where money is going, and that optimizations are working across both channels rather than favoring one.
 
-### Design & Iteration
-- Created high-fidelity prototypes in Figma
-- Tested with 8 enterprise customers across 3 rounds of usability testing
-- Iterated on information hierarchy based on task-completion metrics
-- Collaborated closely with engineering on technical feasibility
+In prototype tests, ten performance marketers in Brazil, India, Mexico, Indonesia, the US, and the UK walked the integrated flow. Nine of ten expected every subscriber to receive a message, often with marketing messages taking budget first. Uploading a list felt like a guaranteed send. The list is the eligible pool. Optimizations use it, with the budget, to decide the mix. Full delivery is not guaranteed.
 
-## Solution
+> “With subscribers, they are my loyal customers so I expect significantly higher conversion and expect bulk of my budget (60–70%) to be assigned to WhatsApp. I will not be OK with the reverse because only I can determine the potential with WhatsApp for my business.”
 
-The final design introduced three interconnected surfaces:
+Marketing messages have to be enabled on the ad account through onboarding. The person who does that is often not the person who later creates the ads, so the change is easy to miss.
 
-### Delivery Health Dashboard
-A real-time overview showing message throughput, quality scores, and delivery capacity. Businesses can see at a glance whether their messaging is healthy and what actions could improve it.
+### What we shipped
 
-### Quality Feedback Loop
-An inline system that connects message quality metrics directly to delivery outcomes. When quality drops, businesses see the direct impact on their sending capacity with clear, actionable guidance.
+<FigureSlot title="Shipped — L2 right-hand rail and inline budget guidance" caption="Hero for this section: the Ads Manager screens that shipped" />
 
-### Capacity Controls
-A simplified interface for managing sending limits, scheduling, and prioritization — replacing the previously fragmented controls with a unified experience.
+Ads Manager has three levels: L3 campaign, L2 ad set, L1 ad. Budget for a mixed campaign is set at L2 — that is also where a set can include both ads and marketing messages — so that is where we shipped.
 
-## Outcome
+<CampaignLevels />
 
-- 34% reduction in delivery-related support tickets within the first quarter
-- 22% improvement in message quality scores across participating businesses
-- Enterprise customer satisfaction score increased from 3.2 to 4.1 (out of 5)
-- System adopted as the default delivery management interface for all WhatsApp Business API customers
+Two pieces of guidance: a sticky card in the right-hand rail, and an inline message on the budget field. The rail tells the person in creation that the account now includes marketing messages, and what that changes, including budget. The inline message is there if they never read the rail: this budget covers marketing messages as well as ads.
+
+### What we explored
+
+We explored giving advertisers control of the split. Leadership aligned on optimizations only. We looked at onboarding at L3; campaign setup is the wrong altitude, because the fields that change sit at L2. On L2 we considered a global banner, then chose the sticky, expandable rail plus a message on the budget field itself.
+
+<ExploreOptions />
+
+## Reporting
+
+Reporting is horizontal. Any change in that table meant working with both the metrics team and the ads team, and we had little control over the reporting design itself. I was asked to lead it because the work is collaborative, and collaboration and communication are where I am strongest.
+
+The metrics were not new. What was new was the strategy: marketing messages had never been added to ads reporting this way, and that required onboarding. It was a first for Marketing Messages. Most advertisers were not on Liquidity, so those columns did not belong in the default table. They did belong for anyone who had sent a mixed campaign.
+
+I joined the ads team’s sprint on new experiences. Together we defined when the new-user experience appears, how it is written, and what happens after they answer. If they agree, the table updates to include two marketing-message metrics. If they decline, we point them to controls that already existed — turning metrics on later, or customizing the campaign reporting table. The work was making those options clear, not inventing a new way to rearrange the table.
+
+<FigureSlot title="Reporting NUX — when to surface, permission, and how to change the table later" caption="Replace with shipped reporting screens when mocks are in" />
+
+## Takeaways
+
+What I would keep is sitting in the ads team’s sprints. Reporting only works if the NUX is their table, their language, and a path that already existed — not a Messaging overlay. It was faster to learn that in the room than from decks.
+
+What I would change is bringing GTM into the budget conversation as soon as testing showed people expected a guaranteed send. A lot of that education has to come from a rep, not only from the rail. I would also document decisions more tightly. Leadership from different orgs was reviewing a fast sprint, and it was hard to track what had actually been agreed.
+
+The larger lesson is that Liquidity fails if people do not trust spend. Optimizations can allocate across ads and messages; they cannot, on their own, explain where the money went. Budget comprehension and a reporting NUX for a new strategy are the same problem at two moments in Ads Manager.

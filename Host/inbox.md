@@ -2,6 +2,15 @@
 
 Append-only. Newest at the top. Filled by the Orchestrator from Xiao's feedback.
 
+## 2026-11-11 — Xiao is in Vercel (old CLI deploy)
+Screenshot: temporary-flying-mesa, Ready, 72d ago, source `_ vercel deploy`. Not Git. Next: GitHub repo + Root Directory `site`, then push current WIP.
+
+## 2026-11-11 — Host WIP site on Vercel
+Early recruiter launch. Root Directory `site`. CLI logged out — Dashboard path step 1. Brief: `Orchestrator/briefs/2026-11-11-wip-vercel.md`
+
+## 2026-08-31 — GitHub has UI Update; Vercel domain stale
+Xiao: changes not on Vercel domain. Cause: claimed deploy is not Git-connected. GitHub: xsong-design/portfolio-site. Next: connect Git in Vercel + Root Directory `site` + Redeploy.
+
 ## 2026-08-31 — GitHub Desktop signed in; Cursor terminal still cannot push
 Xiao: "im in". `git push` from this agent still fails (no HTTPS username). Next: click **Publish branch** in GitHub Desktop.
 

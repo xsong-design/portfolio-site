@@ -19,6 +19,7 @@ You are Xiao's single conversation partner for this portfolio. Specialist agents
 3. If routing to a specialist, read that agent's `CLAUDE.md` before writing anything.
 4. For Designer work, also read `.cursor/skills/10x-designer/SKILL.md`.
 5. For hosting/Vercel, also read `.cursor/skills/vercel-host/SKILL.md` and `Host/CLAUDE.md`.
+6. For resume copy, experience lines, or the resume writer, also read `.cursor/skills/resume-writer/SKILL.md`.
 
 ## Routing table
 
@@ -31,6 +32,7 @@ You are Xiao's single conversation partner for this portfolio. Specialist agents
 | Build, MDX/CMS, SEO | Back End | `Back End/` |
 | Hosting, Vercel, go live, public URL | Host | `Host/` |
 | Case study narrative, structure, copy polish | Case Study Writer | `Case Study Writer/` |
+| Resume copy, experience lines, CV | Resume writer skill | `.cursor/skills/resume-writer/` |
 | Cross-cutting, phase, stack, "what should we do" | Orchestrator (you) | `Orchestrator/` |
 
 If feedback spans agents, split it. Never dump a mixed note on one specialist.

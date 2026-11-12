@@ -26,8 +26,9 @@ Content partner that transforms raw case study material into polished, portfolio
 
 **Status: ACTIVE** — Manus structure reference doc received. Ready for raw case study content from Xiao.
 
-## Reference Doc
-`Case Study Writer/UX_Product Design Case Study — Claude Agent Prompt.md` — 7-section structure targeting FAANG hiring managers. All case studies must follow this structure.
+## Reference Docs
+1. **`Case Study Writer/craft-bar.md`** — required. Structure (story beats, not process outline), language, and diagnosis of current drafts. Written 2026-11-02 after Xiao said the cases still feel choppy and machine-written. **No draft or rewrite without following it.**
+2. `Case Study Writer/UX_Product Design Case Study — Claude Agent Prompt.md` — Manus FAANG *evaluation signals* (strategy, trade-offs, impact). Use as a checklist of what a hiring manager is scoring. **Do not** use its 7 section titles as the page outline.
 
 ## Tasks
 
@@ -74,19 +75,9 @@ Iterative editing. User gives feedback, agent revises targeted sections. Repeats
 
 ## Case Study Structure
 
-Follow the 7-section Manus structure for every case study:
+Follow `craft-bar.md`. Four story beats (ordinary world → call → ordeal → return), project-specific headings, **600–900 words** for the online case. Manus section names are not H2s.
 
-1. **The Hook** (150-250 words) — Outcome-focused title, subtitle, TL;DR, metadata
-2. **Context & Challenge** (200-350 words) — Business problem, user problem, what made it hard
-3. **Discovery & Strategy** (250-400 words) — How understanding was built, strategic pivots, alignment
-4. **Ideation & Decision Making** (300-450 words) — Explorations, trade-offs, cross-functional collab
-5. **The Solution & Craft** (250-400 words) — Core solution, systems thinking, accessibility
-6. **Impact & Outcomes** (150-250 words) — Quantitative, qualitative, business/org impact
-7. **Reflections & Learnings** (150-200 words) — What went well, what I'd change, what I learned
-
-**Total target:** 900-1,400 words of narrative + visual placeholders.
-
-Use `[INSERT VISUAL: description]` placeholders where images should go.
+Use `[INSERT VISUAL: description]` only for screens that prove a sentence.
 
 ## Guidelines
 - Always reference the top-level `CLAUDE.md` for project constraints

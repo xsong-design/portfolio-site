@@ -1,7 +1,7 @@
 export default function GrainOverlay() {
   return (
     <div
-      className="fixed inset-0 z-[9990] pointer-events-none opacity-[0.022]"
+      className="grain-overlay no-print fixed inset-0 z-[9990] pointer-events-none opacity-[0.022]"
       aria-hidden="true"
     >
       <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">

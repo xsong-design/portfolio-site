@@ -78,9 +78,340 @@
   transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
+.resume-masthead {
+  display: none;
+}
+
+.resume-company {
+  font-size: 1.25rem;
+  font-weight: 600;
+  line-height: 1.15;
+  letter-spacing: 0;
+}
+
+.resume-job-role {
+  margin-top: 0.4rem;
+  font-size: 0.9375rem;
+  line-height: 1.35;
+}
+
+.resume-job-dates {
+  margin-top: 0.3rem;
+  font-size: 0.75rem;
+  letter-spacing: 0.02em;
+}
+
+.resume-period {
+  color: var(--color-accent);
+}
+
+.resume-corner {
+  display: block;
+  width: 0.55rem;
+  height: 0.55rem;
+  margin-top: 0.65rem;
+  background: var(--color-accent);
+}
+
+.resume-body {
+  margin-top: 0.55rem;
+  font-size: 0.9375rem;
+  line-height: 1.45;
+}
+
+.resume-body p {
+  position: relative;
+}
+
+.resume-tick {
+  position: absolute;
+  left: -0.7rem;
+  top: 0.48em;
+  width: 0.16rem;
+  height: 0.16rem;
+  background: color-mix(in srgb, var(--color-accent) 62%, transparent);
+}
+
+.resume-label {
+  font-size: 0.8rem;
+  font-variant-caps: all-small-caps;
+  letter-spacing: 0.08em;
+  line-height: 1.2;
+}
+
+.resume-summary {
+  margin-top: 0.35rem;
+  font-size: 0.9375rem;
+  line-height: 1.45;
+}
+
+.resume-detail,
+.resume-contact {
+  font-size: 0.9375rem;
+  line-height: 1.45;
+}
+
+.resume-detail {
+  margin-top: 0.35rem;
+}
+
+.resume-skills > * + * {
+  margin-top: 0.65rem;
+}
+
 @utility text-vertical {
   writing-mode: vertical-rl;
   text-orientation: mixed;
   transform: rotate(180deg);
   white-space: nowrap;
+}
+
+@media print {
+  @page {
+    size: letter;
+    margin: 0.5in 0.52in;
+  }
+
+  nav,
+  footer,
+  .no-print,
+  .custom-cursor,
+  .grain-overlay,
+  .scroll-progress {
+    display: none !important;
+  }
+
+  body {
+    background: #fff !important;
+    cursor: auto !important;
+  }
+
+  .resume-page {
+    padding: 0 !important;
+  }
+
+  .resume-sheet {
+    color: #1a1a1a;
+    zoom: 0.88;
+    overflow: visible;
+  }
+
+  .resume-grid {
+    display: grid !important;
+    grid-template-columns: 1.55fr 0.78fr !important;
+    column-gap: 22pt !important;
+    row-gap: 0 !important;
+    align-items: start !important;
+  }
+
+  .resume-masthead {
+    display: block !important;
+    grid-column: 1 !important;
+    grid-row: 1 !important;
+    margin-bottom: 8pt !important;
+    padding-left: 14pt !important;
+  }
+
+  .resume-main {
+    grid-column: 1 !important;
+    grid-row: 2 !important;
+    padding-left: 14pt !important;
+    overflow: visible !important;
+  }
+
+  .resume-aside {
+    grid-column: 2 !important;
+    grid-row: 2 !important;
+    padding-top: 0 !important;
+  }
+
+  .resume-masthead .font-display {
+    font-size: 18pt !important;
+    font-weight: 600 !important;
+    line-height: 1 !important;
+  }
+
+  .resume-masthead .resume-kicker {
+    margin-top: 3pt !important;
+    font-size: 9.5pt !important;
+    font-weight: 400 !important;
+    line-height: 1.3 !important;
+  }
+
+  .resume-label {
+    font-family: var(--font-display) !important;
+    font-size: 9pt !important;
+    font-variant-caps: all-small-caps;
+    letter-spacing: 0.06em !important;
+    line-height: 1.2 !important;
+    margin: 0 !important;
+  }
+
+  .resume-summary {
+    font-family: var(--font-display) !important;
+    font-size: 9.5pt !important;
+    line-height: 1.3 !important;
+    margin: 3pt 0 0 !important;
+  }
+
+  .resume-jobs {
+    margin-top: 8pt !important;
+  }
+
+  .resume-job {
+    break-inside: avoid;
+  }
+
+  .resume-company {
+    font-family: var(--font-display) !important;
+    font-size: 12pt !important;
+    font-weight: 600 !important;
+    letter-spacing: 0 !important;
+    line-height: 1.15 !important;
+    margin: 0 !important;
+  }
+
+  .resume-period {
+    color: #6b7f6b !important;
+  }
+
+  .resume-job-role,
+  .resume-body,
+  .resume-body p,
+  .resume-detail,
+  .resume-contact,
+  .resume-contact a {
+    font-family: var(--font-display) !important;
+    font-size: 9.5pt !important;
+    line-height: 1.3 !important;
+  }
+
+  .resume-job-role {
+    margin-top: 5pt !important;
+    color: #1a1a1a !important;
+  }
+
+  .resume-job-dates {
+    font-family: var(--font-sans) !important;
+    font-size: 8pt !important;
+    font-weight: 500 !important;
+    letter-spacing: 0.02em !important;
+    line-height: 1.3 !important;
+    text-transform: none !important;
+    margin-top: 3pt !important;
+  }
+
+  .resume-body {
+    margin-top: 5pt !important;
+    overflow: visible !important;
+  }
+
+  .resume-body p {
+    margin-left: -14pt !important;
+    padding-left: 14pt !important;
+    overflow: visible !important;
+  }
+
+  .resume-mark {
+    color: #1a1a1a !important;
+    font-weight: 600 !important;
+  }
+
+  .resume-jobs > * {
+    margin-bottom: 0 !important;
+  }
+
+  .resume-jobs > * + * {
+    margin-top: 12pt !important;
+  }
+
+  .resume-corner {
+    display: block !important;
+    position: static !important;
+    width: 10pt !important;
+    height: 10pt !important;
+    margin: 8pt 0 0 !important;
+    background: #6b7f6b !important;
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+  }
+
+  .resume-body > * {
+    margin-bottom: 0 !important;
+  }
+
+  .resume-body > * + * {
+    margin-top: 3pt !important;
+  }
+
+  .resume-tick {
+    left: 5pt !important;
+    top: 0.48em !important;
+    width: 2.25pt !important;
+    height: 2.25pt !important;
+    border-radius: 0 !important;
+    background: #9aab9a !important;
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+  }
+
+  .resume-aside > * {
+    margin-bottom: 0 !important;
+  }
+
+  .resume-aside > * + * {
+    margin-top: 8pt !important;
+  }
+
+  .resume-aside .mt-4 {
+    margin-top: 4pt !important;
+  }
+
+  .resume-aside .space-y-5 > * {
+    margin-bottom: 0 !important;
+  }
+
+  .resume-aside .space-y-5 > * + * {
+    margin-top: 12pt !important;
+  }
+
+  .resume-detail {
+    margin-top: 3pt !important;
+  }
+
+  .resume-skills > * {
+    margin-top: 0 !important;
+  }
+
+  .resume-skills > * + * {
+    margin-top: 6pt !important;
+  }
+
+  .resume-aside .resume-contact {
+    margin-top: 4pt !important;
+  }
+
+  .resume-contact,
+  .resume-contact p,
+  .resume-contact a {
+    line-height: 1.15 !important;
+  }
+
+  .resume-contact > * {
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+  }
+
+  .resume-contact > * + * {
+    margin-top: 2pt !important;
+  }
+
+  .resume-contact > .resume-corner {
+    margin-top: 8pt !important;
+  }
+
+  a {
+    color: inherit !important;
+    text-decoration: none !important;
+  }
 }
